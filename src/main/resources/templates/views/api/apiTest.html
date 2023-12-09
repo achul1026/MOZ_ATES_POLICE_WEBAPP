@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+<link th:href="@{/css/login.css}" rel="stylesheet">
+<body>
+	<input type="file" id="picture" capture="camera" />
+	<div id="result">
+		<pre></pre>
+	</div>
+	<div id="loading" style="position: fixed;left:0;right: 0;top:0;bottom:0;
+	background:rgba(0,0,0,0.2);display:none;">
+		<div style="display:table;width:100%;height:100%;">
+			<div style="display:table-cell;vertical-align: middle;text-align:center;color:#fff;font-size:14px;">
+				Loading..
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	function syntaxHighlight(json) {
+		if (typeof json != 'string') {
+			json = JSON.stringify(json, undefined, 2);
+		}
+		json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+			var cls = 'number';
+			if (/^"/.test(match)) {
+				if (/:$/.test(match)) {
+					cls = 'key';
+				} else {
+					cls = 'string';
+				}
+			} else if (/true|false/.test(match)) {
+				cls = 'boolean';
+			} else if (/null/.test(match)) {
+				cls = 'null';
+			}
+			return '<span class="' + cls + '">' + match + '</span>';
+		});
+	}
+	function uploadFile() {
+		var formData = new FormData();
+		formData.append("file", $("#picture").get(0).files[0]);
+		$.ajax({
+			type: 'POST',
+			url: '/api/get_plate_number',
+			data: formData,
+			dataType: 'json',
+			contentType: false,
+			cache: false,
+			processData:false,
+			beforeSend: function(){
+				$("#loading").show()
+			},
+			success: function(response){ //console.log(response);
+				$("#result pre").html(syntaxHighlight(response))
+			},
+			complete: function(){
+				$("#loading").hide()
+			}
+		})
+		// let formData = new FormData();
+		// formData.append("file", $("#picture").get(0).files[0]);
+		// let response = await fetch('/api/get_plate_number', {
+		// 	method: "POST",
+		// 	body: formData
+		// }).then(function(response) {
+		// 	return response.json();
+		// });
+		// console.log(response)
+		// $("#result pre").html(syntaxHighlight(response))
+	}
+	$("#picture").on("change", function(){
+		uploadFile()
+	})
+</script>
+</html>

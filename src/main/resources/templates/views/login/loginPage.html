@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+<link th:href="@{/css/login.css}" rel="stylesheet">
+<body>
+	<div class="logn-wrapper">
+		<div class="login-formContent">
+	    <!-- Tabs Titles -->
+	    	<div class="login-title">
+	    		<h2><span th:text="#{user.loginPage.country}">Mozambique</span> <br/> <span th:text="#{user.loginPage.policeApp}">Police App</span></h2>
+	    	</div>
+		    <!-- Login Form -->
+		    <form th:action="@{/policeLoginCnfrm}" method="post">
+		      <input th:placeholder="#{user.loginPage.pl.id}" type="text" class="" id="appPolId" name="appPolId" placeholder="Police Officer Account Id">
+		      <input th:placeholder="#{user.loginPage.pl.pw}" type="password" class="" id="appPolPw" name="appPolPw" placeholder="password">
+		      <div class="input-submit">
+			      <input type="submit" class="" value="Log In" th:value="#{user.loginPage.btn.login}">
+		      </div>
+		    </form>
+		    <!-- Remind Passowrd -->
+		    <div id="login-formFooter">
+		      	<a class="login underlineHover" href="#" th:text="#{user.loginPage.find.pw}">Forgot Password?</a>
+		    </div>
+	  	</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript" th:inline="javascript">
+	var message = /*[[${resultMsg}]]*/;
+    if(message != null && message != ' '){
+		swal({
+			  title: "Failed",
+			  text: message,
+			  icon: "warning",
+			  button: "Confirm",
+			});
+	}
+</script>

@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+<!-- 모달 영역 -->
+	<div id="trafficAcdntPasnrAddLayer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:fragment="trafficAcdntPasnrAddLayer">
+		<input type="hidden" id="modalIdx" name="modalIdx" value="">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h2 class="modal-title txt-c"><span th:text="#{tfcacdntmng.addLayer.title1}">Traffic Accident Passengers</span><br/><span th:text="#{tfcacdntmng.addLayer.title2}">Information</span></h2>
+				</div>
+				<div class="modal-body">
+					<div class="input-group">
+						<label th:text="#{tfcacdntmng.addLayer.content.pnrName}" class="control-label" for="pnrNm">Passenger name</label>
+                        <input th:placeholder="#{tfcacdntmng.addLayer.content.pnrName.pl}" type="text" id="pnrNm" name="pnrNm" placeholder="Passenger name" class="form-control">
+                   	</div>
+					<div class="input-group">
+						<label th:text="#{tfcacdntmng.addLayer.content.pnrBDay}" class="control-label" for="pnrBrth">Passenger birthday</label>
+                      	<input th:placeholder="#{tfcacdntmng.addLayer.content.pnrBDay.pl}" type="text" id="pnrBrth" name="pnrBrth" placeholder="Passenger birthday" class="form-control">
+                 	</div>
+					<div class="input-group">
+						<label th:text="#{tfcacdntmng.addLayer.content.pnrAdd}" class="control-label" for="pnrAddr">Passenger Address</label>
+                      	<input th:placeholder="#{tfcacdntmng.addLayer.content.pnrAdd.pl}" type="text" id="pnrAddr" name="pnrAddr" placeholder="Passenger Address" class="form-control">
+                 	</div>
+					<div class="input-group">
+						<label th:text="#{tfcacdntmng.addLayer.content.pnrPno}" class="control-label" for="pnrPno">Passenger phone number</label>
+                      	<input th:placeholder="#{tfcacdntmng.addLayer.content.pnrPno.pl}" type="text" id="pnrPno" name="pnrPno" placeholder="Passenger phone number" class="form-control">
+                 	</div>
+					<div class="input-group">
+						<label th:text="#{tfcacdntmng.addLayer.content.pnrEmail}" class="control-label" for="pnrEmail">Passenger email</label>
+                        <input th:placeholder="#{tfcacdntmng.addLayer.content.pnrEmail.pl}" type="text" id="pnrEmail" name="pnrEmail" placeholder="Passenger email" class="form-control">
+                   	</div>
+					<div class="input-group">
+						<label th:text="#{tfcacdntmng.addLayer.content.driveYN}" class="control-label" for="dvYn">Drive yn</label>
+						<div class="input-group-radio">
+							<label>Y : </label><input type="radio" name="dvYn" class="ml10" value="Y" checked="checked">
+							<label>N : </label><input type="radio" name="dvYn" class="ml10" value="N">
+						</div>
+                 	</div>
+					<div class="input-group driver-lcen-ty">
+						<label th:text="#{tfcacdntmng.addLayer.content.driverLicenseType}" class="control-label" for="dvrLcenTy">Driver license type</label>
+                        <input th:placeholder="#{tfcacdntmng.addLayer.content.driverLicenseType}" type="text" id="dvrLcenTy" name="dvrLcenTy" placeholder="Driver license type" class="form-control">
+                   	</div>
+				</div>
+				<div class="modal-footer">
+					<span th:text="#{tfcacdntmng.addLayer.content.btn.add}" class="btn btn-default" id="addTrafficAcdntPnrBtn">Add</span>
+					<span th:text="#{tfcacdntmng.addLayer.content.btn.cencal}" type="button" class="btn btn-default" id="closeModalBtn">Cancel</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</html>
+

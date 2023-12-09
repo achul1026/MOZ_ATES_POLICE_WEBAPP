@@ -1,0 +1,277 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+
+	<div layout:fragment="content">
+	    <div class="content">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	                    <div class="row">
+	                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		                        <h1 th:text="#{tfcenfmng.trafficEnfceRegPage.title}">Traffic Enforcement Register</h1>
+		                        <form id="trafficEnfceRegForm" name="trafficEnfceRegForm" method="post">
+		                        	<input type="hidden" id="pymntOprtr" name="pymntOprtr">
+		                        	<input type="hidden" id="lat" name="lat" value="">
+                            		<input type="hidden" id="lng" name="lng" value="">
+									<div class="form-group">
+										<a href="javascript:void(0)" class="btn btn-default" onclick="$('#camera').click()">CAMERA</a>
+										<a href="javascript:void(0)" class="btn btn-default" onclick="$('#picture').click()">PICTURE</a>
+										<input type="file" class="btn" id="camera" name="camera" capture="camera" style="display:none">
+										<input type="file" class="btn" id="picture" name="picture"  style="display:none">
+										<div id="result">
+											<pre></pre>
+										</div>
+										<div id="loading" style="position: fixed;left:0;right: 0;top:0;bottom:0;
+										background:rgba(0,0,0,0.5);display:none;z-index: 9999">
+											<div style="display:table;width:100%;height:100%;">
+												<div style="display:table-cell;vertical-align: middle;text-align:center;color:#fff;font-size:14px;">
+													Loading..
+												</div>
+											</div>
+										</div>
+									</div>
+		                            <div class="row">
+										<div class="col-md-6">
+											<label class="control-label" for="plate" >Plate Number</label>
+											<input type="text" id="plate" name="plate" class="form-control">
+										</div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="dvrLcenId" th:text="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}">Driver license ID</label>
+		                                    <input type="text" id="dvrLcenId" name="dvrLcenId" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="tfcLawId" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentLaws}">Laws</label>
+		                                    <select class="form-control" id="tfcLawId" name="tfcLawId">
+		                                    	<option th:text="#{tfcacdntmng.trafficAcdntRegPage.contentSelectBox1}">select</option>
+		                                    	<option th:each="trafficLawList : ${trafficLawList}" th:value="${trafficLawList.tfcLawId}" th:text="${trafficLawList.lawNm}"></option>
+		                                    </select>
+		                                </div>
+										<div class="col-md-6">
+		                                    <label class="control-label" for="vioNm" th:text="#{tfcenfmng.trafficEnfceRegPage.contentName}">Name</label>
+		                                    <input type="text" id="vioNm" name="vioNm" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentName}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="vioBrth" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentBirthDay}">Birthday</label>
+		                                    <input type="text" id="vioBrth" name="vioBrth" placeholder="Birthday" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="vioEmail" th:text="#{tfcenfmng.trafficEnfceRegPage.contentEmail}">Email</label>
+		                                    <input type="text" id="vioEmail" name="vioEmail" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentEmail}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="vioAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentAddress}">Address</label>
+		                                    <input type="text" id="vioAddr" name="vioAddr" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentAddress}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="vioPno" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPhone}">Phone</label>
+		                                    <input type="text" id="vioPno" name="vioPno" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPhone}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="dvrLcenTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}">License Type</label>
+		                                    <input type="text" id="dvrLcenTy" name="dvrLcenTy" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="roadAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}">Road Address</label>
+		                                    <input type="text" id="roadAddr" name="roadAddr" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="roadLn" th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadLane}">Road Lane</label>
+		                                    <input type="text" id="roadLn" name="roadLn" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentRoadLane}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="vhRegNo"th:text="#{tfcenfmng.trafficEnfceRegPage.contentVehicleRegistrationNumber}">Vehicle Registration Number</label>
+		                                    <input type="text" id="vhRegNo" name="vhRegNo" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentVehicleRegistrationNumber}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="vhTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}">Vehicle Type</label>
+		                                    <input type="text" id="vhTy" name="vhTy" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" th:text="#{tfcenfmng.trafficEnfceRegPage.contentSpeedInfo}">Speed Info</label>
+		                                    <div>
+			                                    <input type="text" id="spdLmt" name="spdLmt" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentSpeedLimit}" class="form-control">
+			                                    <input type="text" id="vioSpd" name="vioSpd" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentViolationSpeed}" class="form-control">
+			                                    <input type="text" id="overSpd" name="overSpd" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentOverSpeed}" class="form-control">
+		                                    </div>
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="pymntPrice" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}">Payment Price</label>
+		                                    <input type="text" id="pymntPrice" name="pymntPrice" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}" class="form-control">
+		                                </div>
+		                                <div class="col-md-6">
+		                                    <label class="control-label" for="placePymntId" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPlacePayment}">Place Payment</label>
+		                                    <select class="form-control" id="placePymntId" name="placePymntId">
+		                                    	<option th:text="#{tfcacdntmng.trafficAcdntRegPage.contentSelectBox2}">select</option>
+		                                    	<option th:each="placePaymentList : ${placePaymentList}" th:value="${placePaymentList.placePymntId}" th:data-oprtr="${placePaymentList.placePymntRprsvNm}" th:text="${placePaymentList.placePymntNm}"></option>
+		                                    </select>
+		                                </div>
+	                                    <div class="col-md-12">
+	                                        <div class="form-group">
+	                                        	<input type="button" class="btn btn-default" id="fnTrafficEnfceRegBtn" th:value="#{tfcenfmng.trafficEnfceRegPage.registerButton}">
+	                                        </div>
+	                                    </div>
+	                            	</div>
+	                        	</form>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</html>
+<script type="text/javascript" th:inline="javascript">
+
+	var message = /*[[${resultMsg}]]*/;
+    if(message != null && message != ' '){
+		swal({
+			  title: /*[[${resultMsgType}]]*/,
+			  text: message,
+			  icon: /*[[${resultMsgType}]]*/,
+			  button: "Confirm",
+			});
+	}
+
+	function handlePermission() {
+		navigator.permissions.query({name:'geolocation'}).then(function(result) {
+			if (result.state == 'granted') {
+				getGelocation();
+			} else if (result.state == 'prompt') {
+				report(result.state);
+				getGelocation();
+			} else if (result.state == 'denied') {
+				report(result.state);
+			}
+			result.addEventListener('change', function() {
+				report(result.state);
+			});
+		});
+	}
+	function report(state) {
+		console.log('Permission ' + state);
+	}
+//	handlePermission();
+ 	// Geolocation API에 액세스할 수 있는지를 확인
+	function getGelocation(){
+		$("#lat").val("-25.975684");
+                $("#lng").val("32.5741056");
+		if (navigator.geolocation) {
+			//위치 정보를 얻기
+			navigator.geolocation.getCurrentPosition (function(pos) {
+				if(typeof pos == "undefined") {
+					alert("Not support geolocation.");
+					return
+				}
+				$("#lat").val(pos.coords.latitude);     // 위도
+				$("#lng").val(pos.coords.longitude); // 경도
+			});
+		} else {
+//			alert("Not support geolocation.")
+		}
+	}
+	getGelocation()
+
+
+	$("#vioSpd").on("keyup",function(){
+		var spdLmt = $("#spdLmt").val();
+			spdLmt = Number(spdLmt);
+
+		var vioSpd = $(this).val();
+			vioSpd = Number(vioSpd);
+
+		var overSpd = spdLmt - vioSpd;
+		if(spdLmt < vioSpd){
+			overSpd = (overSpd * -1);
+		}else{
+			overSpd = 0;
+		}
+
+		$("#overSpd").val(overSpd);
+	})
+
+    $("#fnTrafficEnfceRegBtn").on("click",function(){
+
+		var form = document.getElementById("trafficEnfceRegForm");
+    	form.action="/tfcenfmng/trafficEnfceReg";
+    	form.method="POST";
+    	form.submit();
+    })
+
+    $("#placePymntId").on("change",function(){
+    	var oprtr = $("#placePymntId option:selected").data("oprtr");
+    	$("#pymntOprtr").val(oprtr);
+    })
+
+	function syntaxHighlight(json) {
+		if (typeof json != 'string') {
+			json = JSON.stringify(json, undefined, 2);
+		}
+		json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+			var cls = 'number';
+			if (/^"/.test(match)) {
+				if (/:$/.test(match)) {
+					cls = 'key';
+				} else {
+					cls = 'string';
+				}
+			} else if (/true|false/.test(match)) {
+				cls = 'boolean';
+			} else if (/null/.test(match)) {
+				cls = 'null';
+			}
+			return '<span class="' + cls + '">' + match + '</span>';
+		});
+	}
+	function uploadFile(id) {
+		var formData = new FormData();
+		formData.append("file", $("#"+id).get(0).files[0]);
+		$.ajax({
+			type: 'POST',
+			url: '/api/get_plate_number',
+			data: formData,
+			dataType: 'json',
+			contentType: false,
+			cache: false,
+			processData:false,
+			beforeSend: function(){
+				$("#loading").show()
+			},
+			success: function(response){ //console.log(response);
+				$("#result pre").html(syntaxHighlight(response))
+				if(response.success) {
+					$("#plate").val(response.plate_number)
+					$("#dvrLcenId").val(response.driver_info.license_number)
+					$("#vioNm").val(response.driver_info.forename + " "+ response.driver_info.surname);
+					$("#vioBrth").val(response.driver_info.birth);
+					$("#vioEmail").val(response.driver_info.email);
+					$("#vioAddr").val(response.driver_info.address);
+					$("#vioPno").val(response.driver_info.phone);
+					$("#dvrLcenTy").val(response.driver_info.dvrLcenTy);
+					$("#vhRegNo").val(response.vehicle_info.vehicle_registration_number)
+					$("#vhTy").val(response.vehicle_info.vehicle_type)
+				}
+			},
+			complete: function(){
+				$("#loading").hide()
+			}
+		})
+		// let formData = new FormData();
+		// formData.append("file", $("#picture").get(0).files[0]);
+		// let response = await fetch('/api/get_plate_number', {
+		// 	method: "POST",
+		// 	body: formData
+		// }).then(function(response) {
+		// 	return response.json();
+		// });
+		// console.log(response)
+		// $("#result pre").html(syntaxHighlight(response))
+	}
+	$("#picture").on("change", function(){
+		uploadFile('picture')
+	})
+	$("#camera").on("change", function(){
+		uploadFile('camera')
+	})
+</script>
