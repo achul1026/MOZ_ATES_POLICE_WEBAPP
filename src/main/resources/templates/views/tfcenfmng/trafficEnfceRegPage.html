@@ -1,277 +1,807 @@
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="layouts/layout">
+<html xmlns:th="httpftfcLawId://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/sub_layout"
+      th:with="headerTitle=#{tfcenfmng.trafficEnfceRegPage.crackdownRegist}">
+<div layout:fragment="content" id="gis-with-container">
+    <div id="map" class="map">
+    </div>
+    <div id="gisinfo-container">
+        <p class="alert-box alert-warning mb30" th:text="#{common.map.location.help}"></p>
+        <div id="gis-sub-container">
+            <form id="trafficEnfceRegForm" name="trafficEnfceRegForm" method="post" th:action="@{/tfcenfmng/trafficEnfceRegPageRegister}" onsubmit="return false">
+                <input type="hidden" id="pymntOprtr" name="pymntOprtr">
+                <input type="hidden" id="lat" name="lat" value="">
+                <input type="hidden" id="lng" name="lng" value="">
+                <div class="crackdown-wrap">
+                    <div class="formRegistTitle" onclick="enforcementDev()">
+                        <h2 th:text="#{tfcenfmng.trafficEnfceRegPage.registerViolatorInfo}">위반자 정보 등록</h2>
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="vhRegNo" th:text="#{tfcenfmng.trafficEnfceRegPage.plateNumber}">Plate Number</label>
+                        <input type="text" id="vhRegNo" name="vhRegNo" required autofocus title="Input vehicle number." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.plateNumber}">
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="vhTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}">Vehicle Type</label>
+                        <input type="text" id="vhTy" name="vhTy" required  title="Input vehicle type." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}" class="">
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="dvrLcenId"
+                               th:text="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}">Driver license
+                            ID</label>
+                        <input type="text" id="dvrLcenId" name="dvrLcenId" required
+                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}" title="Input driver license number." class="">
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="dvrLcenTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}">License Type</label>
+                        <input type="text" id="dvrLcenTy" name="dvrLcenTy" required  title="Input driver license type." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}" class="">
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="vioNm" th:text="#{tfcenfmng.trafficEnfceRegPage.contentName}">Name</label>
+                        <input type="text" id="vioNm" name="vioNm"
+                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentName}" required title="Input violator name." class="">
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="vioBrth" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentBirthDay}">Birthday</label>
+                        <input type="text" id="vioBrth" name="vioBrth" placeholder="Birthday" title="Input violator birth date." class="">
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="vioPno"
+                               th:text="#{tfcenfmng.trafficEnfceRegPage.contentPhone}">Phone</label>
+                        <input type="text" id="vioPno" name="vioPno"
+                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPhone}" required title="Input violator phone number."  class="">
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="vioEmail"
+                               th:text="#{tfcenfmng.trafficEnfceRegPage.contentEmail}">Email</label>
+                        <input type="email" id="vioEmail" name="vioEmail"
+                               pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
+                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentEmail}" class="">
+                    </div>
+                </div>
+                <div class="crackdown-wrap">
+                    <div class="formRegistTitle mb30">
+                        <h2 th:text="#{tfcenfmng.trafficEnfceInfoRegist.crackdownInfoRegist}">단속 정보 등록</h2>
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="roadAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}">Road Address</label>
+                        <input type="text" id="roadAddr" autocomplete="off" list="loadedRoadAddr" name="roadAddr" required title="Input or select street name." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}" class="">
+                        <datalist id="loadedRoadAddr">
 
-	<div layout:fragment="content">
-	    <div class="content">
-	        <div class="container">
-	            <div class="row">
-	                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	                    <div class="row">
-	                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		                        <h1 th:text="#{tfcenfmng.trafficEnfceRegPage.title}">Traffic Enforcement Register</h1>
-		                        <form id="trafficEnfceRegForm" name="trafficEnfceRegForm" method="post">
-		                        	<input type="hidden" id="pymntOprtr" name="pymntOprtr">
-		                        	<input type="hidden" id="lat" name="lat" value="">
-                            		<input type="hidden" id="lng" name="lng" value="">
-									<div class="form-group">
-										<a href="javascript:void(0)" class="btn btn-default" onclick="$('#camera').click()">CAMERA</a>
-										<a href="javascript:void(0)" class="btn btn-default" onclick="$('#picture').click()">PICTURE</a>
-										<input type="file" class="btn" id="camera" name="camera" capture="camera" style="display:none">
-										<input type="file" class="btn" id="picture" name="picture"  style="display:none">
-										<div id="result">
-											<pre></pre>
-										</div>
-										<div id="loading" style="position: fixed;left:0;right: 0;top:0;bottom:0;
-										background:rgba(0,0,0,0.5);display:none;z-index: 9999">
-											<div style="display:table;width:100%;height:100%;">
-												<div style="display:table-cell;vertical-align: middle;text-align:center;color:#fff;font-size:14px;">
-													Loading..
-												</div>
-											</div>
-										</div>
+                        </datalist>
+                    </div>
+                    <div class="formRegistList">
+                        <label for="tfcLawId">Illegal Law</label>
+                        <select id="tfcLawId" name="tfcLawId" title="Select Law." onchange="viewLwFineInfo(this)">
+                            <option th:text="#{tfcenfmng.trafficEnfceRegPage.content.lawsSelectBox}" value="">Laws Select</option>
+                            <option th:each="trafficLawList : ${trafficLawList}" th:value="${trafficLawList.tfcLawId}" th:text="${trafficLawList.lawNm}"></option>
+                        </select>
+                    </div>
+                    <div class="formRegistList detail-law-div none">
+						<label>Illegal Law Detail</label>
+                      	<div id="card-list-wrap">
+							<!--법률 Warp-->							  
+						</div>
+						 <button type="button" class="addSubBtn mt16" onclick="fnAddLawDetail();">추가</button>
+					</div>
+					 <div class="formRegistList info-law-div none">
+						 <div class="detail-law-table detail-table-body" id="lawInfoUl">
+						 </div>
+					 </div>
+<!--                  2024.03.13 주석처리  <div class="formRegistList">-->
+<!--                        <label class="" th:text="#{tfcenfmng.trafficEnfceRegPage.contentSpeedInfo}">Speed Info</label>-->
+<!--                        <div class="formRegistSpip">-->
+<!--                            <input type="number" id="spdLmt" name="spdLmt" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentSpeedLimit}" class="" />-->
+<!--                            <input type="number" id="vioSpd" name="vioSpd" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentViolationSpeed}" class="" />-->
+<!--                            <input type="number" readonly id="overSpd" name="overSpd" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentOverSpeed}" class="" />-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="formRegistList">
+                        <label class="" for="totalPrice" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}">Payment Price</label>
+                        <input type="number" readonly id="totalPrice" name="totalPrice" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}">
+                    </div>
+                    <div class="formRegistList">
+                        <label for="placePymntId" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPlacePayment}">Place Payment</label>
+                        <select id="placePymntId" required name="placePymntId">
+                            <option value="" th:text="#{tfcenfmng.trafficEnfceRegPage.content.paymentPlaceSelectBox}">Payment Place Select</option>
+                            <option th:each="placePaymentList : ${placePaymentList}" th:value="${placePaymentList.placePymntId}" th:data-oprtr="${placePaymentList.placePymntRprsvNm}" th:data-placePymntNm="${placePaymentList.placePymntNm}"th:text="${placePaymentList.placePymntNm}"></option>
+                        </select>
+                    </div>
+                    <div class="formRegistList">
+                        <label class="" for="tfcEnfDetail" th:text="#{tfcenfmng.trafficEnfceRegPage.placeholder.enfDetails}">Traffic Enforcement Details</label>
+                        <input type="text" id="tfcEnfDetail" name="tfcEnfDetail" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.placeholder.enfDetails}" title="Input Traffic Enforcement Details" class="">
+                    </div>
+					 <div class="formRegistList list-plus">
+<!--                        <label th:text="#{tfcenfmng.trafficEnfceRegPage.violatorSignature}">Violator's signature</label>-->
+                        <label>Violator's signature</label>
+		                <div id="signatureCompleteWrap" class="signnatureBtnCm " style="display:none;">
+							<!--지훈팍 여기 -->
+							Signature Complite
+						</div>
+						<div id="signatureBtnWrap" class="signnatureBtnCm">
+<!--			                <button type="button" th:text="#{tfcenfmng.trafficEnfceRegPage.btn.signatureRegist}" onclick="viewSignatureModal()">Signature Registration</button>-->
+			                <div class="signAbout">
+<!--								위 내용을 확인후 아래 서명버튼으로<br>-->
+<!--								위 내용에 대해 문제없음을 서명해주세요.-->
+								<span th:text="#{tfcenfmng.trafficEnfceRegPage.signAboutFirstLine}">위 내용을 다시 한 번 확인해 주세요.</span><br>
+								<span th:text="#{tfcenfmng.trafficEnfceRegPage.signAboutSecondLine}">문제가 없다면, 아래 버튼을 눌러 서명해 주세요.</span>
+							</div>
+			                <button type="button" id="signOnbtn" onclick="viewSignatureModal()">Signature Registration</button>
+						</div>
+	                    <div id="modal-signature-wrap" class="modal">
+							<div class="modalContainer">
+								<div class="modalHead">
+									<h2 class="modalTitle">Violator's signature</h2>
+									<img src="/images/close.png" id="modal-signature-btn-off" class="modalClose" >
+								</div>
+								 <div class="modalBody modalSignBody">
+<!--									<h2 class="modalTitle" th:text="#{tfcenfmng.trafficEnfceRegPage.violatorSignature}">Violator's signature</h2>-->
+									<div id="signatrueDd" class="modalSignatureWrap">
+										<canvas id="signatureCv" class="signatureCanvas"></canvas>
+   										 <img id="signatureImg" style="display:none"/>
 									</div>
-		                            <div class="row">
-										<div class="col-md-6">
-											<label class="control-label" for="plate" >Plate Number</label>
-											<input type="text" id="plate" name="plate" class="form-control">
-										</div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="dvrLcenId" th:text="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}">Driver license ID</label>
-		                                    <input type="text" id="dvrLcenId" name="dvrLcenId" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="tfcLawId" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentLaws}">Laws</label>
-		                                    <select class="form-control" id="tfcLawId" name="tfcLawId">
-		                                    	<option th:text="#{tfcacdntmng.trafficAcdntRegPage.contentSelectBox1}">select</option>
-		                                    	<option th:each="trafficLawList : ${trafficLawList}" th:value="${trafficLawList.tfcLawId}" th:text="${trafficLawList.lawNm}"></option>
-		                                    </select>
-		                                </div>
-										<div class="col-md-6">
-		                                    <label class="control-label" for="vioNm" th:text="#{tfcenfmng.trafficEnfceRegPage.contentName}">Name</label>
-		                                    <input type="text" id="vioNm" name="vioNm" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentName}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="vioBrth" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentBirthDay}">Birthday</label>
-		                                    <input type="text" id="vioBrth" name="vioBrth" placeholder="Birthday" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="vioEmail" th:text="#{tfcenfmng.trafficEnfceRegPage.contentEmail}">Email</label>
-		                                    <input type="text" id="vioEmail" name="vioEmail" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentEmail}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="vioAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentAddress}">Address</label>
-		                                    <input type="text" id="vioAddr" name="vioAddr" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentAddress}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="vioPno" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPhone}">Phone</label>
-		                                    <input type="text" id="vioPno" name="vioPno" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPhone}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="dvrLcenTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}">License Type</label>
-		                                    <input type="text" id="dvrLcenTy" name="dvrLcenTy" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="roadAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}">Road Address</label>
-		                                    <input type="text" id="roadAddr" name="roadAddr" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="roadLn" th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadLane}">Road Lane</label>
-		                                    <input type="text" id="roadLn" name="roadLn" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentRoadLane}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="vhRegNo"th:text="#{tfcenfmng.trafficEnfceRegPage.contentVehicleRegistrationNumber}">Vehicle Registration Number</label>
-		                                    <input type="text" id="vhRegNo" name="vhRegNo" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentVehicleRegistrationNumber}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="vhTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}">Vehicle Type</label>
-		                                    <input type="text" id="vhTy" name="vhTy" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" th:text="#{tfcenfmng.trafficEnfceRegPage.contentSpeedInfo}">Speed Info</label>
-		                                    <div>
-			                                    <input type="text" id="spdLmt" name="spdLmt" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentSpeedLimit}" class="form-control">
-			                                    <input type="text" id="vioSpd" name="vioSpd" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentViolationSpeed}" class="form-control">
-			                                    <input type="text" id="overSpd" name="overSpd" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentOverSpeed}" class="form-control">
-		                                    </div>
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="pymntPrice" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}">Payment Price</label>
-		                                    <input type="text" id="pymntPrice" name="pymntPrice" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}" class="form-control">
-		                                </div>
-		                                <div class="col-md-6">
-		                                    <label class="control-label" for="placePymntId" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPlacePayment}">Place Payment</label>
-		                                    <select class="form-control" id="placePymntId" name="placePymntId">
-		                                    	<option th:text="#{tfcacdntmng.trafficAcdntRegPage.contentSelectBox2}">select</option>
-		                                    	<option th:each="placePaymentList : ${placePaymentList}" th:value="${placePaymentList.placePymntId}" th:data-oprtr="${placePaymentList.placePymntRprsvNm}" th:text="${placePaymentList.placePymntNm}"></option>
-		                                    </select>
-		                                </div>
-	                                    <div class="col-md-12">
-	                                        <div class="form-group">
-	                                        	<input type="button" class="btn btn-default" id="fnTrafficEnfceRegBtn" th:value="#{tfcenfmng.trafficEnfceRegPage.registerButton}">
-	                                        </div>
-	                                    </div>
-	                            	</div>
-	                        	</form>
-	                        </div>
+									<div class="modalSignInfo">
+<!--   											<button type="button" id="signatureClearBtn" class="subFixBtn" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.clear}">Clear</a>-->
+   										  <button type="button" id="signatureClearBtn"><img src="/images/resign.png"> Clear</a>
+									</div>
+								 </div>
+ 						 			 <div class="modalBtnWrap">
+<!--										 <button type="button" id="modal-signature-btn-off" class="subFixBtn" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.cancel}">취소</button>-->
+<!--										 <button type="button" id="modal-signature-btn-submit" onclick="submitSignature(this)" class="modalSubmitBtn" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.submit}">제출</button>-->
+<!--										 <button type="button"  class="" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.cancel}">취소</button>-->
+										 <button type="button" id="modal-signature-btn-submit" class="modalSubmitBtn"  onclick="submitSignature(this)"  th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.submit}">제출</button>
+									 </div>
+	                    	</div>
 	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
+		            </div>
+                </div>
+                <div class="crackdown-wrap">
+                    <div class="formRegistTitle">
+                        <h2 th:text="#{tfcenfmng.trafficEnfceFileUpload.fileUplaod}">첨부파일 업로드</h2>
+                    </div>
+                    <div class="formRegistList">
+                        <label th:text="#{tfcenfmng.trafficEnfceFileUpload.imgVideo}">사진/동영상</label>
+                        <div class="camera-upload-list">
+                            <ul id="img-file-list-wrapper">
+                                <li class="img-file-list camera-first-list active" onclick="openResource()">
+                                    <img th:src="@{/images/picture-plus.png}">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="camera-btn">
+                            <input id="targetFileInput" type="file" style="display:none;" onchange="fileManager.addFile(this, fileManager)">
+                            <p>※ You can skip without entering information.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-wrap is-fixed">
+<!--                     <button type="button" class="mainBtn default-btn disabled-radius" id="fnTrafficEnfceRegBtn" onclick="enforcementRegisterSubmit(this)" th:text="#{tfcenfmng.trafficEnfceRegPage.registerButton}"></button>-->
+                     <button type="button" id="modalOn" class="mainFixBtn default-btn disabled-radius" th:text="#{tfcenfmng.trafficEnfceRegPage.registerButton}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="modal-enforcement-info" class="modal">
+		<div class="modalContainer">
+			<div class="modalHead">
+				<h2 class="modalTitle" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.title}">단속등록 확인</h2>
+				<img src="/images/close.png" id="modalOff" class="modalClose">
+			</div>
+			 <div class="modalBody">
+				  <div id="modalRegistListDiv"class="modalRegistList">
+					
+					<!--단속정보 등록내요 리스트-->
+				 	<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.plateNumber}">Plate Number</dt>
+					   <dd id="mdVhRegNo">142-2341</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.vehicleType}">Vehicle Type</dt>
+					   <dd id="mdVhTy">Traffic</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.driverLicenseId}">Driver license ID</dt>
+					   <dd id="mdDvrLcenId">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.driverLicenseType}">Driver License Type</dt>
+					   <dd id="mdDvrLcenTy">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.violatorName}">Violation Name</dt>
+					   <dd id="mdVioNm">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.violatorBirthDay}">Violator Birth Day</dt>
+					   <dd id="mdVioBrth">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.violatorPhoneNumber}">Violator Phone Number</dt>
+					   <dd id="mdVioPno">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.violatorEmail}">Violator Email Address</dt>
+					   <dd id="mdVioEmail">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.roadAddr}">Road Address</dt>
+					   <dd id="mdRoadAddr">Npm Start</dd>
+					</dl>
+<!--					<dl class="modalRegistInfo">-->
+<!--					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.lat}">Latitude</dt>-->
+<!--					   <dd id="mdLat">Npm Start</dd>-->
+<!--					</dl>-->
+<!--					<dl class="modalRegistInfo">-->
+<!--					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.lng}">Longitude</dt>-->
+<!--					   <dd id="mdLng">Npm Start</dd>-->
+<!--					</dl>-->
+					<dl id="illegalLaw" class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.illegalLaw}">Illegal Law Detail</dt>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.limitSpeed}">Limit Speed</dt>
+					   <dd id="mdSpdLmt">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.violationSpeed}">Violation Speed</dt>
+					   <dd id="mdVioSpd">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.overSpeed}">Exceeding Speed</dt>
+					   <dd id="mdOverSpd">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.totalPrice}">Total Price</dt>
+					   <dd id="mdTotalPrice">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.paymentPlace}">Payment Place Name</dt>
+					   <dd id="mdPlacePymntId">Npm Start</dd>
+					</dl>
+					<dl id="modal-img-wrap"class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.images}">Images</dt>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.signature}">Violator Signature</dt>
+					   <dd> <img id="mdSignaturePreview" src="" alt="Signature Preview"></dd>
+					</dl>
+			 	 </div>
+			 </div>
+			 <div class="modalBtnWrap">
+<!--				 <button type="button"  class="subFixBtn" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.cancel}">취소</button>-->
+				 <button type="button" id="infoCheckBtn" class="modalSubmitBtn" onclick="enforcementRegisterSubmit(this)" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.submit}">제출</button>
+			 </div>
+		</div>
 	</div>
+</div>
 </html>
 <script type="text/javascript" th:inline="javascript">
+	
+	$(document).ready(function(){
+		modalToggle();
+		canvasInit();
+	});
+	
+    const errMsg = /*[[${resultMsg}]]*/;
+    if(errMsg) {
+        alert(errMsg);
+    }
+   	const fileManager = new MozAtesPoliceApp.fileManager();
+   
+    let isSignatureCompleted = false;
+    let signatureModal = document.getElementById('modal-signature-wrap');
+    const canvas = document.querySelector('#signatureCv');
+	const clearButton = document.querySelector('#signatureClearBtn');
+	const offButton = document.querySelector('#modal-signature-btn-off');
 
-	var message = /*[[${resultMsg}]]*/;
-    if(message != null && message != ' '){
-		swal({
-			  title: /*[[${resultMsgType}]]*/,
-			  text: message,
-			  icon: /*[[${resultMsgType}]]*/,
-			  button: "Confirm",
-			});
-	}
+	function canvasInit() {
 
-	function handlePermission() {
-		navigator.permissions.query({name:'geolocation'}).then(function(result) {
-			if (result.state == 'granted') {
-				getGelocation();
-			} else if (result.state == 'prompt') {
-				report(result.state);
-				getGelocation();
-			} else if (result.state == 'denied') {
-				report(result.state);
-			}
-			result.addEventListener('change', function() {
-				report(result.state);
-			});
-		});
+	    const ctx = canvas.getContext('2d');
+	    let writingMode = false;
+	    canvas.width= $(window).width();
+	    canvas.height= 300;
+	    
+	    const handleTouchEvent = (event) => {
+	        event.preventDefault(); // 터치 이벤트의 기본 동작 방지
+	     
+	        const eventType = event.type;
+	        if (eventType === 'touchstart') {
+				isSignatureCompleted = true;
+	            writingMode = true;
+	            ctx.beginPath();
+	            const [positionX, positionY] = getCursorPosition(event);
+	            ctx.moveTo(positionX, positionY);
+	            
+	        } else if (eventType === 'touchend') {
+	            writingMode = false;
+	        } else if (eventType === 'touchmove' && writingMode) {
+	            const [positionX, positionY] = getCursorPosition(event);
+	            ctx.lineTo(positionX, positionY);
+	            ctx.stroke();
+	        }
+	        
+	        updateSubmitButton();
+	    }
+	
+	    ['touchstart', 'touchend', 'touchmove'].forEach((eventType) => {
+	        canvas.addEventListener(eventType, handleTouchEvent, { passive: false });
+	    });
+	
+	    ctx.lineWidth = 3;
+	    ctx.lineJoin = ctx.lineCap = 'round';
+
+	    clearButton.addEventListener('click', (event) => {
+	        event.preventDefault();
+	        ctx.clearRect(0, 0, canvas.width, canvas.height);
+	        isSignatureCompleted = false;
+	        updateSubmitButton();
+	    });
 	}
-	function report(state) {
-		console.log('Permission ' + state);
+	
+	
+	function getCursorPosition(event) {
+	    const rect = event.target.getBoundingClientRect();
+	    const positionX = event.touches[0].clientX - rect.left;
+	    const positionY = event.touches[0].clientY - rect.top;
+	    return [positionX, positionY];
 	}
-//	handlePermission();
- 	// Geolocation API에 액세스할 수 있는지를 확인
-	function getGelocation(){
-		$("#lat").val("-25.975684");
-                $("#lng").val("32.5741056");
-		if (navigator.geolocation) {
-			//위치 정보를 얻기
-			navigator.geolocation.getCurrentPosition (function(pos) {
-				if(typeof pos == "undefined") {
-					alert("Not support geolocation.");
-					return
-				}
-				$("#lat").val(pos.coords.latitude);     // 위도
-				$("#lng").val(pos.coords.longitude); // 경도
-			});
-		} else {
-//			alert("Not support geolocation.")
+	
+	function updateSubmitButton() {
+		let submitButton = document.getElementById('modal-signature-btn-submit');
+		
+    if (isSignatureCompleted) {
+        submitButton.classList.add('on');
+    } else {
+        submitButton.classList.remove('on');
+    }
+}
+	
+    function openResource(){
+        let input = document.getElementById('targetFileInput');
+        input.accept = 'image/*'
+        input.removeAttribute('capture');
+        input.click();
+    }
+    
+    function openCamera() {
+        let input = document.getElementById('targetFileInput');
+        input.accept = 'image/*'
+        input.capture = 'camera'
+        input.click();
+    }
+    
+    function enforcementDev(){
+        $("form#trafficEnfceRegForm input:not([type='file'])").each(function(){
+            if($(this).attr("name") === "vhRegNo"){
+                $(this).val("Maputo 1234");
+            }else if($(this).attr("name") === "vhTy"){
+                $(this).val("BMW 520d");
+            }else if($(this).attr("name") === "dvrLcenId"){
+                $(this).val("LCE01245678");
+            }else if($(this).attr("name") === "dvrLcenTy"){
+                $(this).val("1jong botong DriverLc");
+            }else if($(this).attr("name") === "vioNm"){
+                $(this).val("IN KI Moon");
+//                $(this).val(generateRandomName());
+            }else if($(this).attr("name") === "vioBrth"){
+                $(this).val("15, September 1994");
+            }else if($(this).attr("name") === "vioPno"){
+                $(this).val("+258 04 354 4587");
+            }else if($(this).attr("name") === "roadAddr"){
+                $(this).val("Avenida Eduardo Mondlane, Maputo");
+            }else if($(this).attr("type") === "email"){
+                $(this).val("email@email.com");
+            }else{
+                $(this).val(randomString(8));
+            }
+        });
+        //$("#spdLmt").val(60);
+        //$("#vioSpd").val(80);
+        //$("#vioSpd").trigger("keyup");
+    }
+    
+    function enforcementRegisterSubmit(_this) {
+		
+		if(_this.classList != null && !_this.classList.contains('on') && !isSignatureCompleted){
+			return;
 		}
-	}
-	getGelocation()
-
-
-	$("#vioSpd").on("keyup",function(){
-		var spdLmt = $("#spdLmt").val();
-			spdLmt = Number(spdLmt);
-
-		var vioSpd = $(this).val();
-			vioSpd = Number(vioSpd);
-
-		var overSpd = spdLmt - vioSpd;
-		if(spdLmt < vioSpd){
-			overSpd = (overSpd * -1);
-		}else{
-			overSpd = 0;
+		
+        document.getElementById("lat").value = map.getLat();
+        document.getElementById("lng").value = map.getLng();
+        if(!document.trafficEnfceRegForm.checkValidity()) {
+            document.trafficEnfceRegForm.reportValidity();
+            return;
+        }
+        const formData = new FormData(document.trafficEnfceRegForm);
+        const fileList = fileManager.getFileList();
+        for(const file of fileList) {
+            if (!file.is_delete) {
+                formData.append("files", file);
+            }
+        }
+        
+        const mozTfcEnfFineInfoList = new Array();
+        
+		const fineUl = document.querySelectorAll(".fineUl"); 
+		const tfcLawFineIdList = document.querySelectorAll(".tfcLawFineId");
+		const tfcEnfPriceList = document.querySelectorAll(".tfcEnfPrice");
+		const tfcLawIdList = document.querySelectorAll(".tfcLawId");
+		
+		if(fineUl.length == 0){
+			alert("No fine information found.")
+			return;
 		}
+        
+        for(var i = 0; i < fineUl.length; i++){
+        	const mozTfcEnfFineInfo = new Object();
+        	const tfcLawFineId = tfcLawFineIdList[i].getAttribute("data-tfcLawFineId");
+        	const tfcLawId = tfcLawIdList[i].getAttribute("data-tfcLawId");
+        	const tfcEnfPrice = tfcEnfPriceList[i].getAttribute("data-tfcEnfPrice");
+        	
+        	mozTfcEnfFineInfo.tfcLawFineId = tfcLawFineId;
+        	mozTfcEnfFineInfo.tfcEnfPrice = tfcEnfPrice;
+        	mozTfcEnfFineInfo.tfcLawId = tfcLawId;
+        	
+        	mozTfcEnfFineInfoList.push(mozTfcEnfFineInfo);
+		}
+		
+        if(mozTfcEnfFineInfoList.length > 0){
+	        formData.append("mozTfcEnfFineInfoJSONString", JSON.stringify(mozTfcEnfFineInfoList));
+		}
+		
+		canvas.toBlob((blob) => {
+	        formData.append('signatureFile', blob, 'signature.png');
+	        // 이제 FormData에 추가된 데이터를 서버로 전송할 수 있습니다.
+	        const loading = MozAtesPoliceApp.loading("Saving...").start();
+	        fetch('/tfcenfmng/trafficEnfceRegPageRegister', {
+	            method: "post",
+	            body: formData
+	        }) 
+	        .then(response => response.json())
+	        .then((result) => {
+	            if (result.code === 200) {
+					let tfcEnfId = result.data;
+	                alert("Register complete.");
+					location.href="/main"
+	               //window.location.href = "/tfcenfmng/detail?tfcEnfId="+tfcEnfId;
+	            } else {
+	                alert("Register Failed");
+	            }
+	        }).finally(() => {
+	            loading.end();
+	        });
+	    }, 'image/png');
+    }
 
-		$("#overSpd").val(overSpd);
-	})
 
-    $("#fnTrafficEnfceRegBtn").on("click",function(){
+    //$("#vioSpd").on("keyup", function () {
+    //    var spdLmt = $("#spdLmt").val();
+    //    spdLmt = Number(spdLmt);
+    //
+    //    var vioSpd = $(this).val();
+    //    vioSpd = Number(vioSpd);
+    //
+    //    var overSpd = spdLmt - vioSpd;
+    //    if (spdLmt < vioSpd) {
+    //        overSpd = (overSpd * -1);
+    //    } else {
+    //        overSpd = 0;
+    //    }
+    //    $("#overSpd").val(overSpd);
+    //})
 
-		var form = document.getElementById("trafficEnfceRegForm");
-    	form.action="/tfcenfmng/trafficEnfceReg";
-    	form.method="POST";
-    	form.submit();
+    $("#placePymntId").on("change", function () {
+        var oprtr = $("#placePymntId option:selected").data("oprtr");
+        $("#pymntOprtr").val(oprtr);
     })
 
-    $("#placePymntId").on("change",function(){
-    	var oprtr = $("#placePymntId option:selected").data("oprtr");
-    	$("#pymntOprtr").val(oprtr);
-    })
 
-	function syntaxHighlight(json) {
-		if (typeof json != 'string') {
-			json = JSON.stringify(json, undefined, 2);
-		}
-		json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-			var cls = 'number';
-			if (/^"/.test(match)) {
-				if (/:$/.test(match)) {
-					cls = 'key';
-				} else {
-					cls = 'string';
+    let map = new MozAtesPoliceMap({
+        elementId : 'map',
+        useGeoLocation : true,
+        loadedGeoCodeCallback : function(core, data){
+            const streetList = core.util.refineStreetName(data.features);
+            const datalist = document.getElementById("loadedRoadAddr");
+            datalist.innerHTML = "";
+            let options = "";
+            for(const streetName of streetList) {
+                options += `<option>${streetName}</option>`;
+            }
+            datalist.innerHTML = options;
+        }
+    });
+    
+    function viewLwFineInfo(_this){
+		const tfcLawId = _this.value;
+		
+		document.getElementById("card-list-wrap").empty();
+		
+		const loading = MozAtesPoliceApp.loading("loading..").start();
+		
+		 $.ajax({
+            url: /*[[@{/tfcenfmng/lwFineInfo.ajax}]]*/ "/tfcenfmng/lwFineInfo.ajax",
+            type: "post",
+			dataType : "json",
+			data :{
+				"tfcLawId" : tfcLawId
+			},
+            success: function (result) {
+				const lawFineInfoList = result.data;
+				if(lawFineInfoList != null){
+				// 데이터 있을시
+				$(".detail-law-div").removeClass("none");
+					for(var i = 0; i < lawFineInfoList.length; i++){
+						const tfcLawFineId = lawFineInfoList[i].tfcLawFineId;
+						const fineDesc = lawFineInfoList[i].fineDesc;
+						const finePrice = lawFineInfoList[i].finePrice;
+						const finePriceStr = numberComma(lawFineInfoList[i].finePrice);
+						
+						const labelId = 'card_'+i;
+						const addLabel = document.createElement('label');
+						addLabel.classList.add('card-list');
+						addLabel.setAttribute('for',labelId);
+						addLabel.innerHTML = 
+								`<div class="card-check"><input type="radio" id="${labelId}" name="lawDetailInfo" class="card-list-radio" data-law-tfcLawFineId="${tfcLawFineId}" data-law-detail-nm="${fineDesc}" data-law-fine="${finePrice}"> <span>${fineDesc}</span></div> <span>${finePriceStr}MT</span>`; 
+						document.querySelector('#card-list-wrap').append(addLabel);
+					}
 				}
-			} else if (/true|false/.test(match)) {
-				cls = 'boolean';
-			} else if (/null/.test(match)) {
-				cls = 'null';
-			}
-			return '<span class="' + cls + '">' + match + '</span>';
-		});
+			},
+			complete: function() {
+				loading.end();
+    		}
+    	})
 	}
-	function uploadFile(id) {
-		var formData = new FormData();
-		formData.append("file", $("#"+id).get(0).files[0]);
-		$.ajax({
-			type: 'POST',
-			url: '/api/get_plate_number',
-			data: formData,
-			dataType: 'json',
-			contentType: false,
-			cache: false,
-			processData:false,
-			beforeSend: function(){
-				$("#loading").show()
-			},
-			success: function(response){ //console.log(response);
-				$("#result pre").html(syntaxHighlight(response))
-				if(response.success) {
-					$("#plate").val(response.plate_number)
-					$("#dvrLcenId").val(response.driver_info.license_number)
-					$("#vioNm").val(response.driver_info.forename + " "+ response.driver_info.surname);
-					$("#vioBrth").val(response.driver_info.birth);
-					$("#vioEmail").val(response.driver_info.email);
-					$("#vioAddr").val(response.driver_info.address);
-					$("#vioPno").val(response.driver_info.phone);
-					$("#dvrLcenTy").val(response.driver_info.dvrLcenTy);
-					$("#vhRegNo").val(response.vehicle_info.vehicle_registration_number)
-					$("#vhTy").val(response.vehicle_info.vehicle_type)
-				}
-			},
-			complete: function(){
-				$("#loading").hide()
+	
+	function fnAddLawDetail(){
+		//체크드 유효성 검사 필요
+		const tfcLawId = document.getElementById("tfcLawId").value;
+		
+		if(tfcLawId == null || tfcLawId == ''){
+			alert("choice Laws");
+			return false;
+		}
+		
+		if(!$(".card-list-radio").is(":checked")){
+			alert("choice Law Fine");
+			return false;
+		}
+		
+		//pk필요시 추가 필요
+		let tfcLawIdNm = $("#tfcLawId option:selected").text();
+		let tfcLawFineId = $(".card-list-radio:checked").attr("data-law-tfcLawFineId");
+		let lawDetailNm = $(".card-list-radio:checked").attr("data-law-detail-nm");
+		let lawFine = $(".card-list-radio:checked").attr("data-law-fine");
+
+		let lawFineStr = numberComma(lawFine);
+		
+		/*let lawInfoHtml = `<ul class="fineUl">
+							  <li class="tfcLawId" data-tfcLawId="${tfcLawId}">${tfcLawIdNm}</li>
+							  <li class="tfcLawFineId" data-tfcLawFineId="${tfcLawFineId}">${lawDetailNm}</li>
+							  <li class="tfcEnfPrice" data-tfcEnfPrice="${lawFine}">${lawFineStr}MT</li>
+						 	  <li class="tfcdelete"><button type="button" class="deletebdBtn" onclick="fnDelLawInfo(this);">삭제</button></li>
+					 	  </ul>`;*/
+					 	  
+		let lawInfoHtml = `<div class="fineUl detailLawList">
+							  <div class="detailLawCon detailLawTitle">
+								  <div class="tfcLawId" data-tfcLawId="${tfcLawId}">${tfcLawIdNm}</div>
+								  <div class="tfcdelete"><button type="button" class="detailLawDelete" onclick="fnDelLawInfo(this);"><img src="/images/close.png"></button></div>
+							  </div> 
+							  <div class="detailLawCon">
+								  <div class="tfcLawFineId" data-tfcLawFineId="${tfcLawFineId}">${lawDetailNm}</div>
+							  </div>
+							  <div class="detailLawCon">
+								  <div class="tfcEnfPrice" data-tfcEnfPrice="${lawFine}">${lawFineStr}</div>
+							  </div>
+					 	  </div>`;			 	  
+					 	  
+		$(".info-law-div").removeClass("none");			 	  
+		$("#lawInfoUl").append(lawInfoHtml);			 	  
+		
+		//1번째 select option 초기화
+		$("select[name='tfcLawId'] option").eq(0).prop("selected",true);
+		//law detail 영역 hide
+		$(".detail-law-div").addClass("none");
+		
+		//리스트 초기화
+		document.getElementById("card-list-wrap").empty();
+		
+		//결제금액 UPDATE
+		fnSetTotalPrice();
+	}
+	
+	function fnDelLawInfo(_this){
+		$(_this).closest('.fineUl').remove();
+		
+		let lawInfoLenth = $("#lawInfoUl .fineUl").length;
+		
+		if(lawInfoLenth === 0){
+			$(".info-law-div").addClass("none");
+		}
+		
+		fnSetTotalPrice();
+	}
+	
+	function fnSetTotalPrice(){
+		const tfcEnfPriceList = document.querySelectorAll(".tfcEnfPrice");
+		
+		if(tfcEnfPriceList.length == 0){
+			document.getElementById("totalPrice").value = 0;
+			return false;
+		}
+        
+        var totalPrice = 0;
+        for(var i = 0; i < tfcEnfPriceList.length; i++){
+        	totalPrice += Number(tfcEnfPriceList[i].getAttribute("data-tfcEnfPrice"));
+		}
+		
+		document.getElementById("totalPrice").value = totalPrice;
+	}
+	
+	
+	function modalToggle() {
+		let modal = document.getElementById('modal-enforcement-info');
+		let modalOn = document.getElementById('modalOn');
+		let modalOff = document.getElementById('modalOff');
+		
+		let modalRegistList = document.getElementById('modalRegistListDiv');
+		let infoCheckBtn = document.getElementById('infoCheckBtn');
+		
+		modalOn.addEventListener('click', function(){
+
+	        if(!document.trafficEnfceRegForm.checkValidity()) {
+	            document.trafficEnfceRegForm.reportValidity();
+	            return;
+	        }
+	        
+	        let vhRegNo = document.getElementById('vhRegNo').value;
+	        let vhTy = document.getElementById('vhTy').value;
+	        let dvrLcenId = document.getElementById('dvrLcenId').value;
+	        let dvrLcenTy = document.getElementById('dvrLcenTy').value;
+	        let vioNm = document.getElementById('vioNm').value;
+	        let vioBrth = document.getElementById('vioBrth').value;
+	        let vioPno = document.getElementById('vioPno').value;
+	        let vioEmail = document.getElementById('vioEmail').value;
+	        let roadAddr = document.getElementById('roadAddr').value;
+	        /*let spdLmt = document.getElementById('spdLmt').value;
+	        let vioSpd = document.getElementById('vioSpd').value;
+	        let overSpd = document.getElementById('overSpd').value;*/
+	        let totalPrice = document.getElementById('totalPrice').value;
+	        let placePymntId = document.getElementById('placePymntId')
+	        let placePymntNm = placePymntId.options[placePymntId.selectedIndex].getAttribute("data-placePymntNm");
+	        
+	        document.getElementById('mdVhRegNo').innerHTML = vhRegNo;
+	        document.getElementById('mdVhTy').innerHTML = vhTy;
+	        document.getElementById('mdDvrLcenId').innerHTML = dvrLcenId;
+	        document.getElementById('mdDvrLcenTy').innerHTML = dvrLcenTy;
+	        document.getElementById('mdVioNm').innerHTML = vioNm;
+	        document.getElementById('mdVioPno').innerHTML = vioPno;
+	        document.getElementById('mdVioEmail').innerHTML = vioEmail;
+	        document.getElementById('mdRoadAddr').innerHTML = roadAddr;
+	        
+	        let fineUl = document.querySelectorAll(".fineUl"); 
+			let tfcLawFineIdList = document.querySelectorAll(".tfcLawFineId");
+			let tfcEnfPriceList = document.querySelectorAll(".tfcEnfPrice");
+			let tfcLawIdList = document.querySelectorAll(".tfcLawId");
+			let mdSignaturePreview = document.getElementById('mdSignaturePreview');
+		
+			if(fineUl.length == 0){
+				alert("No fine information found.")
+				return;
 			}
+        
+	        for(var i = 0; i < fineUl.length; i++){
+	        	let tfcLawNm = tfcLawFineIdList[i].innerText;
+	        	let fineDesc = tfcLawIdList[i].innerText;
+	        	let tfcEnfPrice = numberComma(tfcEnfPriceList[i].getAttribute("data-tfcEnfPrice"));
+	        	
+				let fineDd = document.createElement('dd');
+				
+				let tfcLawNmTitle = /*[[#{tfcenfmng.trafficEnfceRegPage.modal.title.lawNm}]]*/;
+				let fineDescTitle = /*[[#{tfcenfmng.trafficEnfceRegPage.modal.title.fineDesc}]]*/;
+				let tfcEnfPriceTitle = /*[[#{tfcenfmng.trafficEnfceRegPage.modal.title.finePrice}]]*/;
+								
+				fineDd.innerHTML =
+				  `
+					<p><span id="ModalBill">${tfcLawNmTitle}</span> : ${tfcLawNm}</p>
+					<p><span id="ModalBill">${fineDescTitle}</span> : ${fineDesc}</p>
+					<p><span id="ModalBill">${tfcEnfPriceTitle}</span> : ${tfcEnfPrice}MT</p>
+				  `;
+				document.querySelector('#illegalLaw').append(fineDd);
+			}
+	        
+	        /*링기링기링기링기링기링기링기링*/
+	        /*document.getElementById('mdSpdLmt').innerHTML = spdLmt;
+	        document.getElementById('mdVioSpd').innerHTML = vioSpd;
+	        document.getElementById('mdOverSpd').innerHTML = overSpd;*/
+	        document.getElementById('mdTotalPrice').innerHTML = totalPrice;
+	        document.getElementById('mdPlacePymntId').innerHTML = placePymntNm;
+			
+			if(!isSignatureCompleted){	
+				alert("Please Input Signature");
+				return;
+			}
+			
+			mdSignaturePreview.src = canvas.toDataURL();
+			
+			let imgFileList = document.querySelectorAll(".imgFile");
+			
+			if(imgFileList != null && imgFileList.length > 0){
+			  for (var i = 0; i < imgFileList.length; i++) {
+					let imageWrap = document.createElement('dd');
+					let imgData = imgFileList[i].innerHTML;	
+				
+					imageWrap.classList.add("modalImageWrap");
+					
+					imageWrap.innerHTML = imgData;
+					
+					//여기부분 IMG 크기조절필요(지훈팍)
+					document.querySelector("#modal-img-wrap").append(imageWrap);
+			    }
+			} else {
+				document.getElementById('modal-img-wrap').style.display = "none";
+			}
+			
+			modal.style.display="block";
 		})
-		// let formData = new FormData();
-		// formData.append("file", $("#picture").get(0).files[0]);
-		// let response = await fetch('/api/get_plate_number', {
-		// 	method: "POST",
-		// 	body: formData
-		// }).then(function(response) {
-		// 	return response.json();
-		// });
-		// console.log(response)
-		// $("#result pre").html(syntaxHighlight(response))
+		
+		modalOff.addEventListener('click', function(){
+	        modalRegistList.scrollTo({
+				top : 0 ,
+				left : 0 ,
+				behavor: 'smooth'
+			})
+			
+			if(document.getElementById('illegalLaw') != null){
+				document.getElementById('illegalLaw').empty();
+			}
+	
+			modal.style.display="none";
+		})
+		
+		modalRegistList.addEventListener('scroll', function () {
+	        if (modalRegistList.clientHeight !== 0 && modalRegistList.clientHeight + modalRegistList.scrollTop >= modalRegistList.scrollHeight - 5) {
+	          	infoCheckBtn.classList.add('on');
+	        }
+	     });
 	}
-	$("#picture").on("change", function(){
-		uploadFile('picture')
-	})
-	$("#camera").on("change", function(){
-		uploadFile('camera')
-	})
+	
+	function viewSignatureModal(){
+        if(!document.trafficEnfceRegForm.checkValidity()) {
+            document.trafficEnfceRegForm.reportValidity();
+            return;
+        }
+        
+        let fineUl = document.querySelectorAll(".fineUl"); 
+		
+		if(fineUl == null || fineUl.length == 0){
+			alert("No fine information found.")
+			return;
+		}
+		
+		signatureModal.style.display="block";
+	}
+	
+	offButton.addEventListener('click', (event) => {
+	    event.preventDefault();
+	    const ctx = canvas.getContext('2d');
+	    ctx.clearRect(0, 0, canvas.width, canvas.height);
+	    signatureModal.style.display = "none";
+	    infoCheckBtn.classList.remove('on');
+	});
+	
+	function submitSignature(_this){
+		if(!isSignatureCompleted){
+			alert("Please Input Signature");
+			return;
+		}
+		
+		signatureModal.style.display = "none";
+		
+		let signatureBtnWrap = document.getElementById("signatureBtnWrap");
+		let signatureCompleteWrap = document.getElementById("signatureCompleteWrap");
+		
+		signatureCompleteWrap.style.display = "block";
+		signatureBtnWrap.style.display = "none"
+		
+	}
+	
 </script>

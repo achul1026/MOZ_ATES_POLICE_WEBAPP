@@ -1,0 +1,436 @@
+.back {
+	position: absolute;
+	left:26px;
+	z-index: 99;
+}
+.logo {
+	width:150px;
+}
+.header-logo {
+	display: flex;
+	gap:8px;
+	align-items: center;
+	font-weight: 900;
+	font-size:18px;
+} 
+select {
+	color: #000;
+}
+.default-btn {
+	width:100%;
+	height:44px;
+	border:none;
+	color: white;
+	line-height: inherit;
+	border-radius:6px;
+	font-weight: 500;
+ }
+.default-btn.disabled-radius {
+	border-radius: 0;
+}
+.mainFixBtn {
+	background:#008A70;
+	width:100%;
+	height:60px;
+	border:none;
+	outline: none;
+	color: white;
+	font-size:18px;
+	line-height: inherit;
+}
+.subFixBtn {
+	background:#3b3b3b;
+	width:100%;
+	height:60px;
+	border:none;
+	outline: none;
+	color: white;
+	font-size:16px;
+	line-height: inherit;
+}
+.mainBtn {
+	background:#008A70;
+	width:100%;
+	height:60px;
+	border:none;
+	outline: none;
+	color: white;
+	font-size:18px;
+	font-weight: 600;
+	line-height: inherit;
+	border-radius: 6px;
+}
+.subBtn {
+	background:#3b3b3b;
+	width:100%;
+	height:60px;
+	border:none;
+	outline: none;
+	font-size:18px;
+	font-weight: 600;
+	line-height: inherit;
+	color: #fff;
+}
+.addBtn {
+	padding: 10px;
+	background:none;
+	height:50px;
+	border:none;
+	outline: none;
+	font-size:14px;
+	line-height: inherit;
+	border-radius: 6px;
+	border: 1px solid #008A70;
+    color: #008A70;
+}
+.addSubBtn {
+	width:100%;
+	padding: 10px;
+	text-align: center;
+	background:#3b3b3b;
+	height:50px;
+	border:none;
+	outline: none;
+	color: white;
+	font-size:14px;
+	line-height: inherit;
+	border-radius: 6px;
+}
+.deleteBtn {
+	padding: 16px;
+	background:#ff0000;
+	border:none;
+	outline: none;
+	color: white;
+	font-size:16px;
+	line-height: inherit;
+	border-radius: 6px;
+}
+.deletebdBtn {
+	background: none;
+	border:none;
+	color:#ff0000;
+	outline: none;
+	font-size:14px;
+	line-height: inherit;
+	border-radius: 6px;
+}
+.modalSubmitBtn {
+	background:#3b3b3b;
+	width:100%;
+	height:60px;
+	border:none;
+	outline: none;
+	color: white;
+	font-size:16px;
+	line-height: inherit;
+}
+.modalSubmitBtn.on{
+	background:#008A70 !important;
+}
+.filterBtn {
+	background: #F5F6FA;
+	border-radius: 6px;
+}
+.filterBtn.on {
+	background:#fff !important;
+	border:1px solid #008A70;
+	color: #008A70;
+	font-weight: 500;
+}
+.btn-wrap {
+	margin-top:24px;
+	display: flex;
+	flex-wrap: wrap;
+	gap:16px;
+}
+.btn-wrap.is-fixed {
+	position:fixed;
+	left:0;
+	right:0;
+	bottom:0;
+}
+.btn-wrap.is-fixed.is-bottom-70 {
+	bottom:70px;
+}
+
+.alert-box {
+	font-size:12px;
+	padding:12px;
+	border:1px solid #dbdbdb;
+	background:#f9f9f9;
+	line-height:1.4em;
+	font-weight: 500;
+}
+.alert-box.alert-warning {
+	background: rgba(255, 218, 106, 0.38);
+	border-color: rgba(153, 116, 4, 0.52);
+	color: #5e4913;
+}
+input {
+	-webkit-appearance: none;
+}
+input[type="button"] {
+	padding:8px 12px;
+	color: #fff;
+}
+input[type="checkbox"] {
+	accent-color: #00967a;
+}
+/*input[type="date"]{*/
+/*	position: relative;*/
+/*    padding: 8px 26px 8px 8px !important;*/
+/*    background: #EDEDED url('/images/calendar.png') 91% / 19px no-repeat;*/
+/*    background-size: 16px;*/
+/*    font-size: 14px;*/
+/*}*/
+input[type="date"]::-webkit-inner-spin-button,-webkit-clear-button {
+	display: none;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+   position: absolute;
+   left:0;
+   top:0;
+   width:100%;
+   height:100%;
+   background: transparent;
+   color: transparent;
+   cursor: pointer;
+}
+.user-icon {
+	width:16px;
+}
+.cmInput {
+	font-size:16px;
+	width:100%;
+	padding: 14px;
+	border:1px solid #c5c5c5;
+	outline-color:#008A70;
+	border-radius: 6px;
+}
+.cmInput::placeholder {
+	color:#D8D8D8;
+}
+.cmLabel {
+	display: block;
+	font-size:16px;
+	font-weight: 500;
+	margin-bottom: 6px;
+}
+.eye {
+	display: block;
+    cursor: pointer;
+    width: 31px;
+    height: 22px;
+    background: url(../images/eye_off.png) no-repeat center / cover;
+    position: absolute;
+    top: 36px;
+    right: 16px;
+}
+.eye.on {
+    width: 31px; 
+    height: 17px;
+    background: url(../images/eye_on.png) no-repeat center / cover;
+    top: 39px;
+    right: 16px;
+}
+img {
+  image-rendering: -webkit-optimize-contrast; /* chrome(비표준) */
+   transform:translateZ(0);
+}
+.modal {
+	position: fixed;
+	left:0;
+	top:0;
+	width:100%;
+	height: 100%;
+	z-index: 9999999;
+	background: rgba(66, 66, 66, 0.5);
+	display: none;
+}
+.modalContainer {
+	background: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height:600px;
+    overflow-y: auto;
+}
+.modalHead {
+	padding: 20px;
+	position: sticky;
+	top:0;
+	background:#fff;
+	z-index: 999;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.modalTitle, .modalTitle span {
+	font-size:18px;
+	font-weight: 600;
+}
+.modalClose {
+	width:14px;
+}
+.modalBody {
+	padding:0 20px 20px 20px;
+	margin-bottom: 20px;
+}
+.modalRegistList {
+	max-height: 500px;
+	overflow-y: auto;
+}
+.modalRegistInfo {
+	display: flex;
+	flex-wrap:wrap;
+	gap:10px;
+	margin-bottom: 16px;
+    border-bottom: 1px solid #dbdbdb;
+    padding-bottom: 10px;
+}
+.modalRegistInfo:last-child {
+	margin: 0;
+}
+.modalRegistInfo dt {
+	display: block;
+	width:100%;
+	font-size:14px;
+	color:#5b5b5b;
+}
+.modalRegistInfo dd {
+	display: flex;
+	flex-wrap:wrap;
+	gap:8px;
+	font-weight: 500;
+	width:100%;
+	font-size:14px;
+}
+.modalRegistInfo dd p {
+	width:100%;
+	font-weight: 500;
+	color: #17a78c;
+}
+.modalSignInfo {
+	display: flex;
+	justify-content: end;
+}
+.modalImageWrap {
+	width: 90px;
+	height: 90px;
+	border-radius: 8px;
+	background: #F2F2F2;
+	position:relative;
+}
+.modalImageWrap img{
+	width: 90px;
+}
+.signatureCanvas{
+  /*width:100%;  부모 요소의 너비에 맞춤 */
+  /* max-width: 450px; 최대 너비 지정 */
+  border-radius: 6px;
+}
+#signatrueDd {
+	margin-bottom: 10px;;
+	border:1px solid #efefef;
+	background: #FAFBFC;
+	overflow: hidden;
+	border-radius: 12px;
+}
+#signatureCompleteWrap {
+	text-align: center;
+}
+.signnatureBtnCm {
+	width:100%;
+	background: #FAFBFC;
+	border-radius:12px;
+    padding: 30px;
+    width: 100%;
+    margin-top: 10px;
+    font-weight: 500;
+}
+.signAbout {
+	line-height: 20px;
+}
+#signOnbtn {
+	margin-top:20px;
+	padding: 10px;
+	background: #008A70;
+	color: #fff;
+	border-radius:8px;
+    border: none;
+}
+#signatureClearBtn {
+	padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #efefef;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.modalBtn {
+	padding: 20px;
+	text-align: center;
+	border:none;
+	width:100%;
+	background: #008A70;
+	color: #fff;
+	font-weight: 500;
+	font-size:16px;
+	border-radius: 6px;
+}
+#mdSignaturePreview {
+	width:100%;
+}
+/*페이지네이션*/
+.pageNation {
+	padding:40px 0 20px 0;
+	margin-bottom: 60px;
+}
+.pageNation ul {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap:6px;
+}
+.pageNation ul li a {
+	padding:10px 14px;
+	display: block;
+	border-radius:50px;
+}
+.pageNation ul li a.on {
+	background: #F5F6FA;
+	color: #4f4f4f;
+}
+/*페이지네이션 끝*/
+
+/*하단 픽스메뉴*/
+#fixed-menu ul {
+	display: flex;
+	gap: 46px;
+    justify-content:space-around;
+    align-items: center;
+}
+#fixed-menu ul li {
+	text-align: center;
+}
+#fixed-menu ul li a img {
+	width:25px;
+}
+.fixed-menu-title {
+	margin-top:5px;
+	font-weight: 500;
+}
+/*하단 픽스메뉴 끝*/
+
+.is-disabled{
+	pointer-events: none;
+}
+
+.text-pre-line{
+	white-space:pre-line
+}

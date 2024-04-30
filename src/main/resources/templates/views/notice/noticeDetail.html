@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+
+<div layout:fragment="content">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a onclick="history.back()"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{notice.noticeDetail.title}">공지사항</span>
+		</div>
+	</div>
+	<div id="sub-container">
+		<div id="conWrapWh">
+			<div id="subNotDeTitle">
+				<h2 th:text="${noticeDetail.boardTitle}">공지사항 제목입니다.</h2>
+				<div id="wrDateWrap">
+					<div class="writeDv" th:text="${#dates.format(noticeDetail.crDt, 'yyyy-MM-dd')}" >2024.03.31</div>
+					<div class="writeDv" th:text="|View Count: ${noticeDetail.viewCnt}|">View Count <span>123</span></div>
+				</div>
+				<div id="subNotDeConWriter" class="mt10 writeDe"><span th:text="#{notice.noticeDetail.writer}"></span> <span th:text="${noticeDetail.oprtrNm}" class="writeDe">Jihoon Park</span></div>
+			</div>
+			<div id="subNotDeCon">
+				<div id="subNotDeConText" th:text="${noticeDetail.boardContents}">
+					This is a change in the MCC investigation schedule.<br>
+					schedule : 2023-11-13 ~ 20<br>
+					location : region<br>
+					The investigation schedule has been changed as above.<br>
+					The schedule has been updated, so you can check it in the schedule.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+</script>

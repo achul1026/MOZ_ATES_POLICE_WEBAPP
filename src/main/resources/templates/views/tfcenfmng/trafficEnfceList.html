@@ -1,0 +1,199 @@
+<html xmlns:th="http://www.thymeleaf.org" 
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/layout">
+
+<div layout:fragment="content">
+    <div id="sub-header">
+        <div id="sub-header-wrap">
+            <a th:href="@{/main}"><img src="/images/arrow-back.png" class="back"></a>
+            <span th:text="#{tfcenfmng.trafficEnfceList.history.tfcEnfceHistory}">사고 이력</span>
+        </div>
+    </div>
+    <div id="sub-container">
+        <div id="subNoticeTopLine">
+			<div id="typeCheck-btn">
+				<a href="#" class="on" th:text="#{tfcenfmng.trafficEnfceList.history.tfcEnfceHistory}">단속 이력</a>
+            	<a th:href="@{/tfcacdntmng/list}" th:text="#{tfcenfmng.trafficEnfceList.history.accidentHistory}">사고 이력</a>
+			</div>
+            <div id="subNoticeTopTitle">
+                <div id="subNoticeMainText" th:text="#{tfcenfmng.trafficEnfceList.history.title}">단속 이력</div>
+                <div id="subNoticeSubText" th:text="#{tfcenfmng.trafficEnfceList.history.subTitle}">단속번호 또는 사고번호를 검색하세요.</div>
+            </div>
+            <div id="cmSearch">
+                <form id="frmSearch" onsubmit="return false;">
+                    <input type="text" name="searchTxt" th:placeholder="#{tfcenfmng.trafficEnfceList.placeholder.enterContent}"
+                           class="list-search-box" th:value="${enfEnfMaster.searchTxt}">
+                    <div id="cmButtonWrap">
+                        <button type="button" id="searchIcon" onclick="searchHistory()"></button>
+                    </div>
+                    <input type="hidden" id="hdnStart" name="start" th:value="${enfEnfMaster.start}">
+					<input type="hidden" id="page" name="page" th:value="${pagination.page}">
+
+                    <div id="filterWrap">
+                        <div id="filterCon">
+                            <div id="filterTitle">
+                                <img src="/images/close.png" class="close" id="filterCloseImg">
+                                <h2 th:text="#{tfcenfmng.trafficEnfceList.filter}"></h2>
+                            </div>
+                            <div id="filterBody">
+                                <div class="filterCheck">
+                                    <label th:text="#{tfcenfmng.trafficEnfceList.setPeriod}" class="filterSubTitle">기간 설정</label>
+                                    <div class="filterBtnWrap" id="dateRangeButtons">
+										<label for="yearFilter" class="filterBtn" th:text="#{tfcenfmng.trafficEnfceList.lastYear}">최근 1년</label>
+										<input id="yearFilter" type="radio" name="yearFilter" value="365" onchange="setDateRange(this)">
+										
+										<label for="weekFilter" class="filterBtn" th:text="#{tfcenfmng.trafficEnfceList.oneWeek}">1주일</label>
+										<input id="weekFilter" type="radio" name="yearFilter" value="7" onchange="setDateRange(this)">
+										
+										<label for="oneMonthFilter" class="filterBtn" th:text="#{tfcenfmng.trafficEnfceList.oneMonth}">1개월</label>
+										<input id="oneMonthFilter" type="radio" name="yearFilter" value="30" onchange="setDateRange(this)">
+										
+										<label for="threeMonthFilter" class="filterBtn" th:text="#{tfcenfmng.trafficEnfceList.threeMonth}">3개월</label>
+										<input id="threeMonthFilter" type="radio" name="yearFilter" value="90" onchange="setDateRange(this)">
+                                    </div>
+                                    <div class="filterBtnWrap">
+                                        <input type="date" name="sDate" class="filterDate is-disabled" id="sDate" th:value="${enfEnfMaster.sDate}"> - <input type="date" name="eDate" class="filterDate is-disabled" id="eDate" th:value="${enfEnfMaster.eDate}">
+                                    </div>
+                                </div>
+                                <div id="filterFixBtn">
+                                    <button type="button" class="subBtn" onclick="fnPageMove(1)" th:text="#{tfcenfmng.trafficEnfceList.search}">조회</button>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="HistoryWrap">
+            <div id="HisFilter">
+                <div>
+					<span th:text="#{tfcenfmng.trafficEnfceList.all}" id="HisDateAll">전체</span>
+					<span th:text="${pagination.totalListCnt}"></span>
+					<span th:text="#{tfcenfmng.trafficEnfceList.cases}"></span>
+				</div>
+                <div id="filterBtn">
+                    <span th:text="#{tfcenfmng.trafficEnfceList.filter}">필터</span><i></i>
+                </div>
+            </div>
+            <div class="HisConWrap">
+                <div class="HisList" th:each="enfItm : ${enfList}"
+                     th:onclick="moveToDetail([[${enfItm.tfcEnfId}]])">
+                    <div class="HisCate">
+                        <span>Enforcement</span>
+                    </div>
+                    <div class="HisTitle" th:text="${enfItm.title}">Enforcement Title </div>
+                    <span class="HisVio" th:text="${enfItm.enfFineInfoCnt- 1 == 0} ? |${enfItm.enfFineInfoCnt} Violation| : |${enfItm.enfFineInfoCnt} Violations|">6 violations</span>
+                    <div class="HisTime">
+                        <div class="HisDate">
+                            <span th:text="${#dates.format(enfItm.tfcEnfDt, 'yyyy.MM.dd')}">2023.12.06</span>
+                            <span th:text="${#dates.format(enfItm.tfcEnfDt, 'hh:mm')}">13:50</span>
+                        </div>
+                        <div class="HisNumber" th:text="${enfItm.tfcEnfId}">13-4231</div>
+                    </div>
+                </div>
+				<div class="pageNation" th:insert="tags/paging :: pagingFragment"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+	const filterWrap = document.getElementById('filterWrap');
+	const filterBtn = document.getElementById('filterBtn');
+	const filterCloseImg = document.getElementById('filterCloseImg');
+
+	const type = document.getElementById('type');
+	const enfSelectBtn = document.getElementById('enfSelectBtn');
+	const acdntSelectBtn = document.getElementById('acdntSelectBtn');
+
+ 	filterBtn.onclick = function() {
+		 toggleFilter();
+	 }
+ 	filterCloseImg.onclick = function() {
+		 toggleFilter();
+	 }
+
+	function toggleFilter() {
+		if(filterWrap.style.display == 'none' || filterWrap.style.display == '') {
+			filterWrap.style.display = 'block';
+		} else {
+			filterWrap.style.display = 'none';
+		}
+	}
+
+	function toggleType() {
+		if(type.value == 'enf') {
+			enfSelectBtn.classList.remove('on');
+			enfSelectBtn.classList.add('on');
+
+			acdntSelectBtn.classList.remove('on');
+			acdntSelectBtn.classList.add('on');
+
+			type.value = 'acdnt';
+		} else {
+			acdntSelectBtn.classList.remove('on');
+			acdntSelectBtn.classList.add('on');
+
+			enfSelectBtn.classList.remove('on');
+			enfSelectBtn.classList.add('on');
+
+			type.value = 'enf';
+		}
+	}
+
+	function setDateRange(_this) {
+	  const days = _this.value;
+	  const today = new Date();
+	  const startDate = new Date();
+
+	  startDate.setDate(today.getDate() - days);
+
+	  const startDateValue = startDate.toISOString().split('T')[0];
+	  const endDateValue = today.toISOString().split('T')[0];
+
+	  document.getElementById('sDate').value = startDateValue;
+	  document.getElementById('eDate').value = endDateValue;
+
+      toggleDateButtons();
+      
+	  _this.previousElementSibling.classList.add('on');
+	}
+	
+
+	function resetDateRange() {
+	  document.getElementById('sDate').value = '';
+	  document.getElementById('eDate').value = '';
+
+	  toggleDateButtons();
+	}
+
+	function toggleDateButtons() {
+		// 모든 .filterBtn 클래스를 가진 요소 선택
+		const filterBtns = document.querySelectorAll('.filterBtn');
+		
+		// 모든 요소에 대해 반복하여 클래스 제거
+		filterBtns.forEach(function(btn) {
+		    btn.classList.remove('on');
+		});
+	}
+
+	function searchHistory() {
+		//검색시도시 1페이지로
+		fnPageMove(1);
+	}
+
+	function fnPageMove(page) {
+		document.getElementById('page').value = page;
+		
+		document.getElementById('frmSearch').submit();
+	}
+
+	function moveToDetail(tfcEnfId) {
+		let url = /*[[@{/tfcenfmng/detail?tfcEnfId=}]]*/;
+		
+		location.href = url+tfcEnfId;
+	}
+
+</script>

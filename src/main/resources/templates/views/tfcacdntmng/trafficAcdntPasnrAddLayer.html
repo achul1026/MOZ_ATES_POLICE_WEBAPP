@@ -1,56 +1,87 @@
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="layouts/layout">
-<!-- 모달 영역 -->
-	<div id="trafficAcdntPasnrAddLayer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:fragment="trafficAcdntPasnrAddLayer">
-		<input type="hidden" id="modalIdx" name="modalIdx" value="">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h2 class="modal-title txt-c"><span th:text="#{tfcacdntmng.addLayer.title1}">Traffic Accident Passengers</span><br/><span th:text="#{tfcacdntmng.addLayer.title2}">Information</span></h2>
-				</div>
-				<div class="modal-body">
-					<div class="input-group">
-						<label th:text="#{tfcacdntmng.addLayer.content.pnrName}" class="control-label" for="pnrNm">Passenger name</label>
-                        <input th:placeholder="#{tfcacdntmng.addLayer.content.pnrName.pl}" type="text" id="pnrNm" name="pnrNm" placeholder="Passenger name" class="form-control">
-                   	</div>
-					<div class="input-group">
-						<label th:text="#{tfcacdntmng.addLayer.content.pnrBDay}" class="control-label" for="pnrBrth">Passenger birthday</label>
-                      	<input th:placeholder="#{tfcacdntmng.addLayer.content.pnrBDay.pl}" type="text" id="pnrBrth" name="pnrBrth" placeholder="Passenger birthday" class="form-control">
-                 	</div>
-					<div class="input-group">
-						<label th:text="#{tfcacdntmng.addLayer.content.pnrAdd}" class="control-label" for="pnrAddr">Passenger Address</label>
-                      	<input th:placeholder="#{tfcacdntmng.addLayer.content.pnrAdd.pl}" type="text" id="pnrAddr" name="pnrAddr" placeholder="Passenger Address" class="form-control">
-                 	</div>
-					<div class="input-group">
-						<label th:text="#{tfcacdntmng.addLayer.content.pnrPno}" class="control-label" for="pnrPno">Passenger phone number</label>
-                      	<input th:placeholder="#{tfcacdntmng.addLayer.content.pnrPno.pl}" type="text" id="pnrPno" name="pnrPno" placeholder="Passenger phone number" class="form-control">
-                 	</div>
-					<div class="input-group">
-						<label th:text="#{tfcacdntmng.addLayer.content.pnrEmail}" class="control-label" for="pnrEmail">Passenger email</label>
-                        <input th:placeholder="#{tfcacdntmng.addLayer.content.pnrEmail.pl}" type="text" id="pnrEmail" name="pnrEmail" placeholder="Passenger email" class="form-control">
-                   	</div>
-					<div class="input-group">
-						<label th:text="#{tfcacdntmng.addLayer.content.driveYN}" class="control-label" for="dvYn">Drive yn</label>
-						<div class="input-group-radio">
-							<label>Y : </label><input type="radio" name="dvYn" class="ml10" value="Y" checked="checked">
-							<label>N : </label><input type="radio" name="dvYn" class="ml10" value="N">
-						</div>
-                 	</div>
-					<div class="input-group driver-lcen-ty">
-						<label th:text="#{tfcacdntmng.addLayer.content.driverLicenseType}" class="control-label" for="dvrLcenTy">Driver license type</label>
-                        <input th:placeholder="#{tfcacdntmng.addLayer.content.driverLicenseType}" type="text" id="dvrLcenTy" name="dvrLcenTy" placeholder="Driver license type" class="form-control">
-                   	</div>
-				</div>
-				<div class="modal-footer">
-					<span th:text="#{tfcacdntmng.addLayer.content.btn.add}" class="btn btn-default" id="addTrafficAcdntPnrBtn">Add</span>
-					<span th:text="#{tfcacdntmng.addLayer.content.btn.cencal}" type="button" class="btn btn-default" id="closeModalBtn">Cancel</span>
-				</div>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div id="modal-passenger" class="modal">
+	<!-- 모달 영역 -->
+		<div class="modalContainer">
+			<div class="modalHead">
+				<h2 class="modalTitle">
+					<span th:if="${passengerInfo == null}" th:text="#{tfcacdntmng.addLayer.title}">
+					</span>
+					<span th:if="${passengerInfo != null}" th:text="#{tfcacdntmng.modifyLayer.title}">
+					</span>
+				</h2>
+				<img src="/images/close.png" id="modal-passenger-btn-off" onclick="MozAtesPoliceApp.offPassengerModal(this)" class="modalClose">
 			</div>
+			<div class="modalBody">
+                <div class="formRegistList">
+                    <label for="drvYn" th:text="#{tfcacdntmng.addLayer.content.driverYn}"></label>
+                     <select id="drvYn" th:onclick="MozAtesPoliceApp.getPartyDriverInfo('[[${partyIdx}]]',this)">
+                        <option value="N" th:text="#{tfcacdntmng.addLayer.select.no}" th:selected="${passengerInfo?.drvYn == 'N'}">No</option>
+                        <option value="Y" th:text="#{tfcacdntmng.addLayer.select.yes}" th:selected="${passengerInfo?.drvYn == 'Y'}">Yes</option>
+                     </select>
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrDvrLcenId" th:text="#{tfcacdntmng.addLayer.content.driverLicenseId}"></label>
+                    <input type="text" id="pnrDvrLcenId" th:placeholder="#{tfcacdntmng.addLayer.content.driverLicenseId}" th:value="${passengerInfo?.pnrDvrLcenId}">
+                </div>
+                <div class="formRegistList">
+                    <label for="dvrLcenTy" th:text="#{tfcacdntmng.addLayer.content.driverLicenseType}"></label>
+                    <input type="text" id="dvrLcenTy" th:placeholder="#{tfcacdntmng.addLayer.content.driverLicenseType}" th:value="${passengerInfo?.dvrLcenTy}">
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrNm" th:text="#{tfcacdntmng.addLayer.content.pnrName}"></label>
+                    <input type="text" id="pnrNm" th:placeholder="#{tfcacdntmng.addLayer.content.pnrName}" th:value="${passengerInfo?.pnrNm}">
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrAddr" th:text="#{tfcacdntmng.addLayer.content.pnrAddr}"></label>
+                    <input type="text" id="pnrAddr" th:placeholder="#{tfcacdntmng.addLayer.content.pnrAddr}" th:value="${passengerInfo?.pnrAddr}">
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrBrth" th:text="#{tfcacdntmng.addLayer.content.pnrBrth}"></label>
+                    <input type="text" id="pnrBrth" th:placeholder="#{tfcacdntmng.addLayer.content.pnrBrth}" th:value="${passengerInfo?.pnrBrth}">
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrEmail" th:text="#{tfcacdntmng.addLayer.content.pnrEmail}"></label>
+                    <input type="text" id="pnrEmail" th:placeholder="#{tfcacdntmng.addLayer.content.pnrEmail}" th:value="${passengerInfo?.pnrEmail}">
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrPno" th:text="#{tfcacdntmng.addLayer.content.pnrPno}"></label>
+                    <input type="text" id="pnrPno" th:placeholder="#{tfcacdntmng.addLayer.content.pnrPno}" th:value="${passengerInfo?.pnrPno}">
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrDmgCd" th:text="#{tfcacdntmng.addLayer.content.pnrDmgCd}"></label>
+                     <select id="pnrDmgCd">
+                        <option value="PDC000" th:text="#{tfcacdntmng.addLayer.pnrDmgCd.PDC000}" th:selected="${passengerInfo?.pnrDmgCd == 'PDC000'}">No Injuries</option>
+                        <option value="PDC001" th:text="#{tfcacdntmng.addLayer.pnrDmgCd.PDC001}" th:selected="${passengerInfo?.pnrDmgCd == 'PDC001'}">Injury</option>
+                        <option value="PDC002" th:text="#{tfcacdntmng.addLayer.pnrDmgCd.PDC002}" th:selected="${passengerInfo?.pnrDmgCd == 'PDC002'}">Minor Injury</option>
+                        <option value="PDC003" th:text="#{tfcacdntmng.addLayer.pnrDmgCd.PDC003}" th:selected="${passengerInfo?.pnrDmgCd == 'PDC003'}">Moderate Injury</option>
+                        <option value="PDC004" th:text="#{tfcacdntmng.addLayer.pnrDmgCd.PDC004}" th:selected="${passengerInfo?.pnrDmgCd == 'PDC004'}">Fatality</option>
+                     </select>
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrDmgDesc" th:text="#{tfcacdntmng.addLayer.content.pnrDmgDesc}"></label>
+                    <input type="text" id="pnrDmgDesc" th:placeholder="#{tfcacdntmng.addLayer.content.pnrDmgDesc}" th:value="${passengerInfo?.pnrDmgDesc}">
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrDrvrRltnCd" th:text="#{tfcacdntmng.addLayer.content.pnrDrvrRltnCd}"></label>
+                     <select id="pnrDrvrRltnCd">
+                        <option value="PDR000" th:text="#{tfcacdntmng.addLayer.pnrDrvrRltnCd.PDR000}" th:selected="${passengerInfo?.pnrDrvrRltnCd == 'PDR000'}">Self</option>
+                        <option value="PDR001" th:text="#{tfcacdntmng.addLayer.pnrDrvrRltnCd.PDR001}" th:selected="${passengerInfo?.pnrDrvrRltnCd == 'PDR001'}">Family</option>
+                        <option value="PDR002" th:text="#{tfcacdntmng.addLayer.pnrDrvrRltnCd.PDR002}" th:selected="${passengerInfo?.pnrDrvrRltnCd == 'PDR002'}">Friend</option>
+                        <option value="PDR003" th:text="#{tfcacdntmng.addLayer.pnrDrvrRltnCd.PDR003}" th:selected="${passengerInfo?.pnrDrvrRltnCd == 'PDR003'}">Stranger</option>
+                     </select>
+                </div>
+                <div class="formRegistList">
+                    <label for="pnrDeadYn" th:text="#{tfcacdntmng.addLayer.content.pnrDeadYn}"></label>
+                     <select id="pnrDeadYn">
+                        <option value="N" th:text="#{tfcacdntmng.addLayer.pnrDeadN}" th:selected="${passengerInfo?.pnrDeadYn == 'N'}">No</option>
+                        <option value="Y" th:text="#{tfcacdntmng.addLayer.pnrDeadY}" th:selected="${passengerInfo?.pnrDeadYn == 'Y'}">Yes</option>
+                     </select>
+                </div>
+	 			 <div class="modalBtnWrap">
+					 <button type="button" class="modalBtn" th:if="${passengerInfo == null}" th:onclick="MozAtesPoliceApp.addAccidentPassenger('[[${partyIdx}]]','[[${passengerIdx}]]')" th:text="#{tfcacdntmng.addLayer.content.btn.add}">추가</button>
+					 <button type="button" class="modalBtn" th:if="${passengerInfo != null}" th:onclick="MozAtesPoliceApp.modifyAccidentPassenger('[[${partyIdx}]]','[[${passengerIdx}]]')" th:text="#{tfcacdntmng.addLayer.content.btn.modify}">수정</button>
+				 </div>
+			</div>	
 		</div>
 	</div>
 </html>
-

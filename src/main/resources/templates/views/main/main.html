@@ -1,0 +1,102 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="layouts/layout">
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+
+<div layout:fragment="content">
+	<div id="header">
+		<div id="header-wrap">
+			<a class="header-logo" href="#">
+				<img th:src="@{/images/logo2.png}" class="logo">
+				
+			</a>
+			<div class="header-user">
+				<a th:href="@{/myinfo/detail}">
+				  <img th:src="@{/images/user.png}" class="userIcon">
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="container">
+		<div id="registWrap">
+			<div id="registHisWrap" class="boxShadow">
+				<div id="registTitle" th:text="|${monthFullName} #{main.main.registTitle}|">
+					<span>August</span>월 단속/사고 등록 내역
+				</div>
+				<div id="registStateWrap">
+					<div class="registStateList">
+						<div th:text="#{main.main.crackdown}">Crackdown</div>
+						<div th:text="|${tfcEnfCount} #{main.main.number}|"></div>
+					</div>
+					<div class="registStateList">
+						<div th:text="#{main.main.accident}">Accident</div>
+						<div th:text="|${tfcAcdntCount} #{main.main.number}|"></div>
+					</div>
+				</div>
+			</div>
+			<div id="registAcEnfWrap">
+				<a class="registAcEnfList boxShadow" th:href="@{/search/vehicle}">
+					<div class="registAcEnfIcon">
+						<img th:src="@{/images/regist-icon01.png}" class="mainRegisImg">
+						<span th:text="#{main.main.checkDriverVehicle}">Search Driver/Vehicle</span>
+					</div>
+					<div class="regist-more">
+						<img th:src="@{/images/black-arrow.png}">
+					</div>
+				</a>
+				<a class="registAcEnfList boxShadow" th:href="@{/tfcenfmng/trafficEnfceRegPage}">
+					<div class="registAcEnfIcon" >
+						<img th:src="@{/images/regist-icon02.png}" class="mainRegisImg">
+						<span th:text="#{main.main.crackdownRegist}">Crackdown Registration</span>
+					</div>
+					
+					<div class="regist-more">
+						<img th:src="@{/images/black-arrow.png}">
+					</div>
+				</a>
+				<a class="registAcEnfList boxShadow" th:href="@{/tfcacdntmng/trafficAcdntRegPage}">
+					<div class="registAcEnfIcon">
+						<img th:src="@{/images/regist-icon03.png}" class="mainRegisImg">
+						<span th:text="#{main.main.accidentRegist}">Accident Registration</span>
+					</div>
+					
+					<div class="regist-more">
+						<img th:src="@{/images/black-arrow.png}">
+					</div>
+				</a>
+			</div>
+		</div>
+		
+		<div id="mainNotiWrap">
+			<div id="mainNotiTitle">
+				<h2 th:text="#{main.main.notice}">Notice</h2>
+				<a onclick="location.href='/notice/list'" id="noticeMore">
+					More +
+<!--					<img th:src="@{/images/more-btn.png}" >-->
+				</a>
+				
+			</div>
+			<th:block th:object="${noticeList}">
+				<div th:if="${not #object.isEmpty()}" class="mainNotiList boxShadow" 
+					th:each="noticeItm : ${noticeList}" th:onclick="moveNoticeDetail([[${noticeItm.boardIdx}]])">
+					<div class="mainNotiDate" th:text="${#dates.format(noticeItm.crDt, 'yyyy-MM-dd')}">2023.12.06</div>
+					<div class="mainNotiTitle" th:text="${noticeItm.boardTitle}">Notice Title</div>
+					<div class="mainNotiView">View <span th:text="${noticeItm.viewCnt}">8</span></div>
+<!--					<div class="mainNotiCategory" th:text="${noticeItm.viewCnt}">8</div>-->
+				</div>
+				<div th:unless="${not #object.isEmpty()}" class="mainNotiList" th:text="#{main.main.notice.message.empty}">
+					등록된 공지사항이 없습니다.
+				</div>
+			</th:block>
+			
+		</div>
+	</div>
+</div>
+</html>
+
+<script th:inline="javascript">
+	function moveNoticeDetail(boardIdx) {
+		var baseUrl = '/notice/detail/';
+		location.href = baseUrl+boardIdx;
+	}
+</script>

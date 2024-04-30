@@ -1,0 +1,1084 @@
+#sub-header-wrap span {
+	font-weight: 600;
+}
+.acdnt-ragist textarea {
+	width:100%;
+	height:150px;
+}
+#filterWrap {
+	position: fixed;
+	top:0;
+	left:0;
+	right:0;
+	z-index: 999;
+	background:rgba(0, 0, 0, 0.27);
+	width: 100%;
+	height:100%;
+	display: none;
+}
+#filterCon {
+	background: #fff;
+	position: absolute;
+	right:0;
+	bottom: 0;
+	width:100%;
+}
+#filterTitle {
+	padding: 20px;
+	text-align: center;
+}
+#filterTitle h2 {
+	font-size:18px;
+	font-weight: 600;
+}
+#filterTitle img {
+	width:15px;
+	float: right;
+}
+#filterBody {
+	padding: 20px;
+}
+.filterCheck {
+	margin-bottom:20px;
+}
+.filterCheck:last-child {
+	margin-bottom:0px;
+}
+.filterBtnWrap {
+	margin-top:8px;
+}
+.filterBtn {
+	width: auto;
+	height: auto;
+	padding:12px;
+	font-size: 14px;
+}
+.filterBtnWrap {
+	display: flex;
+	gap:8px;
+	align-items: center;
+}
+.filterBtnWrap input[type="radio"] {
+	display: none;
+}
+.filterBtnWrap input {
+	width:auto;
+	font-size:14px;
+}
+.filterSubTitle {
+	font-weight: 500;
+}
+#filterFixBtn {
+	width:100%;
+}
+#filterFixBtn button {
+	border-radius: 6px;
+}
+.filterDate {
+	border-radius: 6px;
+	position: relative;
+    padding: 12px 26px 12px 12px !important;
+    background: #F5F6FA url(/images/calendar.png) 95% / 19px no-repeat !important;
+    background-size: 16px !important;
+    font-size: 14px !important;
+} 
+.password-modify {
+	width: auto;
+	height: auto;
+	padding: 8px;
+	margin-top:8px;
+	font-size:14px;
+}
+.is-remark {
+	color:#999;
+	font-size:12px;
+	font-weight: 400;
+}
+.formRegistTitle {
+	position: relative;
+	margin-bottom:30px;
+}
+.formRegistTitle::before {
+	content: '';
+	width:20px;
+	height:2px;
+	background:#192f49 ;
+	position: absolute;
+	bottom: -10px;
+}
+.formRegistTitle h2 {
+	font-size:16px;
+	font-weight: 700;
+}
+.formRegistTitle h2 span {
+	font-weight: 600;
+}
+.form-register-list-wrap {
+	margin-top:24px;
+}
+.formRegistList label {
+	display: block;
+	font-size:14px;
+	color:#00b190;
+	font-weight: 500;
+	width:100%;
+}
+.formRegistList {
+	margin-bottom: 20px;
+	display: flex;
+	flex-wrap:wrap;
+	position: relative;
+}
+.formRegistList:last-child {
+	margin:0;
+}
+.formRegistList input,
+.formRegistList select {
+	font-size:14px;
+	margin-top:8px;
+	padding:0 10px;
+	height: 50px;
+	width:100%;
+	outline-color:#008A70;
+	border:1px solid #dbdbdb;
+	border-radius: 6px;
+	background: none;
+}
+.formRegistList select {
+	background: #fff url('/images/arrow_black.png') 98% / 10px no-repeat;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.formRegistList input::placeholder {
+	color:rgb(222, 222, 222);
+}
+.formRegistSpip {
+	width:100%;
+	display: flex;
+	gap:8px;
+}
+.formRegistSpip input {
+	width:100%;
+}
+.vehicleWrap {
+	margin-bottom:20px;
+}
+.partyClose {
+	position: absolute;
+	right:20px;
+	background: none;
+	z-index: 1;
+}
+.partyClose img {
+	width:12px;
+}
+.passengerWrap {
+	padding: 20px;
+    margin-bottom: 20px;
+    background: #F5F6FA;
+    position: relative;
+    border-radius: 6px;
+}
+.passengerInfo{
+	position: relative;
+}
+.passengerWrap h2 span {
+	font-size:18px;
+	font-weight: 600;
+}
+.passengerClose {
+	position: absolute;
+	right:0px;
+	background: none;
+}
+.passengerClose img {
+	width:10px;
+}
+.passenger-Info-Wrap {
+	margin-top:20px;
+}
+.pnrNmStr0 {
+	padding-left:13px;
+	position: relative;
+	color:#3353f9;
+}
+.pnrNmStr0::before {
+	content: '';
+    width: 4px;
+    height: 4px;
+    background: #3353f9;
+    position: absolute;
+    left: 0px;
+    top: 7px;
+    border-radius: 20px;
+}
+#accidentPartyTitle {
+	font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    position: relative;
+}
+#accidentPartyTitle span {
+	font-size: 16px;
+    font-weight: 600;
+}
+#accidentPartyTitle::before {
+	content: '';
+	width:10px;
+	height:2px;
+	position: absolute;
+	bottom: 1px;
+	
+}
+.accidentPartyConfirm { 
+	margin-top: 20px;
+}
+.accidentTarget {
+	margin-bottom: 20px; 
+}
+.accidentTarget dt {
+	padding-left: 10px;
+	position: relative;
+	font-weight: 600;
+    font-size: 16px;
+}
+.accidentTarget dt::before {
+	content: '';
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 4px;
+    height: 4px;
+    background: #192f49;
+    border-radius: 20px;
+}
+.passengerTitle {
+	margin:16px 0 10px 0;
+}
+.passengerTable {
+	margin-bottom:30px;
+	border-top:1px solid #000;
+	text-align: center;
+	width:100%;
+}
+.passengerTable thead th {
+	padding: 10px;
+	background: #F5F6FA;
+}
+.passengerTable tbody td {
+	padding: 10px;
+	border-bottom:1px solid #dbdbdb;
+}
+.accidentPartyConfirm div:last-child .passengerTable {
+	margin-bottom:0;
+}
+/**************/
+#accident-party-container {
+	margin-top:20px;
+}
+.card-check {
+	display: flex;
+	gap:8px;
+	align-items: center;
+}
+.card-check span {
+	max-width:200px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.detailLawList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    background: #F5F6FA;
+}
+.detailLawTitle {
+	width:100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.detailLawCon {
+	width:100%;
+}
+.tfcLawId {
+	color:#3353f9;
+}
+.tfcLawFineId {
+	font-weight: 500;
+}
+.tfcEnfPrice {
+	color:#339cf9;
+}
+.tfcdelete {
+	text-align: right;
+
+}
+.detailLawDelete {
+	background: none;
+	border:none;
+}
+.detailLawDelete img {
+	width:10px;
+}
+#card-list-wrap {
+	width:100%;
+}
+.card-list {
+	padding: 13px 10px;
+	margin-top:8px;
+	border-radius: 6px;
+	position: relative;
+	border:1px solid #dbdbdb;
+	display: flex !important;
+	justify-content: space-between;
+	align-items: center;
+	gap:8px;
+	color: #000;
+}
+.card-list-radio {
+	width:21px !important;
+	height:21px !important;
+	margin:0 !important;
+	position: relative;
+	-webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none;
+    border:1px solid #ccc;
+    border-radius: 100% !important;
+    outline: none;
+}
+.card-list-radio::after {
+	  border:2px solid #fff;
+      border-top: 0;
+      border-left: 0;
+      content: '';
+      left: 25%;
+      position: absolute;
+      top: 50%;
+      transform: rotate(45deg) translate(-50%, -50%);
+      width:6px;
+      height:10px;
+}
+.card-list-radio:checked {
+	 background: #008A70;
+	 border-color: #008a70;
+	 
+}
+.card-list-radio:checked ~ label {
+    border-color: red !important;
+}
+#myinfo ul {
+	padding: 20px;
+	display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+#myinfo ul li {
+	width:100%;
+}
+#myinfo ul li a {
+	display: flex;
+	gap:8px;
+	align-items: center;
+	width:100%;
+	padding: 20px;
+	background: #fff;
+	border-radius: 12px;
+}
+.search-line {
+	display: flex;
+	gap:8px;
+}
+
+/*운전자/차량조회*/
+#searchHead {
+	padding: 20px;
+	background: #fff;
+}
+#searchHead > div {
+	margin-bottom:10px;
+}
+#typeCheck-btn {
+	display: flex;
+	gap:10px;
+}
+#typeCheck-btn a {
+	width:100%;
+	padding: 18px 0;
+	text-align: center;
+	display: block;
+	border:1px solid #dbdbdb;
+	border-radius: 6px;
+}
+#typeCheck-btn a.on {
+	color: #008A70;
+    border: 1px solid #008A70;
+}
+
+
+/* 지훈님 검토 필요 */
+#typeCheck-btn label {
+	width:100%;
+	padding: 18px 0;
+	text-align: center;
+	border:1px solid #dbdbdb;
+	border-radius: 6px;
+	background-color: #fff;
+}
+#typeCheck-btn input[type="radio"]:checked + label {
+	color: #008A70;
+    border-color: #008A70;
+}
+.typeCheckRadio {
+	display: none;
+}
+/* 지훈님 검토 필요 */
+
+#cmSearch form {
+	position: relative;
+	width:100%;
+	height:50px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #F5F6FA;
+	box-sizing: border-box;
+	padding: 0 16px;
+	overflow: hidden;
+    gap: 6px;
+    border-radius: 6px;
+}
+#cmSearch input::placeholder {
+	color:#595959;
+}
+#cmButtonWrap {
+	padding:14px;
+	background: #595959;
+	position: absolute;
+	right: 0;
+}
+#searchIcon {
+	background: url('/images/search.png') 100% / 20px no-repeat;
+	width:20px;
+	height:20px;
+	border:none;
+}
+#cmSearch input {
+	width:100%;
+	box-shadow: none;
+	border:none;
+	background: none;
+}
+.formRegistContainer {
+	margin-top:20px;
+	background: #fff;
+	padding: 20px;
+}
+#registHistoryWrap > div {
+	margin-bottom:10px;
+	width:100%;
+}
+.registHistoryContainer {
+	margin-top:20px;
+	padding-bottom: 80px;
+}
+.list-search-box {
+	padding: 18px 0;
+	font-size:16px;
+}
+.registCarContainer {
+	padding-bottom: 80px;
+}
+.search-category-wrap {
+	margin-top:16px;
+	overflow-x:scroll;
+}
+.search-category-wrap ul {
+	display: flex;
+	gap:8px;
+	min-width:600px;
+}
+.search-category-wrap ul li button {
+	padding: 8px;
+	background: #F1F1F1;
+	border-radius: 6px;
+	font-size:14px;
+	font-weight: 500;
+	height: auto;
+	width: auto;
+}
+.search-category-wrap ul li button.on {
+	background:#008A70;
+	color:#fff;
+}
+#formRegistWrap {
+	display: flex;
+	flex-wrap:wrap;
+}
+.formRegistList {
+	width:100%;
+}
+#nameInputWrap {
+	width:100%;
+	display: flex;
+	gap:8px;
+}
+#nameInputWrap input {
+	width:100%;
+}
+.registDateCheck {
+	margin-top:30px;
+	width:100%;
+}
+.registDateCheck select {
+	padding: 12px;
+	font-size:16px;
+	width:100%;
+	border:1px solid #dbdbdb;
+	border-radius: 6px;
+	background: #fff url("/images/arrow_black.png") no-repeat 97% center;
+	-webkit-appearance: none;
+	appearance: none;
+	color:#000;
+}
+.registHistoryList {
+	padding:16px;
+	background: #fff;
+	border-radius: 6px;
+	display: flex;
+	flex-wrap:wrap;
+	gap:12px;
+	border:1px solid #dbdbdb;
+}
+
+
+/* 지훈님 검토 필요 */
+#searchResultWrap input[type="radio"]:checked + label {
+  border: 1px solid #008A70;
+  background: #fff24426;
+}
+/* 지훈님 검토 필요 */
+
+
+
+.historyDate {
+	color:#BEBEBE;
+}
+.historyCategory {
+	color:#00AB8B;
+}
+.historyCategory span {
+	color:#00AB8B;
+}
+.historyTitle {
+	max-width: 100%;
+	width:100%;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+}
+.crackdown-wrap {
+	margin-top:20px;
+	padding: 20px;
+	background: #fff;
+}
+.crackdown-wrap:first-of-type {
+	margin-top:0;
+}
+#gis-with-container {
+	height:calc(100vh - 71px);
+	position:relative;
+	background:#F5F6FA ;
+	overscroll-behavior: auto;
+}
+.gis-bar-wrap {
+	width:100%;
+}
+.gis-bar {
+	background: #D9D9D9;
+	width:45px;
+	height:3px;
+	margin:24px auto;	
+}
+.sub-title {
+	color:#008A70;
+}
+.camera-upload-list {
+	margin-top:8px;
+	overflow-x: auto;
+    overflow-y: clip;
+}
+.camera-upload-list ul {
+	display: flex;
+	gap:10px;
+	width: 1000px;
+}
+
+.camera-upload-list ul li {
+	width: 90px;
+	height: 90px;
+	border-radius: 8px;
+	background: #F2F2F2;
+	position:relative;
+}
+.camera-upload-list ul li:not(.camera-first-list) img {
+	width:100%;
+	height:auto;
+	position:absolute;
+	display:block;
+	top:50%;
+	transform: translateY(-50%);
+}
+.camera-first-list {
+	text-align: center;
+	line-height: 113px;
+	border:1px solid #DEDEDE;
+	background: none !important;
+}
+.camera-btn {
+	margin-top:10px;
+}
+.camera-btn p {
+	margin:24px 0 40px 0;
+	color:#767676;
+}
+.type-btn-wrap {
+	margin-top:8px;
+	display: flex;
+	gap:8px;
+}
+.acdnt-list-plus {
+	margin-top:10px;
+	display: flex;
+	flex-wrap: wrap;
+	gap:8px;
+}
+
+.check-btn {
+	margin-top:8px;
+	display: flex;
+	gap:8px;
+	flex-wrap:wrap;
+	align-items: center;
+}
+.check-btn button {
+	width:auto;
+	height: auto;
+	padding: 12px;
+}
+/*공지사항*/
+#subNoticeTopLine {
+	padding: 20px;
+	margin-bottom:20px;
+	background:#fff;
+}
+#subNoticeTopTitle {
+	margin:20px 0;
+}
+#subNoticeMainText {
+	margin:10px 0;
+	font-weight:600;
+	font-size:18px;
+}
+#noticeType {
+	width:60%;
+}
+#noticeType select {
+	border:none;
+	font-size: 14px;
+    padding: 0 20px;
+    height: 50px;
+    width: 40%;
+    outline: none;
+    border-radius: 6px;
+    background: #fff url(/images/arrow_black.png) 98% / 10px no-repeat;
+    -webkit-appearance: none;
+    appearance: none;
+}
+#noTiceListWrap {
+	border-top:2px solid #008A70;
+	display: flex;
+	flex-wrap:wrap;
+	background: #fff;
+}
+.subNoticeList {
+	padding:20px;
+	background: #fff;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width:100%;
+	border-bottom:1px solid #dfdfdf;
+}
+.subNoticeCon {
+	display: flex;
+	gap:10px;
+	flex-wrap:wrap;
+}
+.subNoticeListTitle {
+	width:100%;
+	font-weight: 600;
+}
+.subNoticeListDate {
+	width:100%;
+	color:#BEBEBE;
+	margin-right:20px;
+}
+.subNoticeWriter {
+	width:100%;
+	color:#BEBEBE;
+}
+.subNoticeListCategory {
+	padding: 4px 12px;
+    background: #008A70;
+    border-radius: 20px;
+    color: #fff;
+}
+#subNotDeTitle {
+	padding:30px 20px;
+	border-bottom:1px solid #dfdfdf;
+}
+#subNotDeTitle h2 {
+	font-size:20px;
+	font-weight: 700;
+	color:#008a70;
+}
+#wrDateWrap {
+	margin-top:20px;
+	display: flex;
+	justify-content: space-between;
+}
+.writeDv {
+	font-size:14px;
+	margin-top:10px;
+}
+#subNotDeCon {
+	padding: 30px 20px;
+}
+#subNotDeConText {
+	color:#000;
+	font-size:16px;
+	font-weight: 500;
+	line-height: 26px;
+}
+#subNotDeConWriter {
+	margin-top:20px;
+}
+.noticeList {
+	padding:16px;
+	background: #fff;
+	border-radius: 12px;
+	display: flex;
+	flex-wrap:wrap;
+	gap:12px;
+	box-shadow:0px 2px 5px 0px rgba(0, 1, 4, 0.10);
+}
+.noticeList div {
+	width:100%;
+}
+.noticeListTitle {
+	max-width: 100%;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.noticeListDate {
+	color:#BEBEBE;
+}
+.noticeListCategory {
+	color:#00AB8B;
+}
+/*공지사항 끝*/
+
+
+/*단속,사고 이력*/
+#filterBtn {
+	display: flex;
+	gap:8px;
+	border:1px solid #CCCCCC;
+	border-radius: 30px;
+	padding: 8px;
+	align-items: center;
+}
+#filterBtn i {
+	display: block;
+	width:16px;
+	height:16px;
+	background:url('/images/fillter.png') 100% / 16px no-repeat;
+}
+#HisFilter {
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #fff;
+}
+#HisDateAll {
+	font-weight: 600;
+}
+
+.HisConWrap {
+	padding-bottom: 20px;
+	background: #fff;
+}
+#HisTitle span {
+	font-size:14px;
+}
+.HisYear h2 {
+	padding: 20px;
+	font-size:18px;
+	font-weight: 600;
+	border-bottom:1px solid #dfdfdf;
+}
+.HisList {
+	padding: 20px;
+	display: flex;
+	flex-wrap:wrap;
+	gap:12px;
+	border-bottom:1px solid #dfdfdf;
+}
+.HisVio {
+	color:#016df9;
+}
+.HisCate {
+	padding: 4px 12px;
+	background:#008A70 ;
+	border-radius: 20px;
+}
+.HisCate span {
+	color: #fff;
+}
+.HisTitle {
+	width:100%;
+	font-weight: 600;
+/*	max-width:200px;*/
+/*	text-overflow: ellipsis;*/
+/*	overflow: hidden;*/
+/*	white-space: nowrap;*/
+}
+.HisTime {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width:100%;
+}
+.HisTime span {
+	color:#BEBEBE;
+}
+.HisNumber {
+	color:#BEBEBE;
+}
+#EnfWrap {
+	padding: 20px;
+}
+#enfHead {
+	display:flex;
+	flex-wrap:wrap;
+	gap:10px;
+	padding: 20px;
+	background:#fff;
+	border-radius: 12px;
+}
+#enfTitle, #enfTitle span {
+	width:100%;
+	font-size:18px;
+	font-weight: 600;
+}
+#enfHeadListWrap {
+	margin-top:20px;
+	display: flex;
+	gap:10px;
+	justify-content: space-between;
+	width:100%;
+}
+#enfHeadList {
+	display: flex;
+	gap:10px;
+}
+#enfCon {
+	padding:20px;
+	margin-top:20px;
+	border-radius: 12px;
+	background:#fff;
+	
+}
+#enfConTitle {
+	font-size:18px;
+	font-weight: 600;
+}
+.enfDetailList {
+	margin-top:20px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.enfDetailList dt {
+	padding-left: 10px;
+	position: relative;
+	font-weight: 400;
+	width:80px;
+}
+.enfDetailList dt::after {
+	content: '';
+	position: absolute;
+	top:4px;
+	left:0px;
+	width:4px;
+	height:4px;
+	background: #000;
+	border-radius: 50px;
+}
+.enfFile {
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	gap:10px;
+	background: #F5F6FA;
+	border-radius: 12px;
+}
+.download {
+	width:14px;
+}
+/*단속,사고 이력 끝*/
+
+/*내정보*/
+#MyinfoWrap {
+	margin-top:20px;
+	padding: 20px;
+	background: #fff;
+}
+.MyInfoInfoList {
+	display: flex;
+	gap:8px;
+	align-items: center;
+	margin-bottom:10px;
+	width:100%;
+}
+.MyInfoInfoList dt {
+	color: #7d7d7d;
+	width:200px;
+}
+.MyinfoTitle {
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #dfdfdf;
+}
+.MyinfoTitle h2 {
+	font-size:18px;
+	font-weight: 600;
+}
+.InfoCon {
+	font-weight: 500;
+}
+.PassModify {
+	border:none;
+	background: none;
+	color:#008A70;
+	padding: 0px;
+	font-size: 14px;
+}
+#PassModify {
+	margin-top:20px;
+	padding: 20px;
+	background: #fff;
+}
+#myInfoBtnWrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#myInfoBtn {
+	display: flex;
+	align-items: center;
+	gap:8px;
+}
+.optionImg {
+	width:20px;
+}
+.modify {
+	top:35px !important;
+}
+.addImg {
+	margin-right:8px;
+	display: inline-block;
+	vertical-align: middle;
+	width:23px;
+}
+.formDetailContent {
+	margin-top:10px;
+}
+.DetailSubNumber {
+	margin-top:10px;
+}
+.formDetailPassenger {
+	padding: 20px;
+    background: #F5F6FA;
+    border-radius: 20px;
+}
+.accidentTargetList {
+	padding:20px;
+	background: #F5F6FA;
+	border-radius: 20px;
+}
+.detailDownConList {
+	margin-top:8px;
+	width:100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom:1px solid #dbdbdb;
+}
+.detailDownCon {
+	display: flex;
+	align-items: center;
+	gap:16px;
+}
+.downImgWrap {
+	width:40px;
+	height:40px;
+	overflow: hidden;
+}
+.downImgWrap img {
+	width:100%;
+}
+.downBtn {
+	 border: none;
+    font-weight: 600;
+    color: #008A70;
+    background: none;
+}
+.approach {
+	text-align: center;
+}
+.approach h2 {
+	margin-top:10px;
+	font-size:20px;
+	font-weight: 600;
+}
+.appImg {
+	width:40px;
+}
+.approacBtn {
+	margin-top:20px;
+	display: flex;
+	justify-content: center;
+}
+.approacBtn a {
+	padding: 10px;
+    background: #008A70;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+}
+

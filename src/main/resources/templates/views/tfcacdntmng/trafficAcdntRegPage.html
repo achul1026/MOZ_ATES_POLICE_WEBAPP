@@ -1,491 +1,575 @@
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="layouts/layout">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="layouts/sub_layout"
+	  th:with="headerTitle=#{tfcacdntmng.trafficAcdntRegPage.contentAccidentRegistraion}">
+	<div layout:fragment="content" id="gis-with-container">
+		<div id="map" class="map">
+		</div>
+	    <div id="gisinfo-container" class="sub-container">
+			<div class="alert-div">
+				<p class="alert-box alert-warning mb30" th:text="#{common.map.location.help}"></p>
+			</div>
+            <form id="trafficAcdntRegForm" name="trafficAcdntRegForm" method="post">
+        		<input type="hidden" id="lng" name="lng" value="">
+        		<input type="hidden" id="lat" name="lat" value="">
+				<div class="crackdown-wrap">
+					<div class="formRegistTitle mb30" onclick="accidentDev()">
+						<h2 th:text="#{tfcacdntmng.trafficAcdntRegPage.contentAccidentInfo}">Accident Information</h2>
+					</div>
+					<div class="formRegistList">
+						<label class="control-label" for="acdntDt" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentDate}">Accident Date/Time</label>
+						<input type="datetime-local" id="acdntDt" name="acdntDt" th:placeholder="#{tfcacdntmng.trafficAcdntAllInfo.accidentDate}" class="">
+					</div>
+					<div class="formRegistList">
+						<label class="control-label" for="acdntTyCd" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType}">Accident Type</label>
+						<select id="acdntTyCd" name="acdntTyCd">
+							<option value="" th:text="#{tfcacdntmng.trafficAcdntRegPage.select}">select</option>
+							<option value="ACT001" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT001}">차대사람 횡단중</option>
+							<option value="ACT002" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT002}">차대사람 차도통행중</option>
+							<option value="ACT003" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT003}">차대사람 길가장자리구역통행중</option>
+							<option value="ACT004" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT004}">차대사람 보도통행중</option>
+							<option value="ACT005" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT005}">차대차 정면충돌</option>
+							<option value="ACT006" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT006}">차대차 측면충돌</option>
+							<option value="ACT007" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT007}">차대차 후진중충돌</option>
+							<option value="ACT008" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT008}">차대차 충돌</option>
+						</select>
+					</div>
+					<div class="formRegistList">
+						<label class="" for="roadAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}">Road Address</label>
+						<input type="text" id="roadAddr" autocomplete="off" list="loadedRoadAddr" name="roadAddr" required title="Input or select street name." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}" class="">
+						<datalist id="loadedRoadAddr">
+						</datalist>
+					</div>
+					<div class="formRegistList">
+						<label class="control-label" for="acdntChildYn" th:text="#{tfcacdntmng.trafficAcdntRegPage.childAccident}">Child Accident</label>
+						<select id="acdntChildYn" name="acdntChildYn">
+							<option value="Y" th:text="#{tfcacdntmng.trafficAcdntRegPage.yes}"></option>
+							<option value="N" selected th:text="#{tfcacdntmng.trafficAcdntRegPage.no}"> </option>
+						</select>
+					</div>
+					<div class="formRegistList">
+						<label for="acdntTyDtls" th:text="#{tfcacdntmng.trafficAcdntRegPage.acdntTyDtls}">Accident Details</label>
+						<input type="text" id="acdntTyDtls" name="acdntTyDtls" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.placeholder.acdntTyDtls}">
+					</div>
+				</div>
+				<div id="accident-party-container">
 
-	<div layout:fragment="content">
-	    <div class="content">
-	        <div class="container">
-	            <div class="row">
-	                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	                    <div class="row">
-	                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		                        <h1 th:text="#{tfcacdntmng.trafficAcdntRegPage.title}">Traffic Accident Register</h1>
-		                    	<div class="mb10">
-		                    		<span class="btn btn-default" id="addTrafficAcdnt" th:text="#{tfcacdntmng.trafficAcdntRegPage.addTrafficAccidentButton}">Add Traffic Accident</span>
-		                    	</div>
-		                    	<div class="traffic-acdnt-span-group">
-		                    		<span class="btn btn-default traffic-acdnt-span mb5 mr5" onclick="fnTrafficAcndtInfoBtn('1')" th:text="#{tfcacdntmng.trafficAcdntRegPage.informationButton}">Information</span>
-		                    	</div>
-		                        <form id="trafficAcdntRegForm" name="trafficAcdntRegForm" method="post">
-                            		<input type="hidden" id="trafficAcdntSize" name="trafficAcdntSize" value="">
-                            		<input type="hidden" id="lng" name="lng" value="">
-                            		<input type="hidden" id="lat" name="lat" value="">
-		                            <div class="row traffic-acdnt-row">
-		                            	<div class="traffic-acdnt-div" id="trafficAcdntDiv1">
-				                        	<input type="hidden" id="pymntOprtr1" name="pymntOprtr1">
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="dvrLcenId1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentDriverLicenseId}">Driver license ID</label>
-			                                    <input type="text" id="dvrLcenId1" name="dvrLcenId1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentDriverLicenseId}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="tfcLawId1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentLaws}">Laws</label>
-			                                    <select class="form-control" id="tfcLawId1" name="tfcLawId1">
-			                                    	<option th:text="#{tfcacdntmng.trafficAcdntRegPage.contentSelectBox1}">select</option>
-			                                    	<option th:each="trafficLawList : ${trafficLawList}" th:value="${trafficLawList.tfcLawId}" th:text="${trafficLawList.lawNm}"></option>
-			                                    </select>
-			                                </div>
-		                                	<div class="col-md-6">
-			                                    <label class="control-label" for="pymntPrice1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentPaymentPrice}">Payment Price</label>
-			                                    <input type="text" id="pymntPrice1" name="pymntPrice1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentPaymentPrice}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="placePymntId1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentPlacePayment}">Place Payment</label>
-			                                    <select class="form-control" id="placePymntId1" name="placePymntId1" onchange="fnGetPymntOprtr('1');">
-			                                    	<option th:text="#{tfcacdntmng.trafficAcdntRegPage.contentSelectBox2}">select</option>
-			                                    	<option th:each="placePaymentList : ${placePaymentList}" th:value="${placePaymentList.placePymntId}" th:data-oprtr="${placePaymentList.placePymntRprsvNm}" th:text="${placePaymentList.placePymntNm}"></option>
-			                                    </select>
-			                                </div>
-											<div class="col-md-6">
-			                                    <label class="control-label" for="vioNm1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentName}">Name</label>
-			                                    <input type="text" id="vioNm1" name="vioNm1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentName}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="vioBrth1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentBirthDay}">Birthday</label>
-			                                    <input type="text" id="vioBrth1" name="vioBrth1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentBirthDay}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="vioEmail1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentEmail}">Email</label>
-			                                    <input type="text" id="vioEmail1" name="vioEmail1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentEmail}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="vioAddr1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentAddress}">Address</label>
-			                                    <input type="text" id="vioAddr1" name="vioAddr1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentAddress}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="vioPno1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentPhone}">Phone</label>
-			                                    <input type="text" id="vioPno1" name="vioPno1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentPhone}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="dvrLcenTy1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentLicenseType}">License Type</label>
-			                                    <input type="text" id="dvrLcenTy1" name="dvrLcenTy1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentLicenseType}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="roadAddr1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentRoadAddress}">Road Address</label>
-			                                    <input type="text" id="roadAddr1" name="roadAddr1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentRoadAddress}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="roadLn1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentRoadLane}">Road Lane</label>
-			                                    <input type="text" id="roadLn1" name="roadLn1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentRoadLane}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="vhRegNo1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentVehicleRegistrationNumber}">Vehicle Registration Number</label>
-			                                    <input type="text" id="vhRegNo1" name="vhRegNo1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentVehicleRegistrationNumber}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" for="vhTy1" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentVehicleType}">Vehicle Type</label>
-			                                    <input type="text" id="vhTy1" name="vhTy1" th:placeholder="#{tfcacdntmng.trafficAcdntRegPage.contentVehicleType}" class="form-control">
-			                                </div>
-			                                <div class="col-md-6">
-			                                    <label class="control-label" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentSpeedInfo}">Speed Info</label>
-			                                    <div>
-				                                    <input type="text" id="spdLmt1" name="spdLmt1" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentSpeedLimit}" class="form-control">
-				                                    <input type="text" id="vioSpd1" name="vioSpd1" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentViolationSpeed}" class="form-control" onkeyup="fnCountSpd('1');">
-				                                    <input type="text" id="overSpd1" name="overSpd1" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentOverSpeed}" class="form-control">
-			                                    </div>
-			                                </div>
-			                                <div class="col-md-6 mb40">
-			                                	<span class="btn btn-default" onclick="fnAddPassenger('1')" th:text="#{tfcacdntmng.trafficAcdntRegPage.addPassengersButton}">Add Passengers</span>
-			                                </div>
-			                                <div class="passengers-div" id="passengersDiv1">
-			                                	<input type="hidden" id="pnrSize1" name="pnrSize1" value="0">
-			                                </div>
-		                            	</div>
-	                            	</div>
-                                    <div class="form-group">
-                                    	<input type="button" class="btn btn-default" id="fnTrafficAcdntRegBtn" th:value="#{tfcacdntmng.trafficAcdntRegPage.registerButton}">
-                                    </div>
-	                        	</form>
-                               	<th:block th:replace="views/tfcacdntmng/trafficAcdntPasnrAddLayer :: trafficAcdntPasnrAddLayer"></th:block>
-	                        </div>
-	                    </div>
-	                </div>
+				</div>
+				<div id="modal-passenger-wrap">
+
+				</div>
+				 <div class="formRegistList list-plus">
+	                <button type="button" class="subBtn" th:text="#{tfcacdntmng.trafficAcdntRegPage.addDriver}" onclick="addAccidentPartyWrap()">사고자 추가 입력</button>
 	            </div>
-	        </div>
-	    </div>
+				<div class="crackdown-wrap">
+					<div class="formRegistTitle mb30">
+						<h2 th:text="#{tfcenfmng.trafficEnfceFileUpload.fileUplaod}">첨부파일 업로드</h2>
+					</div>
+					<div class="formRegistList">
+						<label th:text="#{tfcenfmng.trafficEnfceFileUpload.imgVideo}">사진/동영상</label>
+						<div class="camera-upload-list">
+							<ul id="img-file-list-wrapper">
+								<li class="img-file-list camera-first-list active" onclick="openResource()">
+									<img th:src="@{/images/picture-plus.png}">
+								</li>
+							</ul>
+						</div>
+						<div class="camera-btn">
+							<input id="targetFileInput" type="file" style="display:none;" onchange="fileManager.addFile(this, fileManager)">
+							<p>※ You can skip without entering information.</p>
+						</div>
+					</div>
+				</div>
+                <div class="btn-wrap is-fixed">
+                     <button type="button" id="modalOn" class="mainFixBtn default-btn disabled-radius" th:text="#{tfcacdntmng.addLayer.content.btn.regist}"></button>
+                </div>
+    	</form>
+    	<div id="modal-accident-info" class="modal">
+		<div class="modalContainer" style="max-height:none;">
+			<div class="modalHead">
+				<h2 class="modalTitle" th:text="#{tfcacdntmng.trafficAcdntRegPage.modal.title}">단속등록 확인</h2>
+				<img src="/images/close.png" id="modalOff" class="modalClose">
+			</div>
+			 <div class="modalBody">
+				  <div id="modalRegistListDiv" class="modalRegistList">
+					  <div id="accidentConfirmInfo">
+					  </div>
+			 	 </div>
+			 </div>
+			 <div class="modalBtnWrap">
+				 <button type="button" id="infoCheckBtn" class="modalSubmitBtn" onclick="accidentRegisterSubmit(this)" th:text="#{tfcacdntmng.addLayer.content.btn.submit}">Submit</button>
+			 </div>
+		</div>
+	</div>
 	</div>
 </html>
 <script type="text/javascript" th:inline="javascript">
 
-	var message = /*[[${resultMsg}]]*/;
-    if(message != null && message != ' '){
-		swal({
-			  title: /*[[${resultMsgType}]]*/,
-			  text: message,
-			  icon: /*[[${resultMsgType}]]*/,
-			  button: "Confirm",
-			});
+	var errorMsg = /*[[${resultMsg}]]*/;
+    if(errorMsg != null && errorMsg != ' '){
+		alert(errorMsg);
 	}
-
- 	// Geolocation API에 액세스할 수 있는지를 확인
-	function handlePermission() {
-		navigator.permissions.query({name:'geolocation'}).then(function(result) {
-			if (result.state == 'granted') {
-				getGelocation();
-			} else if (result.state == 'prompt') {
-				report(result.state);
-				getGelocation();
-			} else if (result.state == 'denied') {
-				report(result.state);
-			}
-			result.addEventListener('change', function() {
-				report(result.state);
-			});
+	
+	$(document).ready(function(){
+		modalToggle();
+		addAccidentPartyWrap();
+	});
+	
+	function addAccidentPartyWrap(){
+		MozAtesPoliceApp.addAccidentPartyV2({
+				partyTitle: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentParty}]]*/,
+				driverLicenseId: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentDriverLicenseId}]]*/,
+				accidentTarget: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentTarget}]]*/,
+				accidentTargetCd1: /*[[#{tfcacdntmng.trafficAcdntRegPage.accidentTargetCd.ATT000}]]*/,
+				accidentTargetCd2: /*[[#{tfcacdntmng.trafficAcdntRegPage.accidentTargetCd.ATT001}]]*/,
+				vehicleNo: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentVehicleNo}]]*/,
+				vehicleType: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentVehicleType}]]*/,
+				driveYn: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentDvStatus}]]*/,
+				driveY: /*[[#{tfcacdntmng.trafficAcdntRegPage.drivingStatusY}]]*/,
+				driveN: /*[[#{tfcacdntmng.trafficAcdntRegPage.drivingStatusN}]]*/,
+				accidentDamage: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentDamage}]]*/,
+				accidentDamageCd1: /*[[#{tfcacdntmng.trafficAcdntRegPage.accidentDamageCd.ADC000}]]*/,
+				accidentDamageCd2: /*[[#{tfcacdntmng.trafficAcdntRegPage.accidentDamageCd.ADC001}]]*/,
+				accidentDamageCd3: /*[[#{tfcacdntmng.trafficAcdntRegPage.accidentDamageCd.ADC002}]]*/,
+				accidentDamageCd4: /*[[#{tfcacdntmng.trafficAcdntRegPage.accidentDamageCd.ADC003}]]*/,
+				targetPhone: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentTargetPhone}]]*/,
+				targetBirth: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentTargetBirthday}]]*/,
+				targetName: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentTargetName}]]*/,
+				deadYn: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentDeathStatus}]]*/,
+				deadY: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentDeath}]]*/,
+				deadN: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentNotDeath}]]*/,
+				passenger: /*[[#{tfcacdntmng.trafficAcdntRegPage.contentPassenger}]]*/,
+				addPassenger: /*[[#{tfcacdntmng.trafficAcdntRegPage.addPassenger}]]*/
 		});
 	}
-	function report(state) {
-		console.log('Permission ' + state);
-	}
-	handlePermission();
-	// Geolocation API에 액세스할 수 있는지를 확인
-	function getGelocation(){
-		if (navigator.geolocation) {
-			//위치 정보를 얻기
-			navigator.geolocation.getCurrentPosition (function(pos) {
-				if(typeof pos == "undefined") {
-					alert("Not support geolocation.");
-					return
-				}
-				$("#lat").val(pos.coords.latitude);     // 위도
-				$("#lng").val(pos.coords.longitude); // 경도
-			});
-		} else {
-			alert("Not support geolocation.")
+
+	
+    function openResource(){
+        let input = document.getElementById('targetFileInput');
+        input.accept = 'image/*'
+        input.removeAttribute('capture');
+        input.click();
+    }
+    
+    function openCamera() {
+        let input = document.getElementById('targetFileInput');
+        input.accept = 'image/*'
+        input.capture = 'camera'
+        input.click();
+    }
+
+	const fileManager = new MozAtesPoliceApp.fileManager();
+
+	function accidentRegisterSubmit(_this) {
+		if(_this.classList != null && !_this.classList.contains('on')){
+			return;
 		}
-	}
-	getGelocation()
-
-    function fnCountSpd(idx){
-    	var spdLmt = $("#spdLmt"+idx).val();
-		spdLmt = Number(spdLmt);
-
-		var vioSpd = $("#vioSpd"+idx).val();
-			vioSpd = Number(vioSpd);
-
-		var overSpd = spdLmt - vioSpd;
-		if(spdLmt < vioSpd){
-			overSpd = (overSpd * -1);
-		}else{
-			overSpd = 0;
+		
+		document.getElementById("lat").value = map.getLat();
+		document.getElementById("lng").value = map.getLng();
+		
+		if(!document.trafficAcdntRegForm.checkValidity()) {
+			document.trafficAcdntRegForm.reportValidity();
+			return;
 		}
-
-		$("#overSpd"+idx).val(overSpd);
-	}
-
-    $("#fnTrafficAcdntRegBtn").on("click",function(){
-
-    	var trafficAcdntDivSize = $(".traffic-acdnt-div").size();
-    	$("#trafficAcdntSize").val(trafficAcdntDivSize);
-
-		var form = document.getElementById("trafficAcdntRegForm");
-    	form.action="/tfcacdntmng/trafficAcdntReg";
-    	form.method="POST";
-    	form.submit();
-    })
-
-    function fnGetPymntOprtr(idx){
-    	var oprtr = $("#placePymntId"+idx+" option:selected").data("oprtr");
-    	$("#pymntOprtr"+idx).val(oprtr);
-	}
-
-	function fnAddPassenger(idx){
-		$("#modalIdx").val(idx);
-    	$('#trafficAcdntPasnrAddLayer').modal('show');
-	}
- 	// 모달 안의 취소 버튼에 이벤트를 건다.
-    $('#closeModalBtn').on('click', function(){
-    	$('#trafficAcdntPasnrAddLayer').modal('hide');
-    });
-
- 	$("input[name='dvYn']").on("click", function(){
- 		if($(this).val() == "N"){
- 			$(".driver-lcen-ty").css("display","none");
- 		}else{
- 			$(".driver-lcen-ty").css("display","block");
- 		}
- 	})
-
- 	$("#addTrafficAcdntPnrBtn").on("click",function(){
-
-		var idx = 0;
- 		var modalIdx = $("#modalIdx").val();
- 		var passengersSize = $("#passengersDiv"+modalIdx+" > div[id^='passengersAddDiv']").size()
- 		for(var i = 1; i < passengersSize+1; i++){
- 			idx = i;
- 		}
-
- 		$("div[id^='passengersAddDiv']").size();
- 		var pnrNm = $("#pnrNm").val();
- 		var pnrAddr = $("#pnrAddr").val();
- 		var pnrPno = $("#pnrPno").val();
- 		var pnrEmail = $("#pnrEmail").val();
- 		var pnrBrth = $("#pnrBrth").val();
- 		var dvYn = $("input:radio[name='dvYn']:checked").val();
- 		var dvrLcenTy = $("#dvrLcenTy").val();
-
- 		var html = "";
- 		var pnrSizeChk = $("#pnrSize"+modalIdx).size() ? true : false;
-
-		$("#pnrSize"+modalIdx).val((idx+1));
-
- 		html += '<div class="passengers-add-div" id="passengersAddDiv'+modalIdx+'_'+(idx+1)+'">'+
-					'<input type="hidden" id="pnrNm'+modalIdx+'_'+(idx+1)+'" name="pnrNm'+modalIdx+'_'+(idx+1)+'" value="'+pnrNm+'" />'+
-					'<input type="hidden" id="pnrBrth'+modalIdx+'_'+(idx+1)+'" name="pnrBrth'+modalIdx+'_'+(idx+1)+'" value="'+pnrBrth+'" />'+
-					'<input type="hidden" id="pnrAddr'+modalIdx+'_'+(idx+1)+'" name="pnrAddr'+modalIdx+'_'+(idx+1)+'" value="'+pnrAddr+'" />'+
-					'<input type="hidden" id="pnrPno'+modalIdx+'_'+(idx+1)+'" name="pnrPno'+modalIdx+'_'+(idx+1)+'" value="'+pnrPno+'" />'+
-					'<input type="hidden" id="pnrEmail'+modalIdx+'_'+(idx+1)+'" name="pnrEmail'+modalIdx+'_'+(idx+1)+'" value="'+pnrEmail+'" />'+
-					'<input type="hidden" id="dvYn'+modalIdx+'_'+(idx+1)+'" name="dvYn'+modalIdx+'_'+(idx+1)+'" value="'+dvYn+'" />'+
-					'<input type="hidden" id="dvrLcenTy'+modalIdx+'_'+(idx+1)+'" name="dvrLcenTy'+modalIdx+'_'+(idx+1)+'" value="'+dvrLcenTy+'" />'+
-	 				'<h4>Passengers('+(idx+1)+')</h4>'+
-	 				'<div>'+
-						'<span class="passengers-add-span">'+(idx+1)+'</span>'+
-						'<span class="passengers-add-span">'+pnrNm+'</span>'+
-						'<span class="passengers-add-span">'+pnrPno+'</span>'+
-					'</div>'+
-				'</div>';
-
- 		$("#passengersDiv"+modalIdx).append(html);
-
-		pasnrAddLayerInit();
-		$('#trafficAcdntPasnrAddLayer').modal('hide');
- 	})
-
- 	function pasnrAddLayerInit(){
- 		$("#pnrDvrLcenId").val("");
- 		$("#pnrNm").val("");
- 		$("#pnrAddr").val("");
- 		$("#pnrBrth").val("");
- 		$("#pnrPno").val("");
- 		$("#pnrEmail").val("");
- 		$("input[name='dvYn']:radio[value='Y']").prop("checked",true);
- 		$(".driver-lcen-ty").css("display","block");
- 		$("#dvrLcenTy").val("");
- 	}
-
- 	$("#addTrafficAcdnt").on("click",function(){
-
- 		var trafficAcdntDivSize = $(".traffic-acdnt-div").size();
- 		for(var i = 1; i < trafficAcdntDivSize+1; i++){
- 			if(idx == i){
- 				$("#trafficAcdntDiv"+i).css("display","block");
- 			}else{
- 				$("#trafficAcdntDiv"+i).css("display","none");
- 			}
- 		}
-
- 		var idx = $(".traffic-acdnt-span").size()
- 		var infoButtonPrp = [[#{tfcacdntmng.trafficAcdntRegPage.informationButton}]];
- 		$(".traffic-acdnt-span-group").append(
- 				'<div class="traffic-acdnt-span-div'+(idx+1)+'">'+
-	 				'<span class="btn btn-default traffic-acdnt-span mb5" onclick="fnTrafficAcndtInfoBtn('+(idx+1)+')">'+infoButtonPrp+(idx+1)+'</span>'+
-	 				'<span class="btn btn-default mb5 mr5" onclick="fnRemoveTrafficAcndtBtn('+(idx+1)+')">×</span>'+
- 				'</div>'
- 			);
-
-		var html = "";
-		var dvrLcenIdPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentDriverLicenseId}]];
-		var lawsPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentLaws}]];
-		var selectPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentSelectBox1}]];
-		html += '<div class="traffic-acdnt-div" id="trafficAcdntDiv'+(idx+1)+'">'+
-					'<input type="hidden" id="pymntOprtr'+(idx+1)+'" name="pymntOprtr">'+
-						'<div class="col-md-6">'+
-			                '<label class="control-label" for="dvrLcenId'+(idx+1)+'">'+dvrLcenIdPrp+'</label>'+
-			                '<input type="text" id="dvrLcenId'+(idx+1)+'" name="dvrLcenId'+(idx+1)+'" placeholder="'+dvrLcenIdPrp+'" class="form-control">'+
-			            '</div>'+
-			            '<div class="col-md-6">'+
-			                '<label class="control-label" for="tfcLawId'+(idx+1)+'">'+lawsPrp+'</label>'+
-			                '<select class="form-control" id="tfcLawId'+(idx+1)+'" name="tfcLawId'+(idx+1)+'">'+
-			                	'<option>'+selectPrp+'</option>';
-	                		var trafficLawList = [[${trafficLawList}]];
-	                		trafficLawList.forEach(function(item){
-		html+=          		'<option value="'+item.tfcLawId+'">'+item.lawNm+'</option>';
-	              			})
-	              			var paymentPricePrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentPaymentPrice}]];
-	                		var placePaymentPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentPlacePayment}]];
-	                		var selectPrp2 = [[#{tfcacdntmng.trafficAcdntRegPage.contentSelectBox2}]];
-	    html+=				'</select>'+
-				        '</div>'+
-			        	'<div class="col-md-6">'+
-							'<label class="control-label" for="pymntPrice'+(idx+1)+'">'+paymentPricePrp+'</label>'+
-				            '<input type="text" id="pymntPrice'+(idx+1)+'" name="pymntPrice'+(idx+1)+'" placeholder="'+paymentPricePrp+'" class="form-control">'+
-			        	'</div>'+
-			        	'<div class="col-md-6">'+
-			            	'<label class="control-label" for="placePymntId'+(idx+1)+'">'+placePaymentPrp+'</label>'+
-			            	'<select class="form-control" id="placePymntId'+(idx+1)+'" name="placePymntId'+(idx+1)+'" onchange="fnGetPymntOprtr('+(idx+1)+');">'+
-			             		'<option>'+selectPrp2+'</option>';
-			             		var placePaymentList = [[${placePaymentList}]];
-			             		placePaymentList.forEach(function(item){
-		html+=          		'<option value="'+item.placePymntId+'" data-oprtr="'+item.placePymntRprsvNm+'" >'+item.placePymntNm+'</option>';
-		              			})
-		              			var namePrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentName}]];
-			             		var birthdayPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentBirthDay}]];
-			             		var emailPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentEmail}]];
-			             		var addressPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentAddress}]];
-			             		var phonePrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentPhone}]];
-			             		var licenseTypePrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentLicenseType}]];
-			             		var roadAddressPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentRoadAddress}]];
-			             		var roadLanePrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentRoadLane}]];
-			             		var vclRegNumPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentVehicleRegistrationNumber}]];
-			             		var vehicleTypePrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentVehicleType}]];
-			             		var speedInfoPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentSpeedInfo}]];
-			             		var passButtonPrp = [[#{tfcacdntmng.trafficAcdntRegPage.addPassengersButton}]];
-			             		var speedLimitPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentSpeedLimit}]];
-			             		var vioSpeedPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentViolationSpeed}]];
-			             		var overSpeedPrp = [[#{tfcacdntmng.trafficAcdntRegPage.contentOverSpeed}]];
-		html+=          	'</select>'+
-				        '</div>'+
-						'<div class="col-md-6">'+
-				            '<label class="control-label" for="vioNm'+(idx+1)+'">'+namePrp+'</label>'+
-				            '<input type="text" id="vioNm'+(idx+1)+'" name="vioNm'+(idx+1)+'" placeholder="'+namePrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="vioBrth'+(idx+1)+'">'+birthdayPrp+'</label>'+
-				            '<input type="text" id="vioBrth'+(idx+1)+'" name="vioBrth'+(idx+1)+'" placeholder="'+birthdayPrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="vioEmail'+(idx+1)+'">'+emailPrp+'</label>'+
-				            '<input type="text" id="vioEmail'+(idx+1)+'" name="vioEmail'+(idx+1)+'" placeholder="'+emailPrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="vioAddr'+(idx+1)+'">'+addressPrp+'</label>'+
-				            '<input type="text" id="vioAddr'+(idx+1)+'" name="vioAddr'+(idx+1)+'" placeholder="'+addressPrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="vioPno'+(idx+1)+'">'+phonePrp+'</label>'+
-				            '<input type="text" id="vioPno'+(idx+1)+'" name="vioPno'+(idx+1)+'" placeholder="'+phonePrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="dvrLcenTy'+(idx+1)+'">'+licenseTypePrp+' </label>'+
-				            '<input type="text" id="dvrLcenTy'+(idx+1)+'" name="dvrLcenTy'+(idx+1)+'" placeholder="'+licenseTypePrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="roadAddr'+(idx+1)+'">'+roadAddressPrp+'</label>'+
-				            '<input type="text" id="roadAddr'+(idx+1)+'" name="roadAddr'+(idx+1)+'" placeholder="'+roadAddressPrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="roadLn'+(idx+1)+'">'+roadLanePrp+'</label>'+
-				            '<input type="text" id="roadLn'+(idx+1)+'" name="roadLn'+(idx+1)+'" placeholder="'+roadLanePrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="vhRegNo'+(idx+1)+'">'+vclRegNumPrp+'</label>'+
-				            '<input type="text" id="vhRegNo'+(idx+1)+'" name="vhRegNo'+(idx+1)+'" placeholder="'+vclRegNumPrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label" for="vhTy'+(idx+1)+'">'+vehicleTypePrp+'</label>'+
-				            '<input type="text" id="vhTy'+(idx+1)+'" name="vhTy'+(idx+1)+'" placeholder="'+vehicleTypePrp+'" class="form-control">'+
-				        '</div>'+
-				        '<div class="col-md-6">'+
-				            '<label class="control-label">'+speedInfoPrp+'</label>'+
-
-	                        '<div>'+
-                            	'<input type="text" id="spdLmt'+(idx+1)+'" name="spdLmt'+(idx+1)+'" placeholder="'+speedLimitPrp+'" class="form-control">'+
-                            	'<input type="text" id="vioSpd'+(idx+1)+'" name="vioSpd'+(idx+1)+'" placeholder="'+vioSpeedPrp+'" class="form-control" onkeyup="fnCountSpd('+(idx+1)+');">'+
-                            	'<input type="text" id="overSpd'+(idx+1)+'" name="overSpd'+(idx+1)+'" placeholder="'+overSpeedPrp+'" " class="form-control">'+
-                        	'</div>'+
-				        '</div>'+
-				        '<div class="col-md-6 mb40">'+
-				        	'<span class="btn btn-default" onclick="fnAddPassenger('+(idx+1)+')">'+passButtonPrp+'</span>'+
-				        '</div>'+
-				        '<div class="passengers-div" id="passengersDiv'+(idx+1)+'">'+
-				        '<input type="hidden" id="pnrSize'+(idx+1)+'" name="pnrSize'+(idx+1)+'" value="0" />'+
-				        '</div>'+
-				   	'</div>';
- 		$(".traffic-acdnt-row").append(html);
-
- 	})
-
- 	function fnTrafficAcndtInfoBtn(idx){
- 		var trafficAcdntDivSize = $(".traffic-acdnt-div").size();
- 		for(var i = 1; i < trafficAcdntDivSize+1; i++){
- 			if(idx == i){
- 				$("#trafficAcdntDiv"+i).css("display","block");
- 			}else{
- 				$("#trafficAcdntDiv"+i).css("display","none");
- 			}
- 		}
- 	}
-
- 	function fnRemoveTrafficAcndtBtn(idx){
- 		$(".traffic-acdnt-span-div"+idx).remove();
- 		$("#trafficAcdntDiv"+idx).remove();
- 		$("#trafficAcdntDiv1").css("display","block");
- 	}
-
-	function syntaxHighlight(json) {
-		if (typeof json != 'string') {
-			json = JSON.stringify(json, undefined, 2);
-		}
-		json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-			var cls = 'number';
-			if (/^"/.test(match)) {
-				if (/:$/.test(match)) {
-					cls = 'key';
-				} else {
-					cls = 'string';
-				}
-			} else if (/true|false/.test(match)) {
-				cls = 'boolean';
-			} else if (/null/.test(match)) {
-				cls = 'null';
+		
+		const formData = new FormData(document.trafficAcdntRegForm);
+		
+		const fileList = fileManager.getFileList();
+		for(const file of fileList) {
+			if (!file.is_delete) {
+				formData.append("files", file);
 			}
-			return '<span class="' + cls + '">' + match + '</span>';
-		});
-	}
-	function uploadFile() {
-		var formData = new FormData();
-		formData.append("file", $("#camera").get(0).files[0]);
-		$.ajax({
-			type: 'POST',
-			url: '/api/get_plate_number',
-			data: formData,
-			dataType: 'json',
-			contentType: false,
-			cache: false,
-			processData:false,
-			beforeSend: function(){
-				$("#loading").show()
-			},
-			success: function(response){ //console.log(response);
-				$("#result pre").html(syntaxHighlight(response))
-				if(response.success) {
-					$("#plate").val(response.plate_number)
-					$("#vioNm").val(response.driver_info.forename + " "+ response.driver_info.surname);
-					$("#vioBrth").val(response.driver_info.birth);
-					$("#vioEmail").val(response.driver_info.email);
-					$("#vioAddr").val(response.driver_info.address);
-					$("#vioPno").val(response.driver_info.phone);
-					$("#dvrLcenTy").val(response.driver_info.dvrLcenTy);
-					$("#vhRegNo").val(response.vehicle_info.vehicle_registration_number)
-					$("#vhTy").val(response.vehicle_info.vehicle_type)
-				}
-			},
-			complete: function(){
-				$("#loading").hide()
+		}
+		
+		let accidentPartyList = document.querySelectorAll('.accident-party-wrap');
+
+		let accidentPartyInfoList = new Array();
+		
+		for(var i = 0; i < accidentPartyList.length; i++){
+			let mozTfcAcdntTrgtInfo = new Object();
+			let acdntTrgtCd = document.getElementById('accidentTarget_'+i).value;
+	
+			mozTfcAcdntTrgtInfo.acdntTrgtCd = acdntTrgtCd;
+			
+			if(acdntTrgtCd == 'ATT000'){
+				let dvrLcenId = document.getElementById('driverLicenseId_'+i).value;
+				let vhRegNo = document.getElementById('vhRegNo_'+i).value;
+				let vhTy = document.getElementById('vhTy_'+i).value;
+				let dvYn = document.getElementById('dvYn_'+i).value;
+				
+				mozTfcAcdntTrgtInfo.dvrLcenId = dvrLcenId;
+				mozTfcAcdntTrgtInfo.vhRegNo = vhRegNo;
+				mozTfcAcdntTrgtInfo.vhTy = vhTy;
+				mozTfcAcdntTrgtInfo.dvYn = dvYn;
 			}
+			let acdntDmgCd = document.getElementById('acdntDmgCd_'+i).value;
+			let acdntTrgtPno = document.getElementById('acdntTrgtPno_'+i).value;
+			let acdntTrgtBrth = document.getElementById('acdntTrgtBrth_'+i).value;
+			let acdntTrgtNm = document.getElementById('acdntTrgtNm_'+i).value;
+			let deadYn = document.getElementById('deadYn_'+i).value;
+
+			mozTfcAcdntTrgtInfo.acdntDmgCd = acdntDmgCd;
+			mozTfcAcdntTrgtInfo.acdntTrgtPno = acdntTrgtPno;
+			mozTfcAcdntTrgtInfo.acdntTrgtBrth = acdntTrgtBrth;
+			mozTfcAcdntTrgtInfo.acdntTrgtNm = acdntTrgtNm;
+			mozTfcAcdntTrgtInfo.acdntTrgtSortNo = i;
+			mozTfcAcdntTrgtInfo.deadYn = deadYn;
+			
+			let tfcAcdntTrgtPnrInfo = new Array();
+			
+			if(acdntTrgtCd == 'ATT000'){
+				console.log('한다')
+				let passengerListDiv = document.querySelectorAll('.passenger'+i);
+				if(passengerListDiv != null &&  passengerListDiv.length > 0){
+					for(var j = 0; j < passengerListDiv.length; j++){
+						console.log('한다')
+						let mozTfcAcdntTrgtPnrInfo = new Object();
+								
+						let extendsIdName = i+"_"+j;
+						let pnrDvrLcenId = document.getElementById('pnrDvrLcenId'+extendsIdName).value;
+						let dvrLcenTy = document.getElementById('dvrLcenTy'+extendsIdName).value;
+						let pnrNm = document.getElementById('pnrNm'+extendsIdName).value;
+						let pnrAddr = document.getElementById('pnrAddr'+extendsIdName).value;
+						let pnrBrth = document.getElementById('pnrBrth'+extendsIdName).value;
+						let pnrPno = document.getElementById('pnrPno'+extendsIdName).value;
+						let pnrEmail = document.getElementById('pnrEmail'+extendsIdName).value;
+						let pnrDmgCd = document.getElementById('pnrDmgCd'+extendsIdName).value;
+						let pnrDmgDesc = document.getElementById('pnrDmgDesc'+extendsIdName).value;
+						let pnrDrvrRltnCd = document.getElementById('pnrDrvrRltnCd'+extendsIdName).value;
+						let drvYn = document.getElementById('drvYn'+extendsIdName).value;
+						let pnrDeadYn = document.getElementById('pnrDeadYn'+extendsIdName).value;
+						
+						mozTfcAcdntTrgtPnrInfo.pnrDvrLcenId = pnrDvrLcenId;
+						mozTfcAcdntTrgtPnrInfo.dvrLcenTy = dvrLcenTy;
+						mozTfcAcdntTrgtPnrInfo.pnrNm = pnrNm;
+						mozTfcAcdntTrgtPnrInfo.pnrAddr = pnrAddr;
+						mozTfcAcdntTrgtPnrInfo.pnrBrth = pnrBrth;
+						mozTfcAcdntTrgtPnrInfo.pnrPno = pnrPno;
+						mozTfcAcdntTrgtPnrInfo.pnrEmail = pnrEmail;
+						mozTfcAcdntTrgtPnrInfo.pnrDmgCd = pnrDmgCd;
+						mozTfcAcdntTrgtPnrInfo.pnrDmgDesc = pnrDmgDesc;
+						mozTfcAcdntTrgtPnrInfo.pnrDrvrRltnCd = pnrDrvrRltnCd;
+						mozTfcAcdntTrgtPnrInfo.pnrSortNo = j;
+						mozTfcAcdntTrgtPnrInfo.drvYn = drvYn;
+						mozTfcAcdntTrgtPnrInfo.pnrDeadYn = pnrDeadYn;
+						
+						tfcAcdntTrgtPnrInfo.push(mozTfcAcdntTrgtPnrInfo);
+					}
+				}
+			}
+			
+			if(tfcAcdntTrgtPnrInfo.length > 0){
+				mozTfcAcdntTrgtInfo.tfcAcdntTrgtPnrInfoStr = JSON.stringify(tfcAcdntTrgtPnrInfo);
+			}
+			accidentPartyInfoList.push(mozTfcAcdntTrgtInfo);
+		}		
+		
+		
+		formData.append("mozTfcAcdntTrgtInfoJsonStr", JSON.stringify(accidentPartyInfoList));
+
+		const loading = MozAtesPoliceApp.loading("Saving...").start();
+		
+		fetch('/tfcacdntmng/trafficAcdntRegPageRegister',{
+			method : "post",
+			body : formData
 		})
-		// let formData = new FormData();
-		// formData.append("file", $("#picture").get(0).files[0]);
-		// let response = await fetch('/api/get_plate_number', {
-		// 	method: "POST",
-		// 	body: formData
-		// }).then(function(response) {
-		// 	return response.json();
-		// });
-		// console.log(response)
-		// $("#result pre").html(syntaxHighlight(response))
+		.then(response => response.json())
+		.then((result) => {
+			 if (result.code === 200) {
+					let tfcAcdntId = result.data;
+	                alert("Register complete.");
+					location.href="/main";
+				
+	                //window.location.href = "/tfcacdntmng/detail?tfcAcdntId="+tfcAcdntId;
+	            } else {
+	                alert("Register Failed");
+	            }
+		}).finally(() => {
+			loading.end();
+		});
 	}
-	$("#camera").on("change", function(){
-		uploadFile()
-	})
 
+	let map = new MozAtesPoliceMap({
+		elementId : 'map',
+		useGeoLocation : true,
+		loadedGeoCodeCallback : function(core, data){
+			const streetList = core.util.refineStreetName(data.features);
+			const datalist = document.getElementById("loadedRoadAddr");
+			datalist.innerHTML = "";
+			let options = "";
+			for(const streetName of streetList) {
+				options += `<option>${streetName}</option>`;
+			}
+			datalist.innerHTML = options;
+		}
+	});
+	
+	function modalToggle() {
+		let modal = document.getElementById('modal-accident-info');
+		let modalOn = document.getElementById('modalOn');
+		let modalOff = document.getElementById('modalOff');
+		
+		let modalRegistList = document.getElementById('modalRegistListDiv');
+		let infoCheckBtn = document.getElementById('infoCheckBtn');
+		
+		modalOn.addEventListener('click', function(){
+			if(!document.trafficAcdntRegForm.checkValidity()) {
+				document.trafficAcdntRegForm.reportValidity();
+				return;
+			}
+			
+			let accidentConfirmInfo = document.createElement('div');
+			
+			accidentConfirmInfo.setAttribute('id','accidentConfirmInfo');
+			
+			let acdntDtTitle = /*[[#{tfcacdntmng.trafficAcdntAllInfo.accidentDate}]]*/
+			let acdntTyCdTitle = /*[[#{tfcacdntmng.trafficAcdntAllInfo.accidentType}]]*/
+			let roadAddrTitle = /*[[#{tfcacdntmng.trafficAcdntAllInfo.accidentLocation}]]*/
+			let acdntChildYnTitle = /*[[#{tfcacdntmng.trafficAcdntAllInfo.childAccident}]]*/
+			let acdntTyDtlsTitle = /*[[#{tfcacdntmng.trafficAcdntAllInfo.acdntTyDtls}]]*/
+			
+			let acdntDt       = document.getElementById('acdntDt').value;
+			let acdntTyCd     = document.getElementById('acdntTyCd');
+			let acdntTyCdText = acdntTyCd.options[acdntTyCd.selectedIndex].text;
+			let roadAddr      = document.getElementById('roadAddr').value;
+			let acdntChildYn  = document.getElementById('acdntChildYn');
+			let acdntChildYnText = acdntChildYn.options[acdntChildYn.selectedIndex].text;
+			let acdntTyDtls   = document.getElementById('acdntTyDtls').value;
+			
+			accidentConfirmInfo.innerHTML = 
+				`
+				  <dl class="modalRegistInfo">
+			      	 <dt>${acdntDtTitle}</dt>
+			      	 <dd>${acdntDt}</dd>
+				  </dl>
+				  <dl class="modalRegistInfo">
+			      	 <dt>${acdntTyCdTitle}</dt>
+			      	 <dd>${acdntTyCdText}</dd>
+				  </dl>
+				  <dl class="modalRegistInfo">
+			      	 <dt>${roadAddrTitle}</dt>
+			      	 <dd>${roadAddr}</dd>
+				  </dl>
+				  <dl class="modalRegistInfo">
+			      	 <dt>${acdntChildYnTitle}</dt>
+			      	 <dd>${acdntChildYnText}</dd>
+				  </dl>
+				  <dl class="modalRegistInfo">
+			      	 <dt>${acdntTyDtlsTitle}</dt>
+			      	 <dd>${acdntTyDtls}</dd>
+				  </dl>
+				`
+			document.querySelector('#modalRegistListDiv').append(accidentConfirmInfo);
+			
+			let accidentPartyList = document.querySelectorAll('.accident-party-wrap');
+			
+			if(accidentPartyList == null || accidentPartyList.length < 1){
+				alert('Please Add Accident Target');
+				return;
+			} 
+			
+			let accidentInfoListDiv = document.createElement('div');
+			
+			let accidentPartyTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentParty}]]*/
+			
+			accidentInfoListDiv.innerHTML = `<span id="accidentPartyTitle">${accidentPartyTitle}<span>`
+				
+			for(var i = 0; i < accidentPartyList.length; i++){
+				let accidentInfo = document.createElement('div');
+				accidentInfo.className='accidentTargetList';
+				let accidnetNumber = (i+1);
+				
+				let accidentHtml = '';
+				
+				let accidentTarget = document.getElementById('accidentTarget_'+i);
+				let accidentTargetTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentTarget}]]*/;
+				let accidentTargetText = accidentTarget.options[accidentTarget.selectedIndex].text;
+
+				accidentHtml += `
+ 				  <dl class="accidentTarget">
+			      	 <dt>${accidentTargetTitle+" "+accidnetNumber}</dt>
+				  	 <dd></dd>
+				  </dl>
+				  <dl class="modalRegistInfo">
+			      	 <dt>${accidentTargetTitle}</dt>
+			      	 <dd>${accidentTargetText}</dd>
+				  </dl>`;
+				  
+				if(accidentTarget.value == 'ATT000'){
+					let driverLicenseTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentDriverLicenseId}]]*/;
+					let driverLicenseId = document.getElementById('driverLicenseId_'+i).value;
+					let vhRegNoTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentVehicleNo}]]*/;
+					let vhRegNo = document.getElementById('vhRegNo_'+i).value;
+					let vhTyTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentVehicleType}]]*/;
+					let vhTy = document.getElementById('vhTy_'+i).value;
+					let dvYnTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentDvStatus}]]*/;
+					let dvYn = document.getElementById('dvYn_'+i);
+					let dvYnText = dvYn.options[dvYn.selectedIndex].text;
+				
+					accidentHtml += 
+					`<dl class="modalRegistInfo">
+			      	 	<dt>${driverLicenseTitle}</dt>
+			      	 	<dd>${driverLicenseId}</dd>
+				  	</dl>
+				  	<dl class="modalRegistInfo">
+			      	 	<dt>${vhRegNoTitle}</dt>
+			      	 	<dd>${vhRegNo}</dd>
+				  	</dl>
+				  	<dl class="modalRegistInfo">
+			      	 	<dt>${vhTyTitle}</dt>
+			      	 	<dd>${vhTy}</dd>
+				  	</dl>
+				  	<dl class="modalRegistInfo">
+			      	 	<dt>${dvYnTitle}</dt>
+			      	 	<dd>${dvYnText}</dd>
+				  	</dl>`;
+				}
+				
+				let acdntDmgCdTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentDamage}]]*/;
+				let acdntDmgCd = document.getElementById('acdntDmgCd_'+i);
+				let acdntDmgCdText = acdntDmgCd.options[acdntDmgCd.selectedIndex].text;
+				let acdntTrgtPnoTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentPhone}]]*/;
+				let acdntTrgtPno = document.getElementById('acdntTrgtPno_'+i).value;
+				let acdntTrgtBrthTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentBirthday}]]*/;
+				let acdntTrgtBrth = document.getElementById('acdntTrgtBrth_'+i).value;
+				let acdntTrgtNmTitle = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentAccidentTargetName}]]*/;
+				let acdntTrgtNm = document.getElementById('acdntTrgtNm_'+i).value;
+				let deadYnTitle = /*[[#{tfcacdntmng.addLayer.content.pnrDeadYn}]]*/;
+				let deadYn = document.getElementById('deadYn_'+i);
+				let deadYnText = deadYn.options[deadYn.selectedIndex].text;
+				
+				accidentHtml += 
+					`<dl class="modalRegistInfo">
+			      	 	<dt>${acdntDmgCdTitle}</dt>
+			      	 	<dd>${acdntDmgCdText}</dd>
+				  	</dl>
+				  	<dl class="modalRegistInfo">
+			      	 	<dt>${acdntTrgtPnoTitle}</dt>
+			      	 	<dd>${acdntTrgtPno}</dd>
+				  	</dl>
+				  	<dl class="modalRegistInfo">
+			      	 	<dt>${acdntTrgtBrthTitle}</dt>
+			      	 	<dd>${acdntTrgtBrth}</dd>
+				  	</dl>
+				  	<dl class="modalRegistInfo">
+			      	 	<dt>${acdntTrgtNmTitle}</dt>
+			      	 	<dd>${acdntTrgtNm}</dd>
+				  	</dl>
+				  	<dl class="modalRegistInfo">
+			      	 	<dt>${deadYnTitle}</dt>
+			      	 	<dd>${deadYnText}</dd>
+				  	</dl>`;
+				  	
+				accidentInfo.innerHTML = accidentHtml;
+				
+				accidentInfoListDiv.appendChild(accidentInfo);
+				
+				//지훈팍 여기 테이블에 퍼블리싱 필요
+				if(accidentTarget.value == 'ATT000'){
+					let passengerListDiv = document.querySelectorAll('.passenger'+i);
+					if(passengerListDiv != null &&  passengerListDiv.length > 0){
+						let passengerTable = document.createElement('div');
+						let passengerTitles = /*[[#{tfcacdntmng.trafficAcdntRegPage.contentPassenger}]]*/+accidnetNumber;
+						let tableTitleNo = /*[[#{tfcacdntmng.trafficAcdntRegPage.table.number}]]*/;
+						let tableTitlePhone = /*[[#{tfcacdntmng.trafficAcdntRegPage.table.number}]]*/;
+						let tableTitleName = /*[[#{tfcacdntmng.trafficAcdntRegPage.passengerPhone}]]*/;
+						let tableTitleBirth = /*[[#{tfcacdntmng.trafficAcdntRegPage.passengerBirth}]]*/;
+						
+
+						let passengerTableHtml = '';
+						passengerTableHtml += `
+						<h2 class="passengerTitle">${passengerTitles}</h2>
+						<table class="passengerTable">
+							<colgroup>
+								<col width="10%">
+								<col width="30%">
+								<col width="30%">
+								<col width="30%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>${tableTitleNo}</th>
+									<th>${tableTitlePhone}</th>
+									<th>${tableTitleName}</th>
+									<th>${tableTitleBirth}</th>
+								</tr>
+							</thead>
+							<tbody>
+						`;
+						for(var j = 0; j < passengerListDiv.length; j++){
+							let extendsIdName = i+"_"+j;
+							let passengerNo = (j+1);
+							let passengerName = document.getElementById('pnrNm'+extendsIdName).value;
+							let passengerBirth = document.getElementById('pnrBrth'+extendsIdName).value;
+							let passengerPhone = document.getElementById('pnrPno'+extendsIdName).value;
+							
+							passengerTableHtml += `
+								<tr>
+									<td>${passengerNo}</td>
+									<td>${passengerPhone}</td>
+									<td>${passengerName}</td>
+									<td>${passengerBirth}</td>
+								</tr>
+							`;
+						}
+						passengerTableHtml += `
+							</tbody>
+						</table>
+						`;
+						
+						passengerTable.innerHTML = passengerTableHtml;
+						
+						accidentInfoListDiv.appendChild(passengerTable);
+					}
+				}
+			}
+			accidentInfoListDiv.className = 'accidentPartyConfirm';
+			
+			document.querySelector('#modalRegistListDiv').append(accidentInfoListDiv);
+			
+			modal.style.display="block";
+		})
+		
+		modalOff.addEventListener('click', function(){
+	        modalRegistList.scrollTo({
+				top : 0 ,
+				left : 0 ,
+				behavor: 'smooth'
+			})
+			modalRegistList.empty();
+	
+			infoCheckBtn.classList.remove('on');
+			
+			modal.style.display="none";
+		})
+		
+		modalRegistList.addEventListener('scroll', function () {
+	        if (modalRegistList.clientHeight !== 0 && modalRegistList.clientHeight + modalRegistList.scrollTop >= modalRegistList.scrollHeight - 5) {
+	          	infoCheckBtn.classList.add('on');
+	        }
+	     });
+	}
+	
+    function accidentDev(){
+        $("form#trafficAcdntRegForm input:not([type='file'])").each(function(){
+            if($(this).attr("name") === "acdntDt"){
+                $(this).val(getCurrentDateTime(new Date(),'datetime-local'));
+            }else if($(this).attr("name") === "roadAddr"){
+                $(this).val("Avenida Eduardo Mondlane, Maputo");
+            }else if($(this).attr("name") === "acdntTyDtls"){
+                $(this).val("Very serious accident");
+            }else{
+                $(this).val(randomString(8));
+        	}
+        });
+		// 해당 select 요소를 가져옵니다.
+		let acdntTyCd = document.getElementById("acdntTyCd");
+		// 선택된 값을 변경합니다.
+		acdntTyCd.value = "ACT005";
+		// 해당 select 요소를 가져옵니다.
+		let acdntChildYn = document.getElementById("acdntChildYn");
+		// 선택된 값을 변경합니다.
+		acdntChildYn.value = "N";
+    }
 </script>

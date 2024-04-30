@@ -1,0 +1,129 @@
+#container > div {
+	width:100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap:12px;
+	padding:0 20px;
+}
+.mainRegisImg {
+	width: 36px;
+}
+.userIcon {
+	width:24px;
+}
+#registHisWrap {
+	background: #fff;
+	border-radius: 12px;
+	padding:20px;
+	width:100%;
+}
+.regist-history-wrap div span {
+	font-weight: 600;
+}
+#registTitle {
+	font-size:18px;
+	font-weight: 600;
+	margin-bottom: 20px;
+	color:#008a70;
+}
+#registStateWrap {
+	display: flex;
+	flex-wrap:wrap;
+	gap:12px;
+}
+#registStateWrap > div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width:100%;
+}
+.registStateList > div {
+	color: #233e5b;
+}
+#registAcEnfWrap {
+	display: flex;
+	flex-wrap:wrap;
+	gap:12px;
+	width:100%;
+}
+#registAcEnfWrap > div {
+	width:100%;
+}
+.registAcEnfList {
+	width:100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #fff;
+	padding: 16px;
+	border-radius: 12px;
+}
+.registAcEnfIcon {
+	display: flex;
+	align-items: center;
+	gap:10px;
+}
+.registAcEnfIcon span {
+	font-weight: 500;
+}
+#mainNotiWrap {
+	margin-bottom:96px;
+	display: block !important;
+}
+#mainNotiWrap > div {
+	margin-bottom:12px;
+}
+#mainNotiTitle {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width:100%;
+}
+#mainNotiTitle h2 {
+	font-size:18px;
+	font-weight: 600;
+	
+}
+#noticeMore {
+	padding: 6px 10px;
+    background: #4b5a6b;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 6px;
+    /* display: flex; */
+    /* align-items: center; */
+    letter-spacing: -0.5px;
+}
+.mainNotiList {
+	display: flex;
+	flex-wrap:wrap;
+	gap:8px;
+	padding: 16px;
+	background: #fff;
+	border-radius: 12px;
+}
+.mainNotiList div {
+}
+.mainNotiTitle {
+	max-width: 100%;
+	font-weight: 600;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width:100%;
+}
+.mainNotiDate {
+	color:#a1a1a1;
+}
+.mainNotiCategory {
+	color:#008a70;
+	background: #e3f9f5;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+.mainNotiView, .mainNotiView span {
+	color:#a1a1a1;
+}
+.boxShadow {
+	box-shadow:0px 2px 7px 0px rgb(22 74 149 / 5%);
+}

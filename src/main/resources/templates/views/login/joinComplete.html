@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+<link th:href="@{/css/login.css}" rel="stylesheet">
+<body class="login-body">
+	<div id="loginWrapper">
+		<div id="login-formContent">
+		    <div class="completeContainer">
+				<div class="complete-wrap">
+					<img th:src="@{/images/joincomplete.png}">
+					<div class="complete-phone" th:text="#{login.passWordComplete.message}">Your registration application has been completed.</div>
+					<div class="complete-abuot" th:text="#{login.passWordComplete.approval}">
+						It can be used after approval from the administrator.
+					</div>
+				</div>	
+			    <div class="btn-wrap">
+				   <button type="button" class="main-btn" onclick="location.href='/login'" th:text="#{login.joinComplete.ok}">확인</button>
+			    </div>
+		    </div>
+	  	</div>
+	</div>
+</body>
+</html>

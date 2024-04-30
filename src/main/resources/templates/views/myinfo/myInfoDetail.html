@@ -1,0 +1,64 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/sub_layout">
+
+<div layout:fragment="content">
+	<div id="header">
+		<div id="sub-header-wrap" >
+			<a href="/myinfo/list"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{myinfo.myInfoDetail.title}">내 정보관리</span>
+		</div>
+	</div>
+	<div id="sub-container">
+		 <div id="MyinfoWrap">
+			 <div class="MyinfoTitle">
+				 <h2 th:text="#{myinfo.myInfoDetail.title}">회원정보 확인</h2>
+			 </div>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.polLcenId}">경찰 라이센스 아이디</dt>
+				<dd class="InfoCon" th:text="${myInfoDetail.polLcenId}">LCE112</dd>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.password}">비밀번호</dt>
+				<button type="button" class="PassModify" onclick="location.href='/myinfo/passConfirm?type=password'" th:text="#{myinfo.myInfoDetail.changePassword}">비밀번호 변경</button>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.polLcenDt}">경찰 라이센스 취득일</dt>
+				<dd class="InfoCon" th:text="${#dates.format(myInfoDetail.polLcenDt, 'yyyy.MM.dd')}">Ji Hoon Park</dd>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.name}">이름</dt>
+				<dd class="InfoCon" th:text="${myInfoDetail.polNm}">링기링</dd>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.classes}">계급</dt>
+				<dd class="InfoCon" th:text="${myInfoDetail.classes}">하사</dd>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.tel}">연락처</dt>
+				<dd class="InfoCon" th:text="${myInfoDetail.phone}">010-4100-5929</dd>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.email}">이메일</dt>
+				<dd class="InfoCon" th:text="${myInfoDetail.email}">abcdefg@naver.com</dd>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.dept}">관할 경찰서</dt>
+				<dd class="InfoCon" th:text="${myInfoDetail.polDeptNm}">파주 경찰서</dd>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.region}">관할 경찰서</dt>
+				<dd class="InfoCon" th:text="${myInfoDetail.jur}">파주 경찰서</dd>
+			</dl>
+			<dl class="MyInfoInfoList">
+				<dt th:text="#{myinfo.myInfoDetail.addr}">관할 경찰서</dt>
+				<dd class="InfoCon" th:text="${myInfoDetail.addr}">파주 경찰서</dd>
+			</dl>
+			<div class="btn-wrap is-fixed">
+				<button type="button" class="mainFixBtn" onclick="location.href='/myinfo/passConfirm?type=profile'" th:text="#{myinfo.myInfoDetail.btn.modify}">내 정보 수정</button>
+			</div>
+		</div>
+</div>
+</html>
+<script type="text/javascript" th:inline="javascript">
+	
+</script>

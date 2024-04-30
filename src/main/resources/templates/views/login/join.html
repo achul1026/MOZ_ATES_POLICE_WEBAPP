@@ -1,0 +1,181 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+<link th:href="@{/css/login.css}" rel="stylesheet">
+<body>
+	<div id="loginWrapper">
+		<div>
+	    <!-- Tabs Titles -->
+	    	<div class="join-title" onclick="joinInfo()">
+				<div class="logoLine">
+					<a href="/login">
+						<img th:src="@{/images/arrow-back.png}" class="back">
+					</a>
+					<span th:text="#{login.join.join}">Join<span>
+				</div>
+				
+	    		<h2 class="joinAbText">
+					<span th:text="#{login.join.subTitle1}">Please enter the information </span><br> 
+					<span th:text="#{login.join.subTitle2}">for membership registration.</span>
+				</h2>
+<!--	    		<h2 th:text="#{login.join.join}"></h2>-->
+	    	</div>
+		    <!-- Login Form -->
+		    <form id="frmRegistPolice" class="join-form-wrap form-wrap">
+				<div class="form-div">
+					 <label for="polLcenId"th:text="#{login.join.enterPoliceNum}">경찰번호 입력(필수)</label>
+		    	     <input th:placeholder="#{login.join.placeholder.id}" type="text" class="idps-input" id="polLcenId" name="polLcenId" placeholder="Police Officer Account Id">
+				</div>
+				<div class="form-div">
+					 <label for="polLcenDt" th:text="#{login.join.polLcenDate}">라이선스 취득 일자</label>
+					 <input id="polLcenDt" class="idps-input" name="polLcenDt" type="date"/>
+				</div>	
+				<div class="form-div name-form">
+					 <label for="polNm" th:text="#{login.join.name}">이름</label>
+		    	     <input type="text" class="idps-input" id="polNm" name="polNm" th:placeholder="#{login.join.placeholder.fuleName}">
+				</div>	
+				<div class="form-div">
+					 <label for="appPolPw" th:text="#{login.join.password}">비밀번호</label>
+		    	     <input type="password" class="idps-input passInput" id="appPolPw" name="appPolPw" th:placeholder="#{login.join.placeholder.enterPassword}">
+		    	     <i class="eye" onclick="eyeToggle()"></i>
+				</div>	
+				<div class="form-div">
+					 <label id="phone" th:text="#{login.join.tel}">연락처(필수)</label>
+		    	     <input type="text" class="idps-input" id="phone" name="phone" th:placeholder="#{login.join.placeholder.enterTel}">
+				</div>	
+				<div class="form-div">
+					 <label th:text="#{login.join.email}">이메일(필수)</label>
+		    	     <input type="text" class="idps-input" id="email" name="email" th:placeholder="#{login.join.placeholder.enterEmail}">
+				</div>
+				<div class="form-div">
+					 <label for="brth" th:text="#{login.join.brth}">라이선스 취득 일자</label>
+					 <input id="brth" class="idps-input" name="brth" type="date"/>
+				</div>	
+				<div class="form-div">
+					 <label for="jur" th:text="#{login.join.jur}">관할 경찰서(필수)</label>
+					 <input id="jur" name="jur" type="text" class="idps-input modal-input" th:placeholder="#{login.join.placeholder.jur}">
+				</div>	
+			    <div class="btn-wrap mb0">
+				   <button type="button" class="mainBtn" th:text="#{login.join.applyMembership}" onclick="registPolInfo()">회원가입 신청</button>
+			    </div>
+		    </form>
+		    <div id="completeWrap" class="modal">
+				
+			</div>
+	  	</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript" th:inline="javascript">
+
+	function validateForm() {
+	    let requiredFields = ['polLcenId', 'polNm', 'appPolPw', 'phone', 'email', 'jur'];
+		let valResult = /*[[#{login.join.validation.inputResult}]]*/;
+		
+	    for (var i = 0; i < requiredFields.length; i++) {
+	        let fieldName = requiredFields[i];
+	        let fieldValue = document.getElementById(fieldName).value;
+	
+	        if (fieldValue === '') {
+	            alert(valResult);
+	            return false;
+	        }
+	    }
+	
+	    let dateFields = ['polLcenDt', 'brth'];
+	    let brthResult = /*[[#{login.join.validation.brthResult}]]*/;
+	    let polLcenDtResult = /*[[#{login.join.validation.polLcenDtResult}]]*/;
+
+	    for (var j = 0; j < dateFields.length; j++) {
+	        let dateField = dateFields[j];
+	        let dateValue = document.getElementById(dateField).value;
+	
+	        if (dateValue === '') {
+				switch(dateField){
+					case 'polLcenDt':
+			        alert(brthResult);
+					break;
+					case 'brth':
+			        alert(polLcenDtResult);
+					break;
+				}
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
+	function registPolInfo(){
+		if(!validateForm()){
+			return;
+		}
+		
+		let completeWrap = document.getElementById('completeWrap');
+		
+		 // Date 객체로 변환
+   		 let polLcenDt = new Date(document.getElementById('polLcenDt').value);
+   		 let brth = new Date(document.getElementById('brth').value);
+    	// yyyy-MM-dd 형식으로 변환
+    	let formattedPolLcenDt = polLcenDt.toISOString().split('T')[0];
+    	let formattedBrth = brth.toISOString().split('T')[0];
+    
+    	// FormData에 추가
+   		let frmData = new FormData(document.getElementById('frmRegistPolice'));
+    	frmData.append('polLcenDt', formattedPolLcenDt);
+    	frmData.append('brth', formattedBrth);
+		
+		$.ajax({
+			url: "/joinUsAjax",
+			type: "post",
+			dataType : 'html',
+			data : frmData,
+	        processData: false,
+        	contentType: false,
+			success: function (html) {
+				completeWrap.innerHTML += html;
+				completeWrap.style.display = 'block';
+			},
+			error: function(data) {
+				alert('Regist Failed');
+    		}
+		});
+	}
+	
+	function joinInfo(){
+        $("form#frmRegistPolice input").each(function(){
+            if($(this).attr("name") === "polLcenDt"){
+                $(this).val(getCurrentDateTime(new Date(),null));
+            }else if($(this).attr("name") === "brth"){
+                $(this).val(getCurrentDateTime(new Date(),null));
+            }else if($(this).attr("name") === "polLcenId"){
+                $(this).val("police1");
+            }else if($(this).attr("name") === "polNm"){
+                $(this).val("Gamza");
+            }else if($(this).attr("name") === "appPolPw"){
+                $(this).val('bluedus1!');
+            }else if($(this).attr("name") === "phone"){
+                $(this).val('8425801111');
+            }else if($(this).attr("name") === "email"){
+                $(this).val("email@email.com");
+            }else if($(this).attr("name") === "jur"){
+                $(this).val('Maputo');
+            }else{
+                $(this).val(randomString(8));
+        	}
+        });
+    }
+    
+    /**비밀번호토글**/
+	function eyeToggle(){
+		const passEye = document.querySelector('.eye');
+		const passInput = document.querySelector('.passInput');
+	
+		 if (passEye.classList.contains('on')) {
+			passInput.type ='password';
+			passEye.classList.remove('on');
+		} else {
+			passInput.type ='text';
+			passEye.classList.add('on');
+		}
+	}
+</script>

@@ -1,0 +1,212 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+
+<div layout:fragment="content" id="gis-with-container">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a th:href="@{/tfcenfmng/list}"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{tfcenfmng.trafficEnfceDetail.title}">단속 이력 상세</span>
+		</div>
+	</div>
+
+	<div id="map" class="map">
+	</div>
+
+	<div class="sub-container">
+<!--		<p class="alert-box alert-warning mb30 n" th:text="#{common.map.location.help}"></p>-->
+		<div id="gis-sub-container">
+			
+			<div class="crackdown-wrap">
+				<div class="formRegistTitle">
+					<h2 th:text="#{tfcenfmng.trafficEnfceDetail.policeOfficerInChargeTitle}">Police Officer In Charge</h2>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.polDept}">Department</label>
+					<div class="formDetailContent" th:text="${enfDetail.polInfo.polDeptNm}"></div>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.polNm}">Name</label>
+					<div class="formDetailContent" th:text="${enfDetail.polInfo.polNm}"></div>
+				</div>
+			</div>
+			
+			<div class="crackdown-wrap">
+
+				<div class="formRegistTitle">
+					<h2 th:text="#{tfcenfmng.trafficEnfceDetail.tfcEnfIdTitle}">Traffic Enforement ID</h2>
+				</div>
+				<div class="formRegistList">
+					<label>Traffic Enforcement Id</label>
+					<div th:text="${enfDetail.tfcEnfId}" class="DetailSubNumber"></div>
+				</div>
+				
+
+				<div class="formRegistTitle">
+					<h2 th:text="#{tfcenfmng.trafficEnfceDetail.ViolatorInfoTitle}">Violator Info</h2>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.plateNumber}">Plate Number</label>
+					<div class="formDetailContent" th:text="${enfDetail.vhRegNo}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.vehicleType}">Vehicle Type</label>
+					<div class="formDetailContent" th:text="${enfDetail.vhTy}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}">Driver license ID</label>
+					<div class="formDetailContent" th:text="${enfDetail.vioInfo.dvrLcenId}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.licenseType}">License Type</label>
+					<div class="formDetailContent" th:text="${enfDetail.vioInfo.dvrLcenTy}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.vioName}">Name</label>
+					<div class="formDetailContent" th:text="${enfDetail.vioInfo.vioNm}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.vioBirthDay}">Birthday</label>
+					<div class="formDetailContent" th:text="${enfDetail.vioInfo.vioBrth}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.vioPhone}">Phone</label>
+					<div class="formDetailContent" th:text="${enfDetail.vioInfo.vioPno}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.vioEmail}">Email</label>
+					<div class="formDetailContent" th:text="${enfDetail.vioInfo.vioEmail}"></div>
+				</div>
+			</div>
+
+			<div class="crackdown-wrap">
+				<div class="formRegistTitle mb30">
+					<h2 th:text="#{tfcenfmng.trafficEnfceDetail.tfcEnfInfoTitle}">Traffic Enforcement Info</h2>
+				</div>
+				
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.roadAddress}">Road Address</label>
+					<div class="formDetailContent" th:text="${enfDetail.roadAddr}"></div>
+				</div>
+
+				<div class="formRegistList detail-law-div">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.enfLawTitle}">Illegal Law Detail</label>
+					<div id="card-list-wrap" class="mt10">
+
+						<div class="fineUl detailLawList" th:each="enfFineItm : ${enfFineList}">
+							<div class="detailLawCon detailLawTitle">
+								<div class="tfcLawId" th:text="${enfFineItm.tfcLwInfo.lawNm}">Law Name</div>
+							</div>
+							<div class="detailLawCon">
+								<div class="tfcLawFineId" th:text="${enfFineItm.tfcLwFineInfo.fineDesc}">Law Detail</div>
+							</div>
+							<div class="detailLawCon">
+								<div class="tfcEnfPrice" th:text="${enfFineItm.tfcEnfPrice}">Law Fine Price</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="formRegistList info-law-div none">
+					<div class="detail-law-table detail-table-body" id="lawInfoUl">
+					</div>
+				</div>
+
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.paymentPrice}">Payment Price</label>
+					<div class="formDetailContent" th:text="${enfDetail.finePymntInfo.totalPrice}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.placePayment}">Place
+						Payment</label>
+					<div class="formDetailContent" th:text="${enfDetail.plPymntInfo?.placePymntNm}"></div>
+				</div>
+				<div class="formRegistList formRegistListDetail">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.enfDetails}">Traffic Enforcement Details</label>
+					<div class="formDetailContent">
+					  <div th:text="${enfDetail.tfcEnfDetail} ? ${enfDetail.tfcEnfDetail} : #{tfcenfmng.trafficEnfceDetail.contentEmpty}">
+					</div>
+				</div>
+
+				<div class="formRegistList list-plus mt20">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.vioSignature}">Violator's signature</label>
+
+					<div id="signatureBtnWrap" class="signnatureBtnCm">
+
+						<!-- 위반자 서명 -->
+						<th:block th:if="${not #strings.isEmpty(enfDetail.vioInfo.vioSignFilePath)}">
+							<!-- ************** 삭제 금지 **************   2024.03.21 주석 처리 / 이미지 UI 작업 후 해제 필요 -->
+							<img th:src="@{/tfcenfmng/sign/image(vioId=${enfDetail.vioInfo.vioId})}">
+									<!-- 이미지 UI 작업 후 signature_test.png 삭제 필요 -->
+							<!-- ************** 삭제 금지 **************   2024.03.21 주석 처리 / 이미지 UI 작업 후 해제 필요  -->
+<!--							<img src="/images/signature_test.png">-->
+						</th:block>
+
+						<th:block th:unless="${not #strings.isEmpty(enfDetail.vioInfo.vioSignFilePath)}">
+							<div th:text="#{tfcenfmng.trafficEnfceDetail.contentEmpty}">Nothing registered</div>
+						</th:block>
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="">
+				<div class="formRegistTitle">
+					<h2 th:text="#{tfcenfmng.trafficEnfceDetail.uploadedFilesTitle}">첨부파일 업로드</h2>
+				</div>
+
+				<div class="formRegistList">
+					<th:block th:if="${not #lists.isEmpty(enfDetail.fileList)}">
+						<label th:text="#{tfcenfmng.trafficEnfceDetail.img}">사진/동영상</label>
+							
+						<div class="detailDownConList" th:each="fileItm : ${enfDetail.fileList}">
+							<div class="detailDownCon">
+								<div class="downImgWrap">
+									<img th:src="@{/tfcenfmng/tfcEnf/image(vioFileNo=${fileItm.vioFileNo})}">
+								</div>
+								<div class="downImgName" th:text="${fileItm.fileNm}">
+									128123-12312323.jpg
+								</div>
+							</div>
+							<button type="button" onclick="downloadImg('test')" class="downBtn">Save</button>
+						</div>
+							
+					</th:block>
+
+					<th:block th:unless="${not #lists.isEmpty(enfDetail.fileList)}">
+						<div th:text="#{tfcenfmng.trafficEnfceDetail.contentEmpty}">Nothing registered</div>
+					</th:block>
+
+				</div>
+				<!-- ************** 삭제 금지 **************   2024.03.21 주석 처리 / 이미지 UI 작업 후 해제 필요  -->
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+	const placeLat = /*[[${enfDetail.lat}]]*/;
+	const placeLng = /*[[${enfDetail.lng}]]*/;
+
+	const map = new MozAtesPoliceMap({
+		elementId: 'map',
+		useGeoLocation: false,
+		center_lat: placeLat,
+		center_lng: placeLng,
+		loadedGeoCodeCallback: function (core, data) {
+			const streetList = core.util.refineStreetName(data.features);
+			const datalist = document.getElementById("loadedRoadAddr");
+			datalist.innerHTML = "";
+			let options = "";
+			for (const streetName of streetList) {
+				options += `<option>${streetName}</option>`;
+			}
+			datalist.innerHTML = options;
+		}
+	}).drawMarker([placeLng, placeLat]);
+
+</script>

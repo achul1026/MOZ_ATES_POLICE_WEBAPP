@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org"  
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	
+<th:block th:fragment="pagingFragment" th:if="${pagination.totalListCnt > 0}">
+    <ul>
+        <li class="pageList pageFront">
+            <a class="first" th:onclick="fnPageMove([[${pagination.prevBlock}]])" th:text="#{common.pagenation.btn.front}">
+				Front
+			</a>
+        </li>
+        <th:block th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+			<li class="pageList" th:with="start = ${pagination.startPage}, end = ${pagination.endPage}" th:each="pageButton : ${#numbers.sequence(start, end)}">
+				<div th:if="${pageButton == pagination.page}">
+					<a class="on" th:onclick="fnPageMove([[${pageButton}]])" th:text=${pageButton}></a>
+				</div>
+				<div th:unless="${pageButton == pagination.page}">
+					<a th:onclick="fnPageMove([[${pageButton}]])" th:text=${pageButton}></a>
+				</div>
+			</li>
+		</th:block>
+		<li class="pageList pageBack">
+			<a th:onclick="fnPageMove([[${pagination.nextBlock}]])" th:text="#{common.pagenation.btn.back}">
+				Back
+			</a>
+		</li>
+    </ul>
+</th:block>

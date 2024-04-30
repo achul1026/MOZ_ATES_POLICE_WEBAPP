@@ -1,0 +1,131 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+
+<div layout:fragment="content">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a href=""><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{main.acdntEnfHistory.checkDriverVehicle}">운전자/차량 조회</span>
+		</div>
+	</div>
+	<div id="sub-container">
+			<div id="subNoticeTopLine">
+				<div id="subNoticeTopTitle">
+					<div id="subNoticeMainText">단속/사고 이력</div>
+					<div id="subNoticeSubText">단속번호 또는 사고번호를 검색하세요.</div>
+				</div>
+				<div id="cmSearch">
+					<form id="frmSearch">
+						<input type="text" th:placeholder="#{main.acdntEnfHistory.placeholder.enterContent}" class="list-search-box">
+						<button type="submit" id="searchIcon"></button>
+					</form>
+				</div>
+			</div>
+		
+		<div id="HistoryWrap">
+			<div id="HisFilter">
+				<div ><span th:text="#{main.acdntEnfHistory.all}" id="HisDateAll">전체</span> <span>(Last 1 year)</span></div>
+				<div id="filterBtn">
+					<span th:text="#{main.acdntEnfHistory.filter}">필터</span><i></i>
+				</div>
+			</div>
+			<div class="HisConWrap">
+				<div class="HisYear">
+					<h2>2024</h2>
+				</div>
+				<div class="HisList" onclick="location.href='/main/search/acdntEnfceDetail/list.do'">
+					<div class="HisCate">
+						<span th:text="#{main.acdntEnfHistory.category}">카테고리</span>
+					</div>
+					<div class="HisTitle">This story contains the exorcism record of Kim Ok-ji, a renowned exorcist.</div>
+					<div class="HisTime">
+						<div class="HisDate">
+							<span>2023.12.06</span>  
+							<span>13:50</span>
+						</div>
+						<div class="HisNumber">13-4231</div>
+					</div>
+				</div>
+				<div class="HisList" onclick="location.href='/main/search/acdntEnfceDetail/list.do'">
+					<div class="HisCate">
+						<span th:text="#{main.acdntEnfHistory.category}">카테고리</span>
+					</div>
+					<div class="HisTitle">This story contains the exorcism record of Kim Ok-ji, a renowned exorcist.</div>
+					<div class="HisTime">
+						<div class="HisDate">
+							<span>2023.12.06</span>  
+							<span>13:50</span>
+						</div>
+						<div class="HisNumber">13-4231</div>
+					</div>
+				</div>
+			</div>
+			<div class="HisConWrap">
+				<div class="HisYear">
+					<h2>2023</h2>
+				</div>
+				<div class="HisList" onclick="location.href='/main/search/acdntEnfceDetail/list.do'">
+					<div class="HisCate">
+						<span th:text="#{main.acdntEnfHistory.category}">카테고리</span>
+					</div>
+					<div class="HisTitle">This story contains the exorcism record of Kim Ok-ji, a renowned exorcist.</div>
+					<div class="HisTime">
+						<div class="HisDate">
+							<span>2023.12.06</span>  
+							<span>13:50</span>
+						</div>
+						<div class="HisNumber">13-4231</div>
+					</div>
+				</div>
+				<div class="HisList" onclick="location.href='/main/search/acdntEnfceDetail/list.do'">
+					<div class="HisCate">
+						<span th:text="#{main.acdntEnfHistory.category}">카테고리</span>
+					</div>
+					<div class="HisTitle">This story contains the exorcism record of Kim Ok-ji, a renowned exorcist.</div>
+					<div class="HisTime">
+						<div class="HisDate">
+							<span>2023.12.06</span>  
+							<span>13:50</span>
+						</div>
+						<div class="HisNumber">13-4231</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+<div class="fillter-wrap">
+	<div class="fillter-content">
+		<div class="fillter-title">
+			<img src="/images/fillter-close.png" class="close">
+			<h2 th:text="#{main.acdntEnfHistory.filter}">필터</h2>
+		</div>
+		<div class="fillter-body">
+			<div class="fillter-check">
+				<label th:text="#{main.acdntEnfHistory.selectType}">유형 선택</label>
+				<div class="fillter-btn-wrap">
+					<button type="button" class="main-btn" th:text="#{main.acdntEnfHistory.crackdown}">단속</button>
+					<button type="button" class="sub-btn" th:text="#{main.acdntEnfHistory.crackdown}">단속</button>
+				</div>
+			</div>
+			<div class="fillter-check">
+				<label th:text="#{main.acdntEnfHistory.setPeriod}">기간 설정</label>
+				<div class="fillter-btn-wrap">
+					<button type="button" class="main-btn" th:text="#{main.acdntEnfHistory.lastYear}">최근 1년</button>
+					<button type="button" class="sub-btn" th:text="#{main.acdntEnfHistory.oneWeek}">1주일</button>
+					<button type="button" class="sub-btn" th:text="#{main.acdntEnfHistory.oneMonth}">1개월</button>
+					<button type="button" class="sub-btn" th:text="#{main.acdntEnfHistory.threeMonth}">3개월</button>
+				</div>
+				<div class="fillter-btn-wrap">
+					<input type="date" value="2023-10-24"> - <input type="date" value="2024-10-24">
+				</div>
+			</div>
+		</div>
+		<div class="fillter-footer-btn">
+			<button type="button" th:text="#{main.acdntEnfHistory.search}">조회</button>
+		</div>
+	</div>
+</div>
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+</script>

@@ -1,24 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	
-    <div th:fragment="headerFragment" class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <a th:href="@{/}" th:text="#{main.header.app}"><img th:src="@{/images/mozambique-flag.png}" alt="">Police App</a>
-                </div>
-                <div class="col-lg-12 col-md-8 col-sm-12 col-xs-12">
-                     <div class="navigation">
-                        <div id="navigation">
-                            <ul>
-                                <li class="active"><a  th:text="#{main.header.trafficEnforcement}" th:href="@{/tfcenfmng/trafficEnfceRegPage}" title="Traffic Enforcement">Traffic Enforcement</a></li>
-                                <li class="active"><a  th:text="#{main.header.trafficAccident}" th:href="@{/tfcacdntmng/trafficAcdntRegPage}" title="Traffic Accident">Traffic Accident</a></li>
-                                <li class="active"><a  th:text="#{main.header.logout}" th:href="@{/logout}" title="Logout">Logout</a></li>
-                            </ul>
-                        </div>
-                   	</div>
-                </div>
-            </div>
-        </div>
+
+    <div th:fragment="headerFragment">
+
     </div>
 </html>

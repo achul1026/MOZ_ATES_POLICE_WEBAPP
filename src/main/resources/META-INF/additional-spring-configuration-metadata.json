@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "api.url",
+      "type": "java.lang.String",
+      "description": "Description for api.url."
+    },
+    {
+      "name": "file.path.enforecement",
+      "type": "java.lang.String",
+      "description": "Description for file.path.enforecement."
+    },
+    {
+      "name": "file.path.root",
+      "type": "java.lang.String",
+      "description": "Description for file.path.root."
+    },
+    {
+      "name": "file.path.accident",
+      "type": "java.lang.String",
+      "description": "Description for file.path.accident."
+    }
+  ] }

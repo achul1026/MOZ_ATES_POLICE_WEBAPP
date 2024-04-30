@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<div th:fragment="footerFragment" class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">
-<!--                     <div class="footer-widget widget-newsletter"> -->
-<!--                         <h2 class="widget-title"></h2> -->
-<!--                         <ul class="listnone"> -->
-<!--                             <li><a href="#"></a></li> -->
-<!--                         </ul> -->
-<!--                     </div> -->
-                </div>
-            </div>
-        </div>
-    </div>
+<div th:fragment="footerFragment" class="footer">
+	<div id="fixed-menu" class="">
+		<ul>
+			<li>
+				<a th:href="@{/tfcenfmng/list}">
+					<img src="/images/fixed-menu03.png">
+					<div class="fixed-menu-title" th:text="#{main.footer.history}">History</div>
+				</a>
+			</li>
+			<li>
+				<a th:href="@{/main}">
+					<img src="/images/fixed-menu01.png">
+					<div class="fixed-menu-title" th:text="#{main.footer.home}">Home</div>
+				</a>
+			</li>
+			<li>
+				<a th:href="@{/myinfo/list}">
+					<img src="/images/fixed-menu04.png">
+					<div class="fixed-menu-title" th:text="#{main.footer.option}">Option</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
 </html>

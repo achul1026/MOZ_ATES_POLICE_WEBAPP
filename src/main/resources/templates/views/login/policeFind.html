@@ -1,0 +1,79 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="fragments/head :: headFragment"></th:block>
+<link th:href="@{/css/login.css}" rel="stylesheet">
+<body>
+	<div class="login-wrapper">
+		<div class="">
+	    <!-- Tabs Titles -->
+	    	<div class="join-title">
+				<a href="">
+					<img src="/images/arrow-left.png">
+				</a>
+	    		<h2 th:text="#{login.policeFind.searchPoliceStation}">관할경찰서 찾기</h2>
+	    	</div>
+		    <!-- Login Form -->
+		    <form th:action="@{/policeLoginCnfrm}" method="post" class="join-form-wrap form-wrap">
+				<div class="form-div police-form-div">
+		
+					<input type="text" th:placeholder="#{login.policeFind.enterPoliceStation}">
+					<button type="button" class="main-btn table-search" th:text="#{login.policeFind.search}">찾기</button>
+				</div>
+				
+				<div class="search-table-wrap">
+					<table>
+						<colgroup>
+							<col width="25%">
+							<col width="75%">
+						</colgroup>
+						<thead>
+							<td th:text="#{login.policeFind.check}">체크</td>
+							<td th:text="#{login.policeFind.policeStation}">경찰서</td>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="checkbox"></td>
+								<td>Paju Police Station</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox"></td>
+								<td>Paju Police Station</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox"></td>
+								<td>Paju Police Station</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox"></td>
+								<td>Paju Police Station</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox"></td>
+								<td>Paju Police Station</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					 <div class="btn-wrap">
+					   <button type="button" class="sub-btn complete-btn" onclick="location.href='/join'" th:text="#{login.policeFind.complete}">완료</button>
+				    </div>
+				</div>
+				
+			   
+		    </form>
+	  	</div>
+	</div>
+	
+</body>
+</html>
+<script type="text/javascript" th:inline="javascript">
+	var message = /*[[${resultMsg}]]*/;
+    if(message != null && message != ' '){
+		swal({
+			  title: "Failed",
+			  text: message,
+			  icon: "warning",
+			  button: "Confirm",
+			});
+	}
+</script>

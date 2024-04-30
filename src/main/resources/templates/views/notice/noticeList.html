@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+
+<div layout:fragment="content">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a th:href="@{/main}"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{notice.noticeList.title}">공지사항</span>
+		</div>
+	</div>
+	<div id="sub-container">
+		<div id="conWrapWh">
+			<div id="subNoticeTopLine">
+				<div id="subNoticeTopTitle">
+					<div id="subNoticeMainText" th:text="#{notice.noticeList.title}">공지사항</div>
+					<div id="subNoticeSubText" th:text="#{notice.noticeList.subTitle}">새로운 소식을 확인하세요.</div>
+				</div>
+				<div id="cmSearch">
+					<form id="noticeSearchForm" onsubmit="return false;">
+						<input type="text" name="searchTxt" class="list-search-box"
+							th:placeholder="#{notice.noticeList.placeholder.enterContent}" th:value="${mozBrd.searchTxt}">
+						<input type="hidden" id="page" name="page" th:value="${pagination.page}">
+						<input type="hidden" id="hdnStart" name="start" th:value="${mozBrd.start}">
+						<div id="cmButtonWrap">
+							<button type="submit" id="searchIcon"></button>
+						</div>
+					</form>
+				</div>
+			</div>
+<!--			<div id="noticeType">-->
+<!--				<select>-->
+<!--					<option>전체</option>-->
+<!--					<option>사고</option>-->
+<!--					<option>단속</option>-->
+<!--					<option>법률</option>-->
+<!--				</select>-->
+<!--			</div>-->
+			<div id="noTiceListWrap" th:object="${noticeList}">
+				<div th:if="${not #object.isEmpty()}" class="subNoticeList" th:each="noticeItm : ${noticeList}"
+					th:onclick="moveNoticeDetail([[${noticeItm.boardIdx}]])">
+					<div class="subNoticeCon">
+						<div class="subNoticeListCategory" th:if="${noticeItm.imprtYn == 'Y'}" th:text="#{notice.noticeList.imprtn}"></div>
+						<div class="subNoticeListTitle" th:text="${noticeItm.boardTitle}">A very serious traffic accident</div>
+						<div class="subNoticeDnWrap">
+							<span class="subNoticeListDate" th:text="${#dates.format(noticeItm.crDt, 'yyyy-MM-dd')}">2023.01.12</span>
+						    <span class="subNoticeWriter" th:text="${noticeItm.wrtrNm}">리끼리</span>
+						</div>
+						
+					</div>
+					<div class="subNoticeDetail">
+						<img src="/images/black-arrow.png">
+					</div>
+				</div>
+				
+				<div th:unless="${not #object.isEmpty()}" class="subNoticeList" th:text="#{notice.noticeList.message.empty}">
+					등록된 공지사항이 없습니다.
+				</div>
+			</div>
+			<div class="pageNation" th:insert="tags/paging :: pagingFragment"></div>
+		</div>
+	</div>
+</div>
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+	function moveNoticeDetail(boardIdx) {
+		var baseUrl = '/notice/detail/';
+		location.href = baseUrl+boardIdx;
+	}
+	
+	
+	function fnPageMove(page) {
+		document.getElementById('page').value = page;
+		
+		document.getElementById('noticeSearchForm').submit();
+	}
+</script>

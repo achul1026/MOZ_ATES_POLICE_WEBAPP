@@ -1,0 +1,89 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/sub_layout">
+
+<div layout:fragment="content">
+	<div id="header">
+		<div id="sub-header-wrap" >
+			<a href="/myinfo/list"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{myinfo.myInfoModify.title}">내 정보 수정</span>
+		</div>
+	</div>
+	
+	<div id="sub-container" th:if="${!isPwChk}">
+	  <div id="PassModify" class="pd50">
+		  <div class="approach">
+			  <img src="/images/approach.png" class="appImg">
+			  <h2 th:text="#{myinfo.myInfoModify.wrongApproach}">잘못된 접근입니다.</h2>
+		  </div>
+  		<div class="approacBtn">
+			<a href="/main" th:text="#{myinfo.myInfoModify.mainPage}">메인으로 이동</a>
+		</div>
+	  </div>
+	</div>
+	
+	<form id="frmPolInfoModify" th:if="${isPwChk}">
+		<div id="sub-container">
+			 <div id="MyinfoWrap">
+				 <div class="formRegistTitle">
+					 <h2 th:text="#{myinfo.myInfoModify.title}">회원정보 확인</h2>
+				 </div>
+				<div class="formRegistList">
+					<label th:text="#{myinfo.myInfoModify.name}">이름</label>
+					<input type="hidden" id="polId" name="polId" th:value="${myInfoDetail.polId}" required/>
+					<input type="text" id="polNm" name="polNm" th:placeholder="#{myinfo.myInfoModify.placeholder.name}" th:value="${myInfoDetail.polNm}" required/>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{myinfo.myInfoModify.tel}">연락처</label>
+					<input type="text" id="phone" name="phone"  th:placeholder="#{myinfo.myInfoModify.placeholder.tel}" th:value="${myInfoDetail.phone}" required/>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{myinfo.myInfoModify.email}">이메일</label>
+					<input type="text" id="email" name="email"  th:placeholder="#{myinfo.myInfoModify.placeholder.email}" th:value="${myInfoDetail.email}"/>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{myinfo.myInfoModify.dept}">관할 경찰서</label>
+					<input type="text" id="polDeptNm" name="polDeptNm"  th:placeholder="#{myinfo.myInfoModify.placeholder.dept}" th:value="${myInfoDetail.polDeptNm}"/>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{myinfo.myInfoModify.region}">관할 경찰서</label>
+					<input type="text" id="jur" name="jur" th:placeholder="#{myinfo.myInfoModify.placeholder.region}" th:value="${myInfoDetail.jur}"/>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{myinfo.myInfoModify.addr}">주소</label>
+					<input type="text" id="addr" name="addr"  th:placeholder="#{myinfo.myInfoModify.placeholder.addr}" th:value="${myInfoDetail.addr}"/>
+				</div>
+			</div>
+			<div class="btn-wrap is-fixed">
+				<button type="button" class="mainFixBtn" onclick="polInfoModify()" th:text="#{myinfo.myInfoModify.save}">저장</button>
+			</div>
+	 </form>
+</div>
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+	
+	function polInfoModify(){
+		const failedMsg = /*[[#{myinfo.myInfoModify.failed}]]*/
+		
+		const formData = new FormData(document.getElementById('frmPolInfoModify'));
+		
+		const loading = MozAtesPoliceApp.loading("Saving...").start();
+		
+		fetch('/myinfo/modify',{
+			method : "post",
+			body : formData
+		})
+		.then(response => response.json())
+		.then((result) => {
+			 if (result.code === 200) {
+				 	alert("My Profile Modify Success");
+					location.href="/myinfo/detail";
+	            } else {
+	                alert(failedMsg);
+	            }
+		}).finally(() => {
+			loading.end();
+		});
+	}
+	
+</script>

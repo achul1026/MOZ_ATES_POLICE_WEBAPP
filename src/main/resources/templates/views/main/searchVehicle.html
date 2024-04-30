@@ -1,0 +1,187 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/sub_layout">
+
+<div layout:fragment="content">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a href="/main"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{main.searchDriver.checkDriverVehicle}">운전자/차량 조회</span>
+		</div>
+	</div>
+
+	<div class="formRegistContainer registHistoryContainer">
+		
+		<!-- Select Enf or Acdnt -->
+		<div id="typeCheck-btn">
+			<input type="radio" name="regType" id="enf" value="enf" class="typeCheckRadio">
+			<label for="enf">Traffic Enforcement Registration</label>
+			
+			<input type="radio" name="regType" id="acdnt" value="acdnt" class="typeCheckRadio">
+			<label for="acdnt">Accident Registration</label>
+		</div>
+		
+		
+
+		<div id="registHistoryWrap">
+			<!-- Select Search Type -->
+			
+			<div class="registDateCheck">
+				<select>
+					<option value="dvrLcenId">Driver License Id</option>
+					<option value="vehicleNo">Vehicle Plate Number</option>
+					<option value="driverNm">Driver Name</option>
+				</select>
+			</div>
+			
+			<div id="sub-container">
+				<div id="">
+					<div id="cmSearch">
+						<form>
+							<input type="text" id="searchTxt" class="list-search-box" th:placeholder="#{main.searchDriver.placeholder.enterContent}">
+							<div id="cmButtonWrap" onclick="showSearchResultWrap('on')">
+								<button id="searchIcon" type="button"></button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			<!-- search Result Wrap -->
+			<div id="searchResultWrap" class="none">
+				<input type="radio" name="searchResult" id="1" value="123" onclick="toggleregBtn('on')">
+				<label class="registHistoryList" for="1">
+					<div class="">Licence Id</div>
+					<div class="historyTitle">1654147</div>
+					<div class="">LicenseType</div>
+					<div class="historyTitle">C</div>
+					<div class="">Driver Name</div>
+					<div class="historyTitle">Mateus Chaves</div>
+					<div class="">Driver Birth</div>
+					<div class="historyTitle">1974-12-21</div>
+					<div class="">Driver Phone number</div>
+					<div class="historyTitle">84-123-1457</div>
+					<div class="">Expiration Date</div>
+					<div class="historyTitle">2024-08-07</div>
+					<div class="">Vehicel No.</div>
+					<div class="historyTitle">MC 487 21</div>
+				</label>
+				
+				<input type="radio" name="searchResult" id="2" value="456" onclick="toggleregBtn('on')">
+				<label class="registHistoryList" for="2">
+					<div class="">Licese Id</div>
+					<div class="historyTitle">1254551</div>
+					<div class="">LicenseType</div>
+					<div class="historyTitle">A</div>
+					<div class="">Driver Name</div>
+					<div class="historyTitle">Amélia Manuela</div>
+					<div class="">Driver Birth</div>
+					<div class="historyTitle">1980-01-01</div>
+					<div class="">Driver Phone number</div>
+					<div class="historyTitle">84-1545-1542</div>
+					<div class="">Expiration Date</div>
+					<div class="historyTitle">2024-08-07</div>
+					<div class="">Vehicel No.</div>
+					<div class="historyTitle">MC 154 11</div>
+				</label>
+<!--				<div class="registHistoryList">-->
+<!--					<div class="historyDate">2023.12.06</div>-->
+<!--					<div class="historyTitle">This story contains the exorcism record of Kim Ok-ji, a renowned exorcist.</div>-->
+<!--					<div class="historyCategory">-->
+<!--						<span th:text="#{main.searchDriver.category}">카테고리</span> /-->
+<!--						<span>12-1313</span> /-->
+<!--						<span>13:50</span>-->
+<!--					</div>-->
+<!--				</div>-->
+			</div>
+
+
+		</div>
+	</div>
+
+	<div class="btn-wrap is-fixed">
+<!--		mainFixBtn-->
+		<button type="button" id="regBtn" class="subFixBtn" onclick="continueRegist()"
+			th:text="|Continue registration|">등록하기</button>
+	</div>
+</div>
+
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+	
+	function continueRegist() {
+		const regTypeElement = document.querySelector('input[name="regType"]:checked');
+		if (regTypeElement == null) {
+			// 등록 진행할 정보를 선택해 주세요
+			alert('Selecione as informações que deseja registrar');
+			return false;
+		}
+		
+		const regTypeVal = regTypeElement.value;
+		
+		if (regTypeVal == '') {
+			// 등록 진행할 정보를 선택해 주세요
+			alert('Selecione as informações que deseja registrar');
+			return false;
+		}
+		
+    const searchResultElmnt = document.getElementsByName('searchResult');
+
+		let searchResultVal = '';
+
+    for (var i = 0; i < searchResultElmnt.length; i++) {
+        if (searchResultElmnt[i].checked) {
+            searchResultVal = searchResultElmnt[i].value;
+        }
+    }
+		
+		if (searchResultVal == '') {
+			// 등록 진행할 정보를 선택해 주세요
+			alert('Selecione as informações que deseja registrar');
+			return false;
+		}
+		
+		let url = ''
+		if (regTypeVal == 'enf') {
+			url = /*[[@{/tfcenfmng/trafficEnfceRegPage}]]*/;
+		} else if (regTypeVal == 'acdnt') {
+			url = /*[[@{/tfcenfmng/trafficEnfceRegPage}]]*/;
+		}
+		location.href = url;
+	}
+	
+	
+	
+	function toggleregBtn(type) {
+		const regBtnElmnt = document.getElementById("regBtn");
+		
+		if (type == 'on') {
+			regBtnElmnt.classList.remove('subFixBtn');
+			regBtnElmnt.classList.add('mainFixBtn');
+		} else {
+			regBtnElmnt.classList.remove('mainFixBtn');
+			regBtnElmnt.classList.add('subFixBtn');
+		}
+	}
+	
+	
+	function showSearchResultWrap(type) {
+		const searchTxt = document.getElementById('searchTxt').value;
+		
+		if (searchTxt == '') {
+			alert("Por favor insira o seu termo de pesquisa")
+			return false;
+		}
+		
+		const searchResultWrap = document.getElementById('searchResultWrap');
+		
+		// TODO:: API 통신
+		
+		if (type == 'on') {
+			searchResultWrap.classList.remove('none');
+		} else {
+			searchResultWrap.classList.add('none');
+		}
+	}
+	
+</script>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <div th:fragment="headerFragment">
+        <div id="header">
+            <div id="sub-header-wrap">
+                <a th:href="${backLink != null} ? ${backLink} : '/main'"><img th:src="@{/images/arrow-back.png}" class="back"></a>
+                <span class="nunito" th:text="${headerTitle ?: 'Undefined Title'}"></span>
+            </div>
+        </div>
+    </div>
+</html>

@@ -1,26 +1,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
 <th:block th:replace="fragments/head :: headFragment"></th:block>
-<link th:href="@{/css/login.css}" rel="stylesheet">
-<body>
-	<div class="logn-wrapper">
-		<div class="login-formContent">
+<body class="login-body">
+	<div id="login-wrapper">
+		<div id="login-formContent">
 	    <!-- Tabs Titles -->
 	    	<div class="login-title">
-	    		<h2><span th:text="#{user.loginPage.country}">Mozambique</span> <br/> <span th:text="#{user.loginPage.policeApp}">Police App</span></h2>
+	    		<h2><span th:text="#{user.loginPage.country}">MOZ-ATES</span></h2>
+	    		 <span th:text="#{user.loginPage.policeApp}">Police App</span>
 	    	</div>
 		    <!-- Login Form -->
-		    <form th:action="@{/policeLoginCnfrm}" method="post">
-		      <input th:placeholder="#{user.loginPage.pl.id}" type="text" class="" id="appPolId" name="appPolId" placeholder="Police Officer Account Id">
-		      <input th:placeholder="#{user.loginPage.pl.pw}" type="password" class="" id="appPolPw" name="appPolPw" placeholder="password">
-		      <div class="input-submit">
-			      <input type="submit" class="" value="Log In" th:value="#{user.loginPage.btn.login}">
-		      </div>
+		    <form th:action="@{/policeLoginCnfrm}" method="post" class="form-wrap">
+				<div class="form-div">
+					 <label th:text="#{user.loginPage.pl.id}">Police Number</label>
+		    	     <input th:placeholder="#{user.loginPage.pl.id}" type="text" class="idps-input" id="appPolId" name="appPolId" placeholder="Police Officer License Id" value="1961">
+				</div>
+				<div class="form-div">
+					  <label th:text="#{user.loginPage.pl.pw}">Password</label>
+		    		  <input th:placeholder="#{user.loginPage.pl.pw}" type="password" class="idps-input" id="appPolPw" name="appPolPw" placeholder="Password" value="bluedus1!"><!-- Remind Passowrd -->
+					  <div class="login-passfind">
+					     <a class="login underlineHover" href="/passWordFind" th:text="#{user.loginPage.find.pw}">Forgot Your Password?</a>
+					  </div>
+				</div>	
+			    <div class="input-submit">
+				    <input type="submit" class="mainBtn" value="LogIn" th:value="#{user.loginPage.btn.login}">
+			    </div>
+			    <div class="join-btn">
+					  <a class="login underlineHover" href="/join">Don’t have account?<span> User registration</span></a>
+				</div>
 		    </form>
-		    <!-- Remind Passowrd -->
-		    <div id="login-formFooter">
-		      	<a class="login underlineHover" href="#" th:text="#{user.loginPage.find.pw}">Forgot Password?</a>
-		    </div>
 	  	</div>
 	</div>
 </body>

@@ -1,0 +1,98 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/sub_layout">
+
+<div layout:fragment="content">
+	<div id="header">
+		<div id="sub-header-wrap">
+			<a href=""><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{myinfo.myInfoPassModify.changePassword}">비밀번호 변경</span>
+		</div>
+	</div>
+	<div id="sub-container" th:if="${!isPwChk}">
+	  <div id="PassModify">
+		  <div class="formRegistTitle">
+			  <h2 th:text="#{myinfo.myInfoPassModify.wrongApproach}">잘못된 접근입니다.</h2>
+		  </div>
+  		<div class="btn-wrap is-fixed is-bottom-70">
+			<a href="/main" th:text="#{myinfo.myInfoPassModify.mainPage}">메인으로 이동</a>
+		</div>
+	  </div>
+	</div>
+	<form id="frmModifyPassword"th:if="${isPwChk}">
+		<div id="sub-container">
+		  <div id="PassModify">
+			  <div class="formRegistTitle">
+				  <h2 th:text="#{myinfo.myInfoPassModify.passwordModify}">Password Modify</h2>
+			  </div>
+			 <div class="formRegistList">
+				 <label>비밀번호 입력</label>
+				<input type="password" id="newPw" name="newPw" class="passInput" th:placeholder="#{myinfo.myInfoPassModify.placeholder.newPassword}">
+				<i class="eye" onclick="eyeToggle()"></i>
+			</div>
+			<div class="formRegistList">
+				<label>비밀번호 재입력</label>
+				<input type="password" id="newPwChk" name="newPwChk" class="passInput" th:placeholder="#{myinfo.myInfoPassModify.placeholder.newPasswordCheck}">
+				<i class="eye" onclick="eyeToggle()"></i>
+			</div>
+			<div class="btn-wrap is-fixed">
+				<button type="button" class="mainFixBtn" onclick="updatePassword()" th:text="#{myinfo.myInfoPassModify.btn.modify}">Password Change</button>
+			</div>
+	    </div>
+    </form>
+</div>
+
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+	
+	/**아직 안된거임 오해하지 마시길..*/
+	function eyeToggle(){
+		const passEye = document.querySelector('.eye');
+		const passInput = document.querySelector('.passInput');
+	
+		 if (passEye.classList.contains('on')) {
+			passInput.type ='password';
+			passEye.classList.remove('on');
+		} else {
+			passInput.type ='text';
+			passEye.classList.add('on');
+		}
+	}
+	
+	function updatePassword(){
+		const newPw = document.getElementById('newPw').value;
+		const newPwChk = document.getElementById('newPwChk').value;
+		
+		const validationMsg = /*[[#{myinfo.myInfoPassModify.password.mismatch}]]*/;
+		
+		if(newPw != newPwChk){
+			alert(validationMsg);
+			return;
+		}
+		
+		const failedMsg = /*[[#{myinfo.myInfoPassModify.failed}]]*/
+		
+		const formData = new FormData(document.getElementById('frmModifyPassword'));
+		
+		const loading = MozAtesPoliceApp.loading("Saving...").start();
+		
+		fetch('/myinfo/password/modify',{
+			method : "post",
+			body : formData
+		})
+		.then(response => response.json())
+		.then((result) => {
+			 if (result.code === 200) {
+				 	alert("Password Modify Success");
+					//location.href="/myinfo/list";
+	            } else {
+	                alert(failedMsg);
+	            }
+		}).finally(() => {
+			loading.end();
+		});
+		
+	}
+
+</script>
+	

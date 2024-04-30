@@ -1,0 +1,83 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/sub_layout">
+
+<div layout:fragment="content">
+	<div id="header">
+		<div id="sub-header-wrap">
+			<a href="/myinfo/list"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{myinfo.myInfoPassConfirm.title}">비밀번호 확인</span>
+		</div>
+	</div>
+	<form id="frmVerfyPassword">
+		<div id="sub-container">
+		  <div id="PassModify">
+			  <div class="formRegistTitle">
+				  <h2 th:text="#{myinfo.myInfoPassConfirm.verify}">Verify Password</h2>
+			  </div>
+			 <div class="formRegistList">
+				 <label th:text="#{myinfo.myInfoPassConfirm.password}">현재 비밀번호 입력</label>
+				 <input type="hidden" id="type" th:value="${type}">
+				<input type="password" id="appPolPw" name="appPolPw" class="passInput" th:placeholder="#{myinfo.myInfoPassConfirm.placeholder.password}">
+				<i class="eye" onclick="eyeToggle()"></i>
+			</div>
+		 </div>
+	</form>
+	<div class="btn-wrap is-fixed">
+		<button type="button" onclick="verfyPassword()" class="mainFixBtn" th:text="#{myinfo.myInfoPassConfirm.btn.verify}">비밀번호 확인</button>
+	</div>
+</div>
+
+</html>
+<script type="text/javascript" th:inline="javascript">
+	
+	/**아직 안된거임 오해하지 마시길..*/
+	function eyeToggle(){
+		const passEye = document.querySelector('.eye');
+		const passInput = document.querySelector('.passInput');
+	
+		 if (passEye.classList.contains('on')) {
+			passInput.type ='password';
+			passEye.classList.remove('on');
+		} else {
+			passInput.type ='text';
+			passEye.classList.add('on');
+		}
+	}
+	
+	function verfyPassword(){
+		const failedMsg = /*[[#{myinfo.myInfoPassConfirm.failed}]]*/;
+		
+		const formData = new FormData(document.getElementById('frmVerfyPassword'));
+		
+		const type = document.getElementById('type').value;
+		
+		let url = "";
+		
+		switch(type){
+			case 'password':
+				url = "/myinfo/passModify/detail";
+			break;
+			case 'profile':
+				url = "/myinfo/polInfo/modify";
+			break;
+		}
+
+		const loading = MozAtesPoliceApp.loading("Saving...").start();
+		
+		fetch('/myinfo/password/verfy',{
+			method : "post",
+			body : formData
+		})
+		.then(response => response.json())
+		.then((result) => {
+			 if (result.code === 200) {
+					location.href = url;
+	            } else {
+	                alert(failedMsg);
+	            }
+		}).finally(() => {
+			loading.end();
+		});
+	}
+</script>
+	

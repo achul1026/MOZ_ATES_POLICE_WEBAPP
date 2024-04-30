@@ -33,11 +33,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+//        http.requiresChannel().anyRequest().requiresSecure();
+
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/css/**","/font/**","/js/**").permitAll()
-                .antMatchers("/**").hasAnyRole("app")
+                .antMatchers("/css/**","/fonts/**","/images/**","/js/**","/passWordFind","/passWordComplete","/passWordFindAjax","/join","/joinUsAjax","/joinComplete").permitAll()
+                .antMatchers("/**")
+                .hasAnyRole("app")
                 .anyRequest().authenticated();
 
         http.formLogin()

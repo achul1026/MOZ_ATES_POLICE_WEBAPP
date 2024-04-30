@@ -1,0 +1,250 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+
+<div layout:fragment="content" id="gis-with-container">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a th:href="@{/tfcacdntmng/list}"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="|Accident Detail|">사고 이력 상세</span>
+		</div>
+	</div>
+
+	<div id="map" class="map">
+	</div>
+
+	<div class="sub-container">
+<!--		<div class="alert-div">-->
+<!--			<p class="alert-box alert-warning mb30" th:text="#{common.map.location.help}"></p>-->
+<!--		</div>-->
+		
+		<div class="crackdown-wrap">
+			<div class="formRegistTitle">
+				<h2 th:text="#{tfcenfmng.trafficEnfceDetail.policeOfficerInChargeTitle}">Police Officer In Charge</h2>
+			</div>
+			<div class="formRegistList">
+				<label th:text="#{tfcenfmng.trafficEnfceDetail.polDept}">Department</label>
+				<div class="formDetailContent" th:text="${acdntDetail.polInfo.polDeptNm}"></div>
+			</div>
+			<div class="formRegistList">
+				<label th:text="#{tfcenfmng.trafficEnfceDetail.polNm}">Name</label>
+				<div class="formDetailContent" th:text="${acdntDetail.polInfo.polNm}"></div>
+			</div>
+		</div>
+			
+		<div class="crackdown-wrap"> <!-- Accident Information start-->
+			<div class="formRegistTitle mb30">
+				<h2 th:text="#{tfcacdntmng.trafficAcdntRegPage.contentAccidentInfo}">Accident Information</h2>
+			</div>
+
+			<div class="formRegistList">
+				<label th:text="|Accident No.|">Accident No.</label>
+				<div class="formDetailContent" th:text="${acdntDetail.tfcAcdntId}">acdntDt</div>
+			</div>
+
+			<div class="formRegistList">
+				<label th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentDate}">Accident
+					Date/Time</label>
+				<div class="formDetailContent" th:text="${#dates.format(acdntDetail.acdntDt, 'yyyy-MM-dd a hh:mm')}">acdntDt</div>
+			</div>
+
+			<div class="formRegistList">
+				<label th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType}">Accident
+					Type</label>
+				<div class="formDetailContent" th:text="${acdntDetail.cmCd.cdNm}">acdntTy</div>
+			</div>
+
+			<div class="formRegistList">
+				<label th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}">Road
+					Address</label>
+				<div class="formDetailContent" th:text="${acdntDetail.roadAddr}">roadAddr</div>
+			</div>
+
+			<div class="formRegistList">
+				<label th:text="#{tfcacdntmng.trafficAcdntRegPage.childAccident}">Child Accident</label>
+				<div class="formDetailContent" th:text="${acdntDetail.acdntChildYn} == 'Y' ? #{tfcacdntmng.trafficAcdntRegPage.yes} : #{tfcacdntmng.trafficAcdntRegPage.no}">
+					Child Accident YN
+				</div>
+			</div>
+
+			<div class="formRegistList">
+				<label th:text="#{tfcacdntmng.trafficAcdntRegPage.acdntTyDtls}">Accident Details</label>
+				<div class="formDetailContent" th:text="${acdntDetail.acdntTyDtls}">Accident Details</div>
+			</div>
+
+			<div class="formRegistList">
+				<label th:text="|Accident Report|">Accident Report</label>
+				<div class="formDetailContent" th:text="${acdntDetail.acdntReport}">Accident Report</div>
+			</div>
+
+		</div> <!-- Accident Information end-->
+
+
+		<div id="accident-party-container"> <!-- Accident Party start-->
+			<div class="crackdown-wrap accident-party-wrap" th:each="trgtItm, trgtStts : ${acdntDetail.tfcAcdntTrgtInfo}">
+
+				<div class="formRegistTitle">
+					<h2><span class="party_Title">Accident Party</span> <span class="party_cnt" th:text="${trgtStts.count}">1</span></h2>
+				</div>
+				<div class="formRegistList">
+					<label>Accident Target</label>
+					<div class="formDetailContent" th:text="${trgtItm.acdntTrgtCdNm}">Accident Target</div>
+				</div>
+				<div class="formRegistList" th:if="${trgtItm.acdntTrgtCd} == 'ATT000'">
+					<div class="formRegistList">
+						<label>DRIVER LICENSE ID</label>
+						<div class="formDetailContent" th:text="${trgtItm.dvrLcenId}">DRIVER LICENSE ID</div>
+					</div>
+					<div class="formRegistList">
+						<label>Vehicle No.</label>
+						<div class="formDetailContent" th:text="${trgtItm.vhRegNo}">Vehicle Reg No.</div>
+					</div>
+					<div class="formRegistList">
+						<label>VEHICLETYPE</label>
+						<div class="formDetailContent" th:text="${trgtItm.vhTy}"></div>
+					</div>
+					
+					<div class="formRegistList">
+						<label>Driving Status</label>
+						<div class="formDetailContent" th:text="${trgtItm.dvYn}">Driving Status YN</div>
+					</div>
+					
+				</div>
+				<div class="formRegistList">
+					<label>Accident Damage</label>
+					<div class="formDetailContent" th:text="${trgtItm.acdntDmgCdNm}">Accident Damage</div>
+				</div>
+				<div class="formRegistList">
+					<label>Accident Target Phone Number</label>
+					<div class="formDetailContent" th:text="${trgtItm.acdntTrgtPno}">Accident Target Phone Number</div>
+				</div>
+				<div class="formRegistList">
+					<label>Accident Target Birthday</label>
+					<div class="formDetailContent" th:text="${trgtItm.acdntTrgtBrth}">Accident Target Birthday</div>
+				</div>
+				<div class="formRegistList">
+					<label>Accident Target Name</label>
+					<div class="formDetailContent" th:text="${trgtItm.acdntTrgtNm}">Accident Target Name</div>
+				</div>
+				<div class="formRegistList">
+					<label>Death Status</label>
+					<div class="formDetailContent" th:text="${trgtItm.deadYn}">Death Status</div>
+				</div>
+				
+				<!-- Passenger Information start-->
+				<div th:if="${not #lists.isEmpty(acdntDetail.tfcAcdntPnrInfo)} and ${trgtItm.acdntTrgtCd} == 'ATT000'">
+					<div class="formRegistTitle">
+						<h2>Passenger Information</h2>
+					</div>
+					<th:block th:each="pnrItm, pnrStatus : ${acdntDetail.tfcAcdntPnrInfo}">
+						<div class="formDetailPassenger" th:if="${pnrItm.acdntTrgtId} == ${trgtItm.acdntTrgtId}">
+							<span id="accidentPartyTitle" class="mt0">Passenger <span th:text="${pnrStatus.count}">1</span></span>
+							<div class="formRegistList">
+								<label>Is Driver?</label>
+								<div class="formDetailContent" th:text="${pnrItm.drvYn}"></div>
+							</div>
+							<div class="formRegistList">
+								<label>Passenger Driver License Id</label>
+								<div class="formDetailContent" th:text="${pnrItm.pnrDvrLcenId}"></div>
+							</div>
+							<div class="formRegistList">
+								<label>Passenger Driver License Type</label>
+								<div class="formDetailContent" th:text="${pnrItm.dvrLcenTy}"></div>
+							</div>
+							<div class="formRegistList">
+								<label>Passenger Address</label>
+								<div class="formDetailContent" th:text="${pnrItm.pnrAddr}"></div>
+							</div>
+							<div class="formRegistList">
+								<label>Passenger birthday</label>
+								<div class="formDetailContent" th:text="${pnrItm.pnrBrth}"></div>
+							</div>
+							<div class="formRegistList">
+								<label>Passenger phone number</label>
+								<div class="formDetailContent" th:text="${pnrItm.pnrPno}"></div>
+							</div>
+							<div class="formRegistList">
+								<label>Damage Discription</label>
+								<div class="formDetailContent" th:text="${pnrItm.pnrDmgDesc}"></div>
+							</div>
+							<div class="formRegistList">
+								<label>Passenger Damage</label>
+								<div class="formDetailContent" th:text="${pnrItm.pnrDmgCdNm}"></div>
+							</div>
+							<div class="formRegistList">
+								<label>Relationship With Driver</label>
+								<div class="formDetailContent" th:text="${pnrItm.pnrDrvrRltnCdNm}"></div>
+							</div>
+						</div>
+					</th:block>					
+				</div> <!-- Passenger Information end-->
+			</div>
+
+		</div> <!-- Accident Party end-->
+		
+		
+		
+		<div class="crackdown-wrap">
+			<div class="formRegistTitle">
+				<h2 th:text="#{tfcenfmng.trafficEnfceDetail.uploadedFilesTitle}">첨부파일 업로드</h2>
+			</div>
+
+			<div class="formRegistList">
+				<th:block th:if="${not #lists.isEmpty(acdntDetail.tfcAcdntFileInfo)}">
+					<label th:text="#{tfcenfmng.trafficEnfceDetail.img}">사진/동영상</label>
+					
+					<div class="detailDownConList" th:each="fileItm : ${acdntDetail.tfcAcdntFileInfo}">
+						<div class="detailDownCon">
+							<div class="downImgWrap">
+								<img th:src="@{/tfcacdntmng/tfcAcdnt/image(acdntFileNo=${fileItm.acdntFileNo})}">
+							</div>
+							<div class="downImgName" th:text="${fileItm.fileNm}">
+								128123-12312323.jpg
+							</div>
+						</div>
+						<!-- TODO :: 파일 다운로드 -->
+						<button type="button" onclick="downloadImg('test')" class="downBtn">Save</button>
+					</div>
+							
+				</th:block>
+
+				<th:block th:unless="${not #lists.isEmpty(acdntDetail.tfcAcdntFileInfo)}">
+					<div th:text="#{tfcenfmng.trafficEnfceDetail.contentEmpty}">Nothing registered</div>
+				</th:block>
+
+			</div>
+				
+				
+		</div>
+		
+		
+		
+	</div> <!-- sub-container -->
+</div>
+
+</html>
+<script type="text/javascript" th:inline="javascript">
+	const placeLat = /*[[${acdntDetail.lat}]]*/;
+	const placeLng = /*[[${acdntDetail.lng}]]*/;
+
+	const map = new MozAtesPoliceMap({
+		elementId: 'map',
+		useGeoLocation: false,
+		center_lat: placeLat,
+		center_lng: placeLng,
+		loadedGeoCodeCallback: function (core, data) {
+			const streetList = core.util.refineStreetName(data.features);
+			const datalist = document.getElementById("loadedRoadAddr");
+			datalist.innerHTML = "";
+			let options = "";
+			for (const streetName of streetList) {
+				options += `<option>${streetName}</option>`;
+			}
+			datalist.innerHTML = options;
+		}
+	}).drawMarker([placeLng, placeLat]);
+
+	function downloadImg(idx) {
+		console.log(idx);
+	}
+	
+</script>

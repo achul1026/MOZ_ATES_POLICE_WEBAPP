@@ -1,0 +1,91 @@
+#app-container {
+	max-width:1280px;
+	margin:0 auto;
+	padding:57px 0 0;
+	position:relative;
+}
+#header {
+	width:100%;
+	position: fixed;
+	top:0;
+	left:0;
+	background:#fff;
+	z-index: 99;
+}
+#header-wrap {
+	padding:15px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#sub-header {
+	width:100%;
+	position: fixed;
+	top:0;
+	left:0;
+	background:#fff;
+	z-index: 99;
+}
+#sub-header-wrap {
+	padding:20px;
+	text-align: center;
+	font-size:18px;
+	height:57px;
+}
+#container {
+	position: relative;
+	top:20px;
+	display: flex;
+	flex-wrap:wrap;
+	gap:32px;
+}
+#sub-container {
+	position: relative;
+}
+#conWrap {
+	padding:20px;
+	background: #fff;
+}
+#conWrapWh {
+	background: #fff;
+}
+.map {
+	width:100%;
+	position:absolute;
+	left:0;
+	right:0;
+	bottom: 0;
+	z-index: 2;
+}
+#gis-with-container .map {
+	height:35%;
+}
+#gisinfo-container {
+    height:65%;
+	left:0;
+	z-index:2;
+	bottom:0;
+	right:0;
+	position:absolute;
+	overflow-y:auto;
+	padding-bottom:50px;
+    width: 100%;
+}
+#gis-sub-container {
+	top:0;
+}
+#fixed-menu {
+	position: fixed;
+	bottom: 0px;
+	left:0;
+	right:0;
+	padding:12px 26px;
+	background: #fff;
+	box-shadow: 0px -5px 10px 0px rgba(22, 74, 149, 0.04);
+	transition: 0.5s;
+	z-index: 999999;
+}
+.fixedUp {
+	bottom:0 !important;
+	transition: 0.5s;
+}

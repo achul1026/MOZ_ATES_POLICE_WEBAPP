@@ -1,0 +1,106 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+
+<div layout:fragment="content">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a href="/main"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{main.searchDriver.checkDriverVehicle}">운전자/차량 조회</span>
+		</div>
+	</div>
+	<div id="sub-container">
+		<div id="searchHead">
+			<div id="typeCheck-btn">
+				<a href="/main/search/driver/list.do" class="on" th:text="#{main.searchDriver.driverInquiry}">운전자 조회</a>
+				<a href="/main/search/car/list.do" th:text="#{main.searchDriver.vehicleInquiry}">차량 조회</a>
+			</div>
+			<div id="cmSearch">
+				<form>
+					<input type="text" th:placeholder="#{main.searchDriver.placeholder.enterContent}" class="list-search-box">
+					<div id="cmButtonWrap">
+						<button id="searchIcon" type="button"></button>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		
+		<div class="formRegistContainer">
+			<div id="formRegistWrap">
+				<div class="formRegistTitle">
+					 <h2>Driver Inquiry</h2>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{main.searchDriver.licenseNumber}">운전 면허번호</label>
+					<input type="text" th:placeholder="#{main.searchDriver.placeholder.enterLicense}">
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{main.searchDriver.name}" >이름</label>
+					<div id="nameInputWrap">
+						<input type="text" th:placeholder="#{main.searchDriver.placeholder.enterFirstName}">
+						<input type="text" th:placeholder="#{main.searchDriver.placeholder.enterLastName}">
+					</div>
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{main.searchDriver.birthday}" >생년월일</label>
+					<input type="text" th:placeholder="#{main.searchDriver.placeholder.enterBirthday}">
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{main.searchDriver.licenseStatus}">면허상태</label>
+					<input type="text" placeholder="정상">
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{main.searchDriver.licenseIssuanceDate}" c>면허발급일자</label>
+					<input type="text"th:placeholder="#{main.searchDriver.placeholder.enterIssuanceDate}">
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{main.searchDriver.tel}">연락처</label>
+					<input type="text" th:placeholder="#{main.searchDriver.placeholder.enterTel}">
+				</div>
+				<div class="formRegistList">
+					<label th:text="#{main.searchDriver.address}" class="cmLabel">주소</label>
+					<input type="text" th:placeholder="#{main.searchDriver.placeholder.enterAddress}">
+				</div>
+			</div>
+		</div>
+		<div class="formRegistContainer registHistoryContainer">
+			<div id="registHistoryWrap">
+				<div class="formRegistTitle">
+					 <h2>Accident History</h2>
+				</div>
+				<div class="registDateCheck">
+					<select>
+						<option th:text="#{main.searchDriver.selectYear}">년도선택</option>
+						<option>2024</option>
+						<option>2023</option>
+					</select>
+				</div>
+				<div class="registHistoryList">
+					<div class="historyDate">2023.12.06</div>
+					<div class="historyTitle">This story contains the exorcism record of Kim Ok-ji, a renowned exorcist.</div>
+					<div class="historyCategory">
+						<span th:text="#{main.searchDriver.category}">카테고리</span> / 
+						<span>12-1313</span> /
+						<span>13:50</span>
+					</div>
+				</div>
+				<div class="registHistoryList">
+					<div class="historyDate">2023.12.06</div>
+					<div class="historyTitle">This story contains the exorcism record of Kim Ok-ji, a renowned exorcist.</div>
+					<div class="historyCategory">
+						<span th:text="#{main.searchDriver.category}">카테고리</span> / 
+						<span>12-1313</span> /
+						<span>13:50</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="btn-wrap is-fixed">
+		<button type="button" class="mainFixBtn" onclick="location.href='/tfcenfmng/trafficEnfceRegPage'" th:text="#{main.searchDriver.crackdown}">단속하기</button>
+	</div>
+</div>
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+</script>

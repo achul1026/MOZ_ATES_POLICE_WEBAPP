@@ -1,0 +1,213 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/layout">
+
+	<div layout:fragment="content">
+		<div class="header">
+			<div class="sub-header-wrap">
+				<a href="/tfcacdntmng/trafficAcdntRegionInfo/save.do"><img src="/images/arrow-back.png" class="back"></a>
+				<span th:text="#{tfcacdntmng.trafficAcdntInfoRegist.accidentRegist}">Accident Registration</span>
+			</div>
+		</div>
+	    <div class="sub-container">
+           <!-- <h1 th:text="#{tfcenfmng.trafficEnfceRegPage.title}">Traffic Enforcement Register</h1>-->
+            <form id="trafficEnfceRegForm" name="trafficEnfceRegForm" method="post">
+            	<input type="hidden" id="pymntOprtr" name="pymntOprtr">
+            	<input type="hidden" id="lat" name="lat" value="">
+        		<input type="hidden" id="lng" name="lng" value="">
+				<!--	<div class="form-group">
+					<a href="javascript:void(0)" class="btn btn-default" onclick="$('#camera').click()">CAMERA</a>
+					<a href="javascript:void(0)" class="btn btn-default" onclick="$('#picture').click()">PICTURE</a>
+					<input type="file" class="btn" id="camera" name="camera" capture="camera" style="display:none">
+					<input type="file" class="btn" id="picture" name="picture"  style="display:none">
+					<div id="result">
+						<pre></pre>
+					</div>
+				<div id="loading">
+						<div >
+							<div>
+								Loading..
+							</div>
+						</div>
+					</div>-->
+				
+        <div class="crackdown-wrap">
+			<div class="driver-car-title crackdown-title">
+				<h2 th:text="#{tfcacdntmng.trafficAcdntInfoRegist.accidentDetails}">Accident Details</h2>
+			</div>
+			<div class="driver-car-list">
+				<label class="" for="plate" th:text="#{tfcacdntmng.trafficAcdntInfoRegist.type}">Type</label>
+				<input type="text" id="plate" name="plate" class="" placeholder="선택" readonly onclick="location.href='/tfcacdntmng/trafficAcdntCheckSearch/save.do'">
+			</div>
+        <!--    <div class="driver-car-list">
+                <label class="" for="dvrLcenId">사고 유형 상세</label>
+                <input type="text" id="plate" name="plate" class="" placeholder="선택" readonly onclick="location.href='/tfcenfmng/trafficEnfceCheckSearch/save.do'">
+            </div>-->
+			<div class="driver-car-list">
+                <label class="" for="vioNm" th:text="#{tfcacdntmng.trafficAcdntInfoRegist.details}">Details</label>
+                <textarea placeholder="Please enter content."></textarea>
+            </div>
+         
+    	</div>
+    	 <div class="btn-wrap">
+			 	<button type="button" class="main-btn" onclick="location.href='/tfcacdntmng/trafficAcdntRegPage'" th:text="#{tfcacdntmng.trafficAcdntInfoRegist.next}">다음</button>
+               <!-- <input type="button" class="main-btn" id="fnTrafficEnfceRegBtn" th:value="#{tfcenfmng.trafficEnfceRegPage.registerButton}">-->
+            </div>
+	</form>
+	     </div>        
+	</div>
+</html>
+<script type="text/javascript" th:inline="javascript">
+
+	var message = /*[[${resultMsg}]]*/;
+    if(message != null && message != ' '){
+		swal({
+			  title: /*[[${resultMsgType}]]*/,
+			  text: message,
+			  icon: /*[[${resultMsgType}]]*/,
+			  button: "Confirm",
+			});
+	}
+
+	function handlePermission() {
+		navigator.permissions.query({name:'geolocation'}).then(function(result) {
+			if (result.state == 'granted') {
+				getGelocation();
+			} else if (result.state == 'prompt') {
+				report(result.state);
+				getGelocation();
+			} else if (result.state == 'denied') {
+				report(result.state);
+			}
+			result.addEventListener('change', function() {
+				report(result.state);
+			});
+		});
+	}
+	function report(state) {
+		console.log('Permission ' + state);
+	}
+//	handlePermission();
+ 	// Geolocation API에 액세스할 수 있는지를 확인
+	function getGelocation(){
+		$("#lat").val("-25.975684");
+                $("#lng").val("32.5741056");
+		if (navigator.geolocation) {
+			//위치 정보를 얻기
+			navigator.geolocation.getCurrentPosition (function(pos) {
+				if(typeof pos == "undefined") {
+					alert("Not support geolocation.");
+					return
+				}
+				$("#lat").val(pos.coords.latitude);     // 위도
+				$("#lng").val(pos.coords.longitude); // 경도
+			});
+		} else {
+//			alert("Not support geolocation.")
+		}
+	}
+	getGelocation()
+
+
+	$("#vioSpd").on("keyup",function(){
+		var spdLmt = $("#spdLmt").val();
+			spdLmt = Number(spdLmt);
+
+		var vioSpd = $(this).val();
+			vioSpd = Number(vioSpd);
+
+		var overSpd = spdLmt - vioSpd;
+		if(spdLmt < vioSpd){
+			overSpd = (overSpd * -1);
+		}else{
+			overSpd = 0;
+		}
+
+		$("#overSpd").val(overSpd);
+	})
+
+    $("#fnTrafficEnfceRegBtn").on("click",function(){
+
+		var form = document.getElementById("trafficEnfceRegForm");
+    	form.action="/tfcenfmng/trafficEnfceReg";
+    	form.method="POST";
+    	form.submit();
+    })
+
+    $("#placePymntId").on("change",function(){
+    	var oprtr = $("#placePymntId option:selected").data("oprtr");
+    	$("#pymntOprtr").val(oprtr);
+    })
+
+	function syntaxHighlight(json) {
+		if (typeof json != 'string') {
+			json = JSON.stringify(json, undefined, 2);
+		}
+		json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+			var cls = 'number';
+			if (/^"/.test(match)) {
+				if (/:$/.test(match)) {
+					cls = 'key';
+				} else {
+					cls = 'string';
+				}
+			} else if (/true|false/.test(match)) {
+				cls = 'boolean';
+			} else if (/null/.test(match)) {
+				cls = 'null';
+			}
+			return '<span class="' + cls + '">' + match + '</span>';
+		});
+	}
+	function uploadFile(id) {
+		var formData = new FormData();
+		formData.append("file", $("#"+id).get(0).files[0]);
+		$.ajax({
+			type: 'POST',
+			url: '/api/get_plate_number',
+			data: formData,
+			dataType: 'json',
+			contentType: false,
+			cache: false,
+			processData:false,
+			beforeSend: function(){
+				$("#loading").show()
+			},
+			success: function(response){ //console.log(response);
+				$("#result pre").html(syntaxHighlight(response))
+				if(response.success) {
+					$("#plate").val(response.plate_number)
+					$("#dvrLcenId").val(response.driver_info.license_number)
+					$("#vioNm").val(response.driver_info.forename + " "+ response.driver_info.surname);
+					$("#vioBrth").val(response.driver_info.birth);
+					$("#vioEmail").val(response.driver_info.email);
+					$("#vioAddr").val(response.driver_info.address);
+					$("#vioPno").val(response.driver_info.phone);
+					$("#dvrLcenTy").val(response.driver_info.dvrLcenTy);
+					$("#vhRegNo").val(response.vehicle_info.vehicle_registration_number)
+					$("#vhTy").val(response.vehicle_info.vehicle_type)
+				}
+			},
+			complete: function(){
+				$("#loading").hide()
+			}
+		})
+		// let formData = new FormData();
+		// formData.append("file", $("#picture").get(0).files[0]);
+		// let response = await fetch('/api/get_plate_number', {
+		// 	method: "POST",
+		// 	body: formData
+		// }).then(function(response) {
+		// 	return response.json();
+		// });
+		// console.log(response)
+		// $("#result pre").html(syntaxHighlight(response))
+	}
+	$("#picture").on("change", function(){
+		uploadFile('picture')
+	})
+	$("#camera").on("change", function(){
+		uploadFile('camera')
+	})
+</script>
