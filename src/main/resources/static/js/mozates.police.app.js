@@ -6,9 +6,12 @@ const MozAtesPoliceApp = (function(){
     app.loading = function (text = "loading") {
         const loading = this;
         let loading_cover = null;
-        const loading_html = `<div id="loading-cover" style="position:fixed;z-index:9999;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.5)">
-                    <p style="color:white;position:absolute;left:0;top:50%;right:0;text-align:center;transform: translateY(-50%)">${text}</p>
-            </div>`;
+       	    const loading_html = `<div id="loading-cover">
+	    						 <div id="loadingContainer">
+	    						 	 <div class="scaling-dots"><div></div><div></div><div></div></div>
+	               					 <p id="loadingText">${text}</p>
+	    						 </div>
+	       					  </div>`;
         loading.start = function () {
             loading_cover = document.createElement('div');
             loading_cover.innerHTML = loading_html;
@@ -165,7 +168,7 @@ const MozAtesPoliceApp = (function(){
         </div>
         <div class="formRegistList">
             <label for="acdntTrgtBrth_${currentIdx}">${targetBirth}</label>
-            <input type="text" id="acdntTrgtBrth_${currentIdx}" class="partyAcdntTrgtBrth" placeholder="${targetBirth}">
+            <input type="text" id="acdntTrgtBrth_${currentIdx}" inputmode="numeric" class="partyAcdntTrgtBrth" placeholder="dd.mm.aaaa" maxlength="10" onkeyup="keyupDateCheck(event, 'ddMMyyyy', '.')">
         </div>
         <div class="formRegistList">
             <label for="acdntTrgtNm_${currentIdx}">${targetName}</label>

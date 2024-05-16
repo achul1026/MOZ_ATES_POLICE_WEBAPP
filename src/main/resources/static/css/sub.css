@@ -10,7 +10,7 @@
 	top:0;
 	left:0;
 	right:0;
-	z-index: 999;
+	z-index: 9999999;
 	background:rgba(0, 0, 0, 0.27);
 	width: 100%;
 	height:100%;
@@ -266,6 +266,7 @@
 .passengerTable thead th {
 	padding: 10px;
 	background: #F5F6FA;
+	vertical-align: middle;
 }
 .passengerTable tbody td {
 	padding: 10px;
@@ -393,7 +394,7 @@
 	width:100%;
 	padding: 20px;
 	background: #fff;
-	border-radius: 12px;
+	border-radius: 6px;
 }
 .search-line {
 	display: flex;
@@ -421,11 +422,11 @@
 	border-radius: 6px;
 }
 #typeCheck-btn a.on {
-	color: #008A70;
-    border: 1px solid #008A70;
+	color: #fff;
+    border-color: #008A70;
+    background: #008A70;
+    font-weight: 600;
 }
-
-
 /* 지훈님 검토 필요 */
 #typeCheck-btn label {
 	width:100%;
@@ -436,8 +437,10 @@
 	background-color: #fff;
 }
 #typeCheck-btn input[type="radio"]:checked + label {
-	color: #008A70;
+	color: #fff;
     border-color: #008A70;
+    background: #008A70;
+    font-weight: 600;
 }
 .typeCheckRadio {
 	display: none;
@@ -463,7 +466,7 @@
 }
 #cmButtonWrap {
 	padding:14px;
-	background: #595959;
+	background: #192f49;
 	position: absolute;
 	right: 0;
 }
@@ -478,6 +481,7 @@
 	box-shadow: none;
 	border:none;
 	background: none;
+	font-size:14px;
 }
 .formRegistContainer {
 	margin-top:20px;
@@ -537,7 +541,7 @@
 	width:100%;
 }
 .registDateCheck {
-	margin-top:30px;
+	margin-top:10px;
 	width:100%;
 }
 .registDateCheck select {
@@ -549,7 +553,7 @@
 	background: #fff url("/images/arrow_black.png") no-repeat 97% center;
 	-webkit-appearance: none;
 	appearance: none;
-	color:#000;
+	font-size:14px;
 }
 .registHistoryList {
 	padding:16px;
@@ -558,19 +562,22 @@
 	display: flex;
 	flex-wrap:wrap;
 	gap:12px;
-	border:1px solid #dbdbdb;
+	background: #F5F6FA;
 }
-
-
-/* 지훈님 검토 필요 */
+.searchConList {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+.searchTitle {
+	width: 100%;
+    font-weight: 600;
+}
 #searchResultWrap input[type="radio"]:checked + label {
   border: 1px solid #008A70;
   background: #fff24426;
 }
-/* 지훈님 검토 필요 */
-
-
-
 .historyDate {
 	color:#BEBEBE;
 }
@@ -587,6 +594,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 600;
+    text-align: right;
+   
 }
 .crackdown-wrap {
 	margin-top:20px;
@@ -823,6 +832,7 @@
 	justify-content: space-between;
 	align-items: center;
 	background: #fff;
+	border-bottom: 1px solid #dfdfdf;
 }
 #HisDateAll {
 	font-weight: 600;
@@ -960,14 +970,14 @@
 }
 .MyInfoInfoList {
 	display: flex;
-	gap:8px;
+	gap:10px;
 	align-items: center;
 	margin-bottom:10px;
 	width:100%;
 }
 .MyInfoInfoList dt {
 	color: #7d7d7d;
-	width:200px;
+	width:145px;
 }
 .MyinfoTitle {
 	padding-bottom: 20px;
@@ -1081,4 +1091,196 @@
     color: #fff;
     font-size: 16px;
 }
+.signContents {
+	margin-bottom: 30px;
+}
+.signTitle {
+	margin: 10px 0;
+    color: #008A70;
+    font-weight: 600;
+}
+.signatureCanvas{
+  border-radius: 6px;
+}
+.signatrueDd {
+	margin-bottom: 10px;;
+	border:1px solid #efefef;
+	background: #FAFBFC;
+	overflow: hidden;
+	border-radius: 6px;
+	position: relative;
+}
+#signatureCompleteWrap {
+	text-align: center;
+}
+.signnatureBtnCm {
+	width:100%;
+	background: #FAFBFC;
+	border-radius:6px;
+    padding: 30px;
+    width: 100%;
+    margin-top: 10px;
+    font-weight: 500;
+}
+.signAbout {
+	line-height: 20px;
+}
+#signOnbtn {
+	margin-top:20px;
+	padding: 10px;
+	background: #008A70;
+	color: #fff;
+	border-radius:6px;
+    border: none;
+}
+#signSubCon {
+	display: flex;
+	justify-content: space-between;
+}
 
+.clearBtn {
+	padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #efefef;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.noSign {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+.modalCheck {
+	padding: 0 !important;
+	margin:0 !important;
+	width: 20px !important;
+	height: 20px !important;
+}
+.noSignOn {
+	display: none;
+	width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background: #d9d9d9;
+}
+.nosignBg {
+	padding: 60px;
+    background: #b7b7b7;
+    color: #fff;
+    justify-content: center;
+
+}
+.searchDetailList {
+	display: table;
+    justify-content: space-between;
+/*    margin-bottom: 10px;*/
+   
+/*    padding-bottom: 10px;*/
+    align-items: center;
+    table-layout: fixed;
+}
+.searchDetailList dt {
+	padding: 10px;
+    background: #F5F6FA;
+    min-width: 200px;
+    border-bottom: 1px solid #fff;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.searchDetailList dt span {
+	padding-left:10px;
+	position: relative;
+	color: #8e96ab;
+}
+.searchDetailList dd {
+	font-weight: 400;
+    width: 100%;
+    text-align: right;
+    border-bottom: 1px solid #F5F6FA;
+    border-right: 1px solid #F5F6FA;
+    padding: 10px;
+    display: table-cell;
+    font-weight: 400;
+	text-align: left;
+	word-wrap:break-word;
+	vertical-align: middle;
+}
+.searchDetailList:nth-child(2) dt {
+    border-top: 1px solid #F5F6FA;
+}
+.searchDetailList:nth-child(2) dd {
+    border-top: 1px solid #F5F6FA;
+}
+
+/*.searchDetailList dt span::after {*/
+/*	content: '';*/
+/*	position: absolute;	*/
+/*	top:8px;*/
+/*	left:0;*/
+/*	width: 4px;*/
+/*	height: 4px;*/
+/*	background: #192f49;*/
+/*	border-radius: 20px;*/
+/*}*/
+.enfDetailTitle {
+	margin: 40px 0 20px 0;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	gap:8px;
+}
+.enfDetailTitle h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color:#008A70;
+}
+.enfDeListShow, .enfDeListShow span {
+	font-size:18px;
+	color: #008A70;
+}
+.searchDeHisList {
+	padding: 20px;
+	border-radius: 12px;
+	background:#F5F6FA;
+	display: flex;
+	flex-wrap: wrap;
+	gap:8px;
+}
+.searchDeHisList dl dt {
+	color: #8e96ab;
+}
+.searchDeHisList dl dd {
+	font-weight: 400;
+}
+.searchDeHisList dl {
+	display: flex;
+	justify-content: space-between;
+	width:100%;
+}
+.searchValue {
+	margin:40px 0 10px 0;
+}
+.searchValue span {
+	color: #ff0000;
+	font-weight: 600;
+}
+.SignImg {
+	width: 23%;
+    margin: auto;
+}
+.modalBillInline {
+	display: inline-block;
+	vertical-align: top;
+	
+}
+.modalBillConWidth {
+	max-width:450px;
+	font-weight: 500;
+    color: #17a78c;
+}

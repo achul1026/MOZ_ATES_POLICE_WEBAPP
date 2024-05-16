@@ -24,14 +24,14 @@
 						<label class="control-label" for="acdntTyCd" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType}">Accident Type</label>
 						<select id="acdntTyCd" name="acdntTyCd">
 							<option value="" th:text="#{tfcacdntmng.trafficAcdntRegPage.select}">select</option>
-							<option value="ACT001" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT001}">차대사람 횡단중</option>
-							<option value="ACT002" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT002}">차대사람 차도통행중</option>
-							<option value="ACT003" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT003}">차대사람 길가장자리구역통행중</option>
-							<option value="ACT004" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT004}">차대사람 보도통행중</option>
-							<option value="ACT005" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT005}">차대차 정면충돌</option>
-							<option value="ACT006" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT006}">차대차 측면충돌</option>
-							<option value="ACT007" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT007}">차대차 후진중충돌</option>
-							<option value="ACT008" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT008}">차대차 충돌</option>
+							<option value="ACT000" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT001}">차대사람 횡단중</option>
+							<option value="ACT001" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT002}">차대사람 차도통행중</option>
+							<option value="ACT002" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT003}">차대사람 길가장자리구역통행중</option>
+							<option value="ACT003" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT004}">차대사람 보도통행중</option>
+							<option value="ACT004" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT005}">차대차 정면충돌</option>
+							<option value="ACT005" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT006}">차대차 측면충돌</option>
+							<option value="ACT006" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT007}">차대차 후진중충돌</option>
+							<option value="ACT007" th:text="#{tfcacdntmng.trafficAcdntAllInfo.accidentType.ACT008}">차대차 충돌</option>
 						</select>
 					</div>
 					<div class="formRegistList">
@@ -113,6 +113,14 @@
 	$(document).ready(function(){
 		modalToggle();
 		addAccidentPartyWrap();
+		
+		let apiSearch = /*[[${apiDriverInfo}]]*/;
+		console.log(apiSearch);
+		
+		document.getElementById('vhRegNo_0').value=apiSearch.vhRegNo;
+		document.getElementById('acdntTrgtPno_0').value=apiSearch.contacto;
+		document.getElementById('acdntTrgtBrth_0').value=apiSearch.vioBrth;
+		document.getElementById('acdntTrgtNm_0').value=apiSearch.nome;
 	});
 	
 	function addAccidentPartyWrap(){
@@ -219,11 +227,9 @@
 			let tfcAcdntTrgtPnrInfo = new Array();
 			
 			if(acdntTrgtCd == 'ATT000'){
-				console.log('한다')
 				let passengerListDiv = document.querySelectorAll('.passenger'+i);
 				if(passengerListDiv != null &&  passengerListDiv.length > 0){
 					for(var j = 0; j < passengerListDiv.length; j++){
-						console.log('한다')
 						let mozTfcAcdntTrgtPnrInfo = new Object();
 								
 						let extendsIdName = i+"_"+j;
@@ -559,6 +565,8 @@
                 $(this).val("Avenida Eduardo Mondlane, Maputo");
             }else if($(this).attr("name") === "acdntTyDtls"){
                 $(this).val("Very serious accident");
+            }else if($(this).attr("id") === "acdntTrgtBrth_0"){
+                $(this).val("11.09.1998");
             }else{
                 $(this).val(randomString(8));
         	}

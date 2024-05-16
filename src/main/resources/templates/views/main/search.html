@@ -1,0 +1,181 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/sub_layout">
+
+<div layout:fragment="content">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a href="/main"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{main.searchDriver.checkDriverVehicle}">운전자/차량 조회</span>
+		</div>
+	</div>
+
+	<div class="formRegistContainer registHistoryContainer">
+		<!-- Select Enf or Acdnt -->
+		<div id="typeCheck-btn">
+			<input type="radio" name="regType" id="enf" value="enf" class="typeCheckRadio" checked>
+			<label for="enf" th:text="#{main.search.regType.enforcement}">Traffic Enforcement</label>
+			
+			<input type="radio" name="regType" id="acdnt" value="acdnt" class="typeCheckRadio">
+			<label for="acdnt" th:text="#{main.search.regType.accident}">Traffic Accident</label>
+		</div>
+		
+		<div id="registHistoryWrap">
+			<!-- Select Search Type -->
+			<div class="registDateCheck">
+				<select id="searchType" name="searchType">
+					<option value="dvrLcenId" th:text="#{main.search.option.searchType.dvrLcenId}">Driver License Id</option>
+					<option value="vehicleNo" th:text="#{main.search.option.searchType.vehicleNo}" selected>Vehicle Plate Number</option>
+					<option value="driverNm" th:text="#{main.search.option.searchType.driverNm}">Driver Name</option>
+				</select>
+			</div>
+			<div id="sub-container">
+				
+				<div id="cmSearch">
+					<form>
+						<input type="text" id="searchContent" name="searchContent" class="list-search-box" th:placeholder="#{main.searchDriver.placeholder.enterContent}" value="AAD-349-NS">
+						<div id="cmButtonWrap">
+							<button type="button" id="searchIcon" onclick="apiSearch()"></button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!-- search Result Wrap -->
+			<div id="searchResultWrap" class="none">
+				
+			</div>
+		</div>
+	</div>
+<!--	<div class="btn-wrap is-fixed">-->
+<!--		<button type="button" id="regBtn" class="subFixBtn" onclick="continueRegist()"-->
+<!--			th:text="|Continue registration|">등록하기</button>-->
+<!--	</div>-->
+</div>
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+	const resultTable = document.getElementById('searchResultWrap');
+	
+	function apiResultDetail(_this){
+        const searchType = document.getElementById('searchType').value;
+        const searchValue = document.getElementById('searchContent').value;
+        const regType = document.querySelector("input[name='regType']:checked").value;
+        
+		let resultData = _this.dataset != null ? _this.dataset.prop : null;
+		let obj = JSON.parse(resultData);
+	    const form = document.createElement('form');
+	    form.method = 'post';
+		form.action = '/search/detail';
+		
+		obj.regType = regType;
+		obj.searchType = searchType;
+		obj.searchValue = searchValue;
+		
+	    Object.keys(obj).forEach(key => {
+	        const result = document.createElement('input');
+	        result.type = 'hidden';
+	        result.name = key;
+	        result.value = obj[key];
+	        form.appendChild(result);
+	    });
+	
+	    document.body.appendChild(form);
+	    form.submit();
+	}
+
+	function apiSearch(){
+        const searchType = document.getElementById('searchType').value;
+        const searchValue = document.getElementById('searchContent').value;
+        const parameterNullMsg = /*[[#{main.search.parameter.isNull}]]*/;
+        const loadingMsg = /*[[#{main.search.loading}]]*/;
+        const resultMsg = /*[[#{main.search.notFound}]]*/;
+        
+        if(searchType == null || searchType == '' || searchValue == null || searchValue == ''){
+			alert(parameterNullMsg);
+			return;
+		}
+		
+		const fetcher = new DriverSelectAPI();
+        
+        const loading = MozAtesPoliceApp.loading(loadingMsg).start();
+        
+        fetcher.fetchData(searchType, searchValue, function(data) {
+            resultTable.empty();
+
+		    let parsedData = JSON.parse(data);
+		    
+		    if(parsedData != null &&  parsedData.tab1.length > 0){
+	            parsedData.tab1.forEach(item => {
+	                const label = document.createElement('label');
+	                label.dataset.prop = JSON.stringify(item);
+	                //console.log(JSON.stringify(item));
+	                label.setAttribute('onclick','apiResultDetail(this)');
+	             
+	                
+					let birthday = new Date(item.datadenascimento);
+					
+					let birthdayFormat = `${birthday.getDate()}.${birthday.getMonth() + 1}.${birthday.getFullYear()}`;
+
+	                label.innerHTML = init(
+						item.nome,
+						birthdayFormat,
+						item.tipodedocumento,
+						item.numerododocumento,
+						item.contacto,
+						searchValue
+					);
+					
+	                resultTable.appendChild(label);
+	                
+	                resultTable.classList.remove('none');
+	            });
+			} else {
+				const label = document.createElement('label');
+				
+				label.innerHTML = `
+					<div>${resultMsg}</div>
+				`;
+				
+                resultTable.appendChild(label);
+                resultTable.classList.remove('none');
+			}
+	        loading.end();
+        });
+	}
+	
+	function init(name,birth,docType,docNid,contact,searchValue){
+		const nameTitle = /*[[#{main.search.name}]]*/;
+		const brthTitle = /*[[#{main.search.brth}]]*/;
+		const docTypeTitle = /*[[#{main.search.docType}]]*/;
+		const docNidTitle = /*[[#{main.search.docNid}]]*/;
+		const contactTitle = /*[[#{main.search.contact}]]*/;
+		
+		html = 
+		`	
+		 <div class="searchValue"><span>"${searchValue}"</span> Resultados da pesquisa para</div>
+		  <div class="registHistoryList">
+			<div class="searchConList">
+				<div class="searchTitle">- ${nameTitle}</div>
+				<div class="historyTitle">${name}</div>
+			</div>
+			<div class="searchConList">
+				<div class="searchTitle">- ${brthTitle}</div>
+				<div class="historyTitle">${birth}</div>
+			</div>
+			<div class="searchConList">
+				<div class="searchTitle">- ${docTypeTitle}</div>
+				<div class="historyTitle">${docType}</div>
+			</div>
+			<div class="searchConList">
+				<div class="searchTitle">- ${docNidTitle}</div>
+				<div class="historyTitle">${docNid}</div>
+			</div>
+			<div class="searchConList">
+				<div class="searchTitle">- ${contactTitle}</div>
+				<div class="historyTitle">${contact}</div>
+			</div>
+		</div>
+       	`;
+       	
+       	return html;
+	}
+</script>

@@ -16,7 +16,7 @@
 					<div class="writeDv" th:text="${#dates.format(noticeDetail.crDt, 'yyyy-MM-dd')}" >2024.03.31</div>
 					<div class="writeDv" th:text="|View Count: ${noticeDetail.viewCnt}|">View Count <span>123</span></div>
 				</div>
-				<div id="subNotDeConWriter" class="mt10 writeDe"><span th:text="#{notice.noticeDetail.writer}"></span> <span th:text="${noticeDetail.oprtrNm}" class="writeDe">Jihoon Park</span></div>
+				<div id="subNotDeConWriter" class="mt10 writeDe"><span th:text="#{notice.noticeDetail.writer}"></span> <span th:text="${noticeDetail.webOprtr.oprtrNm}" class="writeDe">Jihoon Park</span></div>
 			</div>
 			<div id="subNotDeCon">
 				<div id="subNotDeConText" th:text="${noticeDetail.boardContents}">

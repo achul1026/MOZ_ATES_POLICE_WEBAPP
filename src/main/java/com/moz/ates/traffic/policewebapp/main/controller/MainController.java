@@ -44,15 +44,14 @@ public class MainController {
 		// English
 		// String monthFullName = currentMonth.getDisplayName(TextStyle.FULL, Locale.ENGLISH);
 		
-		
-    String firstDayOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).toString();
-    String lastDayOfMonth = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).toString();
-    
-    mozTfcEnfMaster.setSDate(firstDayOfMonth);
-    mozTfcEnfMaster.setEDate(lastDayOfMonth);
-    
-    mozTfcAcdntMaster.setSDate(firstDayOfMonth);
-    mozTfcAcdntMaster.setEDate(lastDayOfMonth);
+	    String firstDayOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).toString();
+	    String lastDayOfMonth = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).toString();
+	    
+	    mozTfcEnfMaster.setSDate(firstDayOfMonth);
+	    mozTfcEnfMaster.setEDate(lastDayOfMonth);
+	    
+	    mozTfcAcdntMaster.setSDate(firstDayOfMonth);
+	    mozTfcAcdntMaster.setEDate(lastDayOfMonth);
     
 		mozBrd.setLength(3);
 		mozBrd.setStart(0);

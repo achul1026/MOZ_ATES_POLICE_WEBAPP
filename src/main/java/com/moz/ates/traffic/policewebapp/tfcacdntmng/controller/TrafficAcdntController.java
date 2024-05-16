@@ -1,26 +1,34 @@
 package com.moz.ates.traffic.policewebapp.tfcacdntmng.controller;
 
+import java.io.IOException;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.moz.ates.traffic.common.component.FileUploadComponent;
 import com.moz.ates.traffic.common.component.Pagination;
 import com.moz.ates.traffic.common.component.accident.TrafficAccidentIntegrationDto;
+import com.moz.ates.traffic.common.entity.accident.MozTfcAcdntFileInfo;
 import com.moz.ates.traffic.common.entity.accident.MozTfcAcdntMaster;
+import com.moz.ates.traffic.common.entity.api.MojApiRequest;
 import com.moz.ates.traffic.common.entity.common.CommonResponse;
 import com.moz.ates.traffic.common.entity.police.MozPolInfo;
+import com.moz.ates.traffic.common.repository.accident.MozTfcAcdntFileInfoRepository;
 import com.moz.ates.traffic.common.util.MozatesCommonUtils;
 import com.moz.ates.traffic.policewebapp.config.constants.PoliceAppConstants;
 import com.moz.ates.traffic.policewebapp.tfcacdntmng.service.TrafficAcdntService;
@@ -36,9 +44,18 @@ public class TrafficAcdntController {
 	
 	private final FileUploadComponent fileUploadComponent;
 	
+	@Autowired
+	MozTfcAcdntFileInfoRepository mozTfcAcdntFileInfoRepository;
+	
 	@GetMapping(value="/trafficAcdntRegPage")
-	public String trafficAcdntRegPage(Model model) {
-
+	public String trafficAcdntRegPage(Model model, @ModelAttribute MojApiRequest mojApiRequest) {
+		if(mojApiRequest != null && !MozatesCommonUtils.isNull(mojApiRequest.getDatadenascimento())) {
+			String birthDayFormat = MozatesCommonUtils.changeDateFormat(mojApiRequest.getDatadenascimento(), "yyyy-MM-dd'T'HH:mm:ss", "dd.MM.yyyy");
+			mojApiRequest.setVioBrth(birthDayFormat);
+			mojApiRequest.setVioAddr(MozatesCommonUtils.formatAddress(mojApiRequest.getDomicilio(), mojApiRequest.getProvincia(), mojApiRequest.getDistrito()));
+		}
+		
+		model.addAttribute("apiDriverInfo",mojApiRequest); 
 		return "views/tfcacdntmng/trafficAcdntRegPage";
 	}
 
@@ -80,7 +97,6 @@ public class TrafficAcdntController {
 	}
 	@GetMapping(value="/trafficAcdntAllInfo/save.do")
 	public String trafficAcdntAllInfo(Model model) {
-		
 		return "views/tfcacdntmng/trafficAcdntAllInfo";
 	}
 
@@ -148,7 +164,6 @@ public class TrafficAcdntController {
 	  */
 	@GetMapping(value="/list")
 	public String getAcdntHistoryList(MozTfcAcdntMaster mozTfcAcdntMaster, Model model) {
-		
 		int page = mozTfcAcdntMaster.getPage();
 		int totalCnt = trafficAcdntService.getAcdntCount(mozTfcAcdntMaster);
 		Pagination pagination = new Pagination(totalCnt, page, 5, 5);
@@ -186,12 +201,14 @@ public class TrafficAcdntController {
 	  * @Method Brief : 단속 첨부 이미지 요청
 	  * @param response
 	  * @param vioFileNo
+	 * @throws IOException 
 	  */
 	@GetMapping("/tfcAcdnt/image")
 	public void tfcEnfFileView(HttpServletResponse response,
 			@RequestParam(name = "acdntFileNo" ,required = true) String acdntFileNo
-			)   {
-		fileUploadComponent.tfcAcdntImgView(response, acdntFileNo);
+			) throws IOException   {
+		MozTfcAcdntFileInfo tfcAcdntFileInfo = mozTfcAcdntFileInfoRepository.findOneMozTfcAcdntFileInfoByAcdntFileNo(acdntFileNo);
+		fileUploadComponent.imgView(response, tfcAcdntFileInfo.getFilePath());
 	}
 	
 }

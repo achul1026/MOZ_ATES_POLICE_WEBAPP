@@ -37,7 +37,7 @@
                 </div>
                 <div class="formRegistList">
                     <label for="pnrBrth" th:text="#{tfcacdntmng.addLayer.content.pnrBrth}"></label>
-                    <input type="text" id="pnrBrth" th:placeholder="#{tfcacdntmng.addLayer.content.pnrBrth}" th:value="${passengerInfo?.pnrBrth}">
+                    <input type="text" id="pnrBrth" inputmode="numeric" placeholder="dd.mm.aaaa" th:value="${passengerInfo?.pnrBrth}" maxlength="10" onkeyup="keyupDateCheck(event, 'ddMMyyyy', '.')">
                 </div>
                 <div class="formRegistList">
                     <label for="pnrEmail" th:text="#{tfcacdntmng.addLayer.content.pnrEmail}"></label>

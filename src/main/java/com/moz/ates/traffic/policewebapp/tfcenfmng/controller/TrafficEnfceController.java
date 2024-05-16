@@ -1,26 +1,39 @@
 package com.moz.ates.traffic.policewebapp.tfcenfmng.controller;
 
+import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.moz.ates.traffic.common.component.FileUploadComponent;
 import com.moz.ates.traffic.common.component.Pagination;
 import com.moz.ates.traffic.common.component.enforcement.TrafficEnforcementIntegrationDto;
+import com.moz.ates.traffic.common.entity.api.MojApiRequest;
 import com.moz.ates.traffic.common.entity.common.CommonResponse;
+import com.moz.ates.traffic.common.entity.common.MozCmCd;
+import com.moz.ates.traffic.common.entity.driver.MozVioInfo;
 import com.moz.ates.traffic.common.entity.enforcement.MozTfcEnfMaster;
+import com.moz.ates.traffic.common.entity.equipment.MozTfcEnfFileInfo;
 import com.moz.ates.traffic.common.entity.law.MozTfcLwFineInfo;
 import com.moz.ates.traffic.common.entity.law.MozTfcLwInfo;
 import com.moz.ates.traffic.common.entity.payment.MozPlPymntInfo;
+import com.moz.ates.traffic.common.repository.driver.MozVioInfoRepository;
+import com.moz.ates.traffic.common.repository.equipment.MozTfcEnfFileInfoRepository;
+import com.moz.ates.traffic.common.util.MozatesCommonUtils;
 import com.moz.ates.traffic.policewebapp.tfcenfmng.service.TrafficEnfceService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,13 +47,29 @@ public class TrafficEnfceController {
 	
 	private final FileUploadComponent fileUploadComponent;
 	
+	@Autowired
+	MozVioInfoRepository mozVioInfoRepository;
+	
+	@Autowired
+	MozTfcEnfFileInfoRepository mozTfcEnfFileInfoRepository;
+	
 	@GetMapping(value="/trafficEnfceRegPage")
-	public String trafficEnfceRegPage(Model model) {
+	public String trafficEnfceRegPage(Model model, @ModelAttribute MojApiRequest mojApiRequest) {
+		List<MozCmCd> dvrLcenTyList = trafficEnfceService.getDvrLcenTyCdList("DVR_LCEN_TY");
+		List<MozCmCd> vehicleTypeCdList = trafficEnfceService.getDvrLcenTyCdList("VEHICLE_TYPE_CD");
 		//법률 목록
 		List<MozTfcLwInfo> trafficLawList = trafficEnfceService.getTrafficLawsListByNotNullFineInfo();
 		//납부지 목록
 		List<MozPlPymntInfo> placePaymentList = trafficEnfceService.getPlacePaymentList();
 		
+		if(mojApiRequest != null && !MozatesCommonUtils.isNull(mojApiRequest.getDatadenascimento())) {
+			String birthDayFormat = MozatesCommonUtils.changeDateFormat(mojApiRequest.getDatadenascimento(), "yyyy-MM-dd'T'HH:mm:ss", "dd.MM.yyyy");
+			mojApiRequest.setDatadenascimento(birthDayFormat);
+			mojApiRequest.setVioAddr(MozatesCommonUtils.formatAddress(mojApiRequest.getDomicilio(), mojApiRequest.getProvincia(), mojApiRequest.getDistrito()));
+		}
+		model.addAttribute("apiDriverInfo",mojApiRequest);
+		model.addAttribute("dvrLcenTyList",dvrLcenTyList);
+		model.addAttribute("vehicleTypeCdList",vehicleTypeCdList);
 		model.addAttribute("trafficLawList",trafficLawList);
 		model.addAttribute("placePaymentList",placePaymentList);
 		
@@ -59,7 +88,8 @@ public class TrafficEnfceController {
 	public CommonResponse<?> trafficEnfceRegPageRegister(
 			TrafficEnforcementIntegrationDto trafficEnforcementIntegrationDto,
 			@RequestParam(name = "files", required = false) MultipartFile[] files,
-			@RequestParam(name = "signatureFile", required = false) MultipartFile signatureFile,
+			@RequestParam(name = "polSignatureFile", required = false) MultipartFile polSignatureFile,
+			@RequestParam(name = "vioSignatureFile", required = false) MultipartFile vioSignatureFile,
 			Authentication authentication,
 			RedirectAttributes redirectAttributes
 	) {
@@ -68,21 +98,20 @@ public class TrafficEnfceController {
 			//로그인정보에서 경찰 고유 ID 가져오기
 			String polId = authentication.getName();
 			
-			if(signatureFile != null) { 
-				trafficEnforcementIntegrationDto.setVioSignature(signatureFile);
+			if(polSignatureFile != null) { 
+				trafficEnforcementIntegrationDto.setPoliceSignature(polSignatureFile);
+			} else {
+				return CommonResponse.ResponseCodeAndMessage(HttpStatus.BAD_REQUEST, "Registration Failed(Not Found Police Signature)");
+			}
+			
+			if(vioSignatureFile != null) { 
+				trafficEnforcementIntegrationDto.setVioSignature(vioSignatureFile);
 			}
 
 			//위반 정보 등록
 			tfcEnfId = trafficEnfceService.regTrafficEnfceInfo(trafficEnforcementIntegrationDto, polId, files);
-
-			//성공메세지 전달
-			redirectAttributes.addFlashAttribute("resultMsg","Registration Success");
-			redirectAttributes.addFlashAttribute("resultMsgType","success");
-		} catch (Exception e) {
-			e.printStackTrace();
-			//실패메세지 전달
-			redirectAttributes.addFlashAttribute("resultMsg","Registration Failed. Please heck the input value.");
-			redirectAttributes.addFlashAttribute("resultMsgType","warning");
+		} catch (Exception ignored) {
+			
 		}
 		return CommonResponse.ResponseSuccess(HttpStatus.OK, "Registration Success", null, tfcEnfId);
 	}
@@ -153,13 +182,10 @@ public class TrafficEnfceController {
 	  */
 	@GetMapping(value="/detail")
 	public String gethistoryDetail(HttpServletResponse response, @RequestParam(name="tfcEnfId", required = true) String tfcEnfId, Model model) {
-		
 		MozTfcEnfMaster enfDetail = trafficEnfceService.getTfcEnfDetail(tfcEnfId);
 
 		model.addAttribute("enfDetail", enfDetail);
 		model.addAttribute("enfFineList", trafficEnfceService.getAllTfcEnfFineInfo(tfcEnfId));
-		
-		
 		return "views/tfcenfmng/trafficEnfceDetail";
 	}
 	
@@ -170,12 +196,14 @@ public class TrafficEnfceController {
 	  * @Method Brief : 위반자 서명 이미지 요청
 	  * @param response
 	  * @param vioId
+	 * @throws IOException 
 	  */
 	@GetMapping("/sign/image")
 	public void signFileView(HttpServletResponse response,
 			@RequestParam(name = "vioId" ,required = true) String vioId
-			)   {
-		fileUploadComponent.signImgView(response, vioId);
+			) throws IOException   {
+		MozVioInfo mozVioInfo = mozVioInfoRepository.findOneFileInfo(vioId);
+		fileUploadComponent.imgView(response, mozVioInfo.getVioSignFilePath());
 	}
 	
 	/**
@@ -185,12 +213,14 @@ public class TrafficEnfceController {
 	  * @Method Brief : 단속 첨부 이미지 요청
 	  * @param response
 	  * @param vioFileNo
+	 * @throws IOException 
 	  */
 	@GetMapping("/tfcEnf/image")
 	public void tfcEnfFileView(HttpServletResponse response,
 			@RequestParam(name = "vioFileNo" ,required = true) String vioFileNo
-			)   {
-		fileUploadComponent.tfcEnfImgView(response, vioFileNo);
+			) throws IOException   {
+		MozTfcEnfFileInfo tfcEnfFileInfo = mozTfcEnfFileInfoRepository.findOneByMozTfcEnfFileInfoByVioFileId(vioFileNo);
+		fileUploadComponent.imgView(response, tfcEnfFileInfo.getFilePath());
 	}
 	
 }

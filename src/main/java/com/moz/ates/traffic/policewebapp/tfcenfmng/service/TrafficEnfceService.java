@@ -1,13 +1,28 @@
 package com.moz.ates.traffic.policewebapp.tfcenfmng.service;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.moz.ates.traffic.common.component.enforcement.TrafficEnforcementComponent;
 import com.moz.ates.traffic.common.component.enforcement.TrafficEnforcementIntegrationDto;
+import com.moz.ates.traffic.common.entity.common.MozCmCd;
 import com.moz.ates.traffic.common.entity.enforcement.MozTfcEnfMaster;
 import com.moz.ates.traffic.common.entity.equipment.MozTfcEnfFileInfo;
 import com.moz.ates.traffic.common.entity.equipment.MozTfcEnfFineInfo;
 import com.moz.ates.traffic.common.entity.law.MozTfcLwFineInfo;
 import com.moz.ates.traffic.common.entity.law.MozTfcLwInfo;
 import com.moz.ates.traffic.common.entity.payment.MozPlPymntInfo;
+import com.moz.ates.traffic.common.repository.common.MozCmCdRepository;
 import com.moz.ates.traffic.common.repository.driver.MozVioInfoRepository;
 import com.moz.ates.traffic.common.repository.enforcement.MozTfcEnfHstRepository;
 import com.moz.ates.traffic.common.repository.enforcement.MozTfcEnfMasterRepository;
@@ -20,20 +35,9 @@ import com.moz.ates.traffic.common.repository.payment.MozPlPymntInfoRepository;
 import com.moz.ates.traffic.common.support.exception.CommonException;
 import com.moz.ates.traffic.common.support.exception.ErrorCode;
 import com.moz.ates.traffic.common.util.MozatesCommonUtils;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,7 +62,9 @@ public class TrafficEnfceService{
 	
 	final MozTfcLwFineInfoRepository mozTfcLwFineInfoRepository; 
 	
-	final MozTfcEnfFineInfoRepository mozTfcEnfFineInfoRepository; 
+	final MozTfcEnfFineInfoRepository mozTfcEnfFineInfoRepository;
+	
+	final MozCmCdRepository mozCmCdRepository;
 
 	@Value("${file.path.enforcement}")
 	private String filePath;
@@ -166,6 +172,18 @@ public class TrafficEnfceService{
 		}
 		return enforcementMaster.getTfcEnfId();
 		
+	}
+
+	/**
+	  * @Method Name : getDvrLcenTyCdList
+	  * @Date : 2024. 5. 9.
+	  * @Author : KY.LEE
+	  * @Method Brief : 면허 타입 정류
+	  * @param tfcEnfId
+	  * @return
+	  */
+	public List<MozCmCd> getDvrLcenTyCdList(String cdId) {
+		return mozCmCdRepository.findAllSubCmcd(cdId);
 	}
 	
 }

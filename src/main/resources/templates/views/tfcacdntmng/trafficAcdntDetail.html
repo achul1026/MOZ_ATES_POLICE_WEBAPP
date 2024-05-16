@@ -181,8 +181,6 @@
 
 		</div> <!-- Accident Party end-->
 		
-		
-		
 		<div class="crackdown-wrap">
 			<div class="formRegistTitle">
 				<h2 th:text="#{tfcenfmng.trafficEnfceDetail.uploadedFilesTitle}">첨부파일 업로드</h2>
@@ -201,22 +199,15 @@
 								128123-12312323.jpg
 							</div>
 						</div>
-						<!-- TODO :: 파일 다운로드 -->
-						<button type="button" onclick="downloadImg('test')" class="downBtn">Save</button>
+						<a th:href="@{/common/file/acdnt/download(fileId=${fileItm.acdntFileNo})}" class="downBtn">Save</a>
 					</div>
-							
 				</th:block>
 
 				<th:block th:unless="${not #lists.isEmpty(acdntDetail.tfcAcdntFileInfo)}">
 					<div th:text="#{tfcenfmng.trafficEnfceDetail.contentEmpty}">Nothing registered</div>
 				</th:block>
-
 			</div>
-				
-				
 		</div>
-		
-		
 		
 	</div> <!-- sub-container -->
 </div>
@@ -242,9 +233,5 @@
 			datalist.innerHTML = options;
 		}
 	}).drawMarker([placeLng, placeLat]);
-
-	function downloadImg(idx) {
-		console.log(idx);
-	}
 	
 </script>

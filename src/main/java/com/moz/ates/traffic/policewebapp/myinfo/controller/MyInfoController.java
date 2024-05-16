@@ -129,7 +129,6 @@ public class MyInfoController {
 
 		model.addAttribute("isPwChk" , isPwChk);
 		model.addAttribute("myInfoDetail", myInfoService.getMyInfoDetail(LoginPoliceUtils.getPolId()));
-		
 		return "views/myinfo/myInfoModify";
 	}
 	

@@ -1,0 +1,214 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layouts/sub_layout">
+
+<div layout:fragment="content">
+	<div id="sub-header">
+		<div id="sub-header-wrap">
+			<a href="/search/list"><img src="/images/arrow-back.png" class="back"></a>
+			<span th:text="#{main.searchDetail.title}">운전자/차량 상세 조회</span>
+		</div>
+	</div>
+	<div class="formRegistContainer">
+		<form id="frmDriverInfo">
+	<!--	<input type="hidden" name="driverLicenseId" th:value="${driverInfo.driverLicenseId}"/>-->
+	<!--	<input type="hidden" name="driverLicenseType" th:value="${driverInfo.driverLicenseType}"/>-->
+			<input type="hidden" name="vhRegNo" th:value="${driverInfo.searchType == 'vehicleNo' ? driverInfo.searchValue : ''}"/>
+			<input type="hidden" name="nome" th:value="${driverInfo.nome}"/>
+			<input type="hidden" name="datadenascimento" th:value="${driverInfo.datadenascimento}"/>
+			<input type="hidden" name="tipodedocumento" th:value="${driverInfo.tipodedocumento}"/>
+			<input type="hidden" name="numerododocumento" th:value="${driverInfo.numerododocumento}"/>
+			<input type="hidden" name="domicilio" th:value="${driverInfo.domicilio}"/>
+			<input type="hidden" name="contacto" th:value="${driverInfo.contacto}"/>
+			<input type="hidden" name="provincia" th:value="${driverInfo.provincia}"/>
+			<input type="hidden" name="distrito" th:value="${driverInfo.distrito}"/>
+		</form>
+		<!--검색 상세 영역-->
+		<div>
+			<div class="enfDetailTitle mt0">
+				<h2 th:text="#{main.searchDetail.driverInfo.title}">운전자/차량 정보</h2>
+			</div>
+			
+			<dl class="searchDetailList">
+				<dt>
+					<span th:text="#{main.searchDetail.driverInfo.name}"></span>
+				</dt>
+				<dd th:text="${driverInfo.nome}"></dd>
+			</dl>
+			<dl class="searchDetailList">
+				<dt>
+					<span th:text="#{main.searchDetail.driverInfo.brth}"></span>
+				</dt>
+				<dd th:text="${driverInfo.vioBrth}"></dd>
+			</dl>
+			<dl class="searchDetailList">
+				<dt>
+					<span th:text="#{main.searchDetail.driverInfo.contact}"></span>
+				</dt>
+				<dd th:text="${driverInfo.contacto}"></dd>
+			</dl>
+			<dl class="searchDetailList">
+				<dt>
+					<span th:text="#{main.searchDetail.driverInfo.addr}"></span>
+				</dt>
+				<dd th:text="${driverInfo.vioAddr}"></dd>
+			</dl>
+			<dl class="searchDetailList">
+				<dt>
+					<span th:text="#{main.searchDetail.driverInfo.docType}"></span>
+				</dt>
+				<dd th:text="${driverInfo.tipodedocumento}"></dd>
+			</dl>
+			<dl class="searchDetailList">
+				<dt>
+					<span th:text="#{main.searchDetail.driverInfo.docNid}"></span>
+				</dt>
+				<dd th:text="${driverInfo.numerododocumento}"></dd>
+			</dl>
+		</div>
+		
+			<!--테이블 영역-->
+	<div th:switch="${driverInfo.regType}">
+		<!--단속 목록 영역-->
+		<div th:case="enf">
+			<div class="enfDetailTitle">
+				<h2 th:text="#{main.searchDetail.enforcement.title}">단속 이력</h2>
+				<div class="enfDeListShow">
+					(<span th:text="${#lists.size(violationList)}"></span>)
+				</div>
+			</div>
+			<div th:if="${not #lists.isEmpty(violationList)}">
+				
+				<div class="searchDeHisList" th:each="item : ${violationList}">
+					<dl>
+						<dt th:text="#{main.searchDetail.enforcement.driverHst.tfcEnfId}"></dt>
+						<dd th:text="${item.tfcEnfId}"></dd>
+					</dl>
+					<dl>
+						<dt th:text="#{main.searchDetail.enforcement.driverHst.vioNm}"></dt>
+						<dd th:text="${item.vioNm}"></dd>
+					</dl>
+					<dl>
+						<dt th:text="#{main.searchDetail.enforcement.driverHst.roadAddr}"></dt>
+						<dd th:text="${item.roadAddr}"></dd>
+					</dl>
+					<dl>
+						<dt th:text="#{main.searchDetail.enforcement.driverHst.dvrLcenId}"></dt>
+						<dd th:text="${item.dvrLcenId}"></dd>
+					</dl>
+					<dl>
+						<dt th:text="#{main.searchDetail.enforcement.driverHst.tfcEnfDt}"></dt>
+						<dd th:text="${#dates.format(item.tfcEnfDt, 'dd.MM.yyyy')}"></dd>
+					</dl>
+				</div>
+<!--				<div>-->
+<!--					<table class="passengerTable">-->
+<!--						<colgroup>-->
+<!--							<col width="20%">-->
+<!--							<col width="20%">-->
+<!--							<col width="20%">-->
+<!--							<col width="20%">-->
+<!--							<col width="20%">-->
+<!--						</colgroup>-->
+<!--						<thead>-->
+<!--							<tr>-->
+<!--								<th th:text="#{main.searchDetail.enforcement.driverHst.tfcEnfId}">Enforcement Id</th>-->
+<!--								<th th:text="#{main.searchDetail.enforcement.driverHst.vioNm}">Violator Name</th>-->
+<!--								<th th:text="#{main.searchDetail.enforcement.driverHst.roadAddr}">Enforcement Road Address</th>-->
+<!--								<th th:text="#{main.searchDetail.enforcement.driverHst.dvrLcenId}">Violator DriverLicenseId</th>-->
+<!--								<th th:text="#{main.searchDetail.enforcement.driverHst.tfcEnfDt}">Enforcement Date</th>-->
+<!--							</tr>-->
+<!--						</thead>-->
+<!--						<tbody>-->
+<!--							<tr th:each="item : ${violationList}">-->
+<!--								<td th:text="${item.tfcEnfId}"></td>-->
+<!--								<td th:text="${item.vioNm}"></td>-->
+<!--								<td th:text="${item.roadAddr}"></td>-->
+<!--								<td th:text="${item.dvrLcenId}"></td>-->
+<!--								<td th:text="${#dates.format(item.tfcEnfDt, 'dd.MM.yyyy')}"></td>-->
+<!--							</tr>-->
+<!--						</tbody>-->
+<!--					</table>-->
+<!--				</div>-->
+			</div>
+			<div th:unless="${not #lists.isEmpty(violationList)}">
+				 <div th:text="#{main.searchDetail.enforcement.driverHst.resultNone}">
+			   	    단속 조회 결과가 없습니다.
+			    </div>
+			</div>
+			<div class="btn-wrap is-fixed">
+				<button type="button" class="mainFixBtn" th:onclick="registration('enf')" th:text="#{main.searchDetail.btn.enforcement.regist}">단속 등록하기</button>
+			</div>
+		</div>
+		
+		<!--사고 목록 영역-->
+		<div th:case="acdnt">
+			<div>
+				<h2 th:text="#{main.searchDetail.accident.title}">사고 이력</h2>
+			</div>
+			<div th:if="${not #lists.isEmpty(acdntTrgtList)}">
+				<div>
+					<span th:text="#{main.searchDetail.driverHst.found}">Found</span> 
+					<span th:text="${#lists.size(acdntTrgtList)}"></span> 
+					<span th:text="#{main.searchDetail.driverHst.result}">results</span> 
+				</div>
+				<div>
+					<table >
+						<colgroup>
+							<col width="20%">
+							<col width="20%">
+							<col width="20%">
+							<col width="20%">
+							<col width="20%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th th:text="#{main.searchDetail.accident.driverHst.tfcAcdntId}">Accident Id</th>
+								<th th:text="#{main.searchDetail.accident.driverHst.vioNm}">Name</th>
+								<th th:text="#{main.searchDetail.accident.driverHst.roadAddr}">accident Road Address</th>
+								<th th:text="#{main.searchDetail.accident.driverHst.dvrLcenId}">DriverLicenseId</th>
+								<th th:text="#{main.searchDetail.accident.driverHst.tfcAcdntDt}">Accident Date</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${acdntTrgtList}">
+								<td th:text="${item.tfcAcdntId}"></td>
+								<td th:text="${item.acdntTrgtNm}"></td>
+								<td th:text="${item.roadAddr}"></td>
+								<td th:text="${item.dvrLcenId}"></td>
+								<td th:text="${#dates.format(item.acdntDt, 'dd.MM.yyyy')}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div th:unless="${not #lists.isEmpty(acdntTrgtList)}">
+				 <div class="searchNoDater" th:text="#{main.searchDetail.accident.driverHst.resultNone}">
+			   	    단속 조회 결과가 없습니다.
+			    </div>
+			</div>
+			<div class="btn-wrap is-fixed">
+				<button type="button" class="mainBtn" th:onclick="registration('acdnt')" th:text="#{main.searchDetail.btn.accident.regist}">사고 등록하기</button>
+			</div>
+		</div>
+	</div>
+	</div>
+	
+
+</div>
+</html>
+
+<script type="text/javascript" th:inline="javascript">
+	function registration(regType){
+		let form = document.getElementById('frmDriverInfo');
+		form.setAttribute("method", "get");
+		switch(regType){
+			case 'enf':
+			form.setAttribute("action", '/tfcenfmng/trafficEnfceRegPage');
+			break;
+			case 'acdnt':
+			form.setAttribute("action", '/tfcacdntmng/trafficAcdntRegPage');
+			break;
+		}
+	    form.submit();
+	}
+</script>

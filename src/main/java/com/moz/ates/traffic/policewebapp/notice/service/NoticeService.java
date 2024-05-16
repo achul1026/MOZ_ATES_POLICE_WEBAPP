@@ -62,8 +62,8 @@ public class NoticeService {
 		mozBrd.setUseYn("Y");
 		mozBrd.setCateCd(NoticeCateCd.POLICE_APPLICATION.getCode());
 		
-		mozBrdRepository.updateViewCnt(brdIdx);
-		MozBrd noticeDetail = mozBrdRepository.findOneByBoardIdxAnduseYnAndCateCd(mozBrd);
+		mozBrdRepository.updateViewCnt(mozBrd);
+		MozBrd noticeDetail = mozBrdRepository.findOneByBoardIdxAndUseYnAndCateCd(mozBrd);
 		
 		if(MozatesCommonUtils.isNull(mozBrd)) {
 			throw new CommonException(ErrorCode.ENTITY_DATA_NULL);

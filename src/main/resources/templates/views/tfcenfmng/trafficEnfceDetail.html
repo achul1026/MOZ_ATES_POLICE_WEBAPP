@@ -13,7 +13,6 @@
 	</div>
 
 	<div class="sub-container">
-<!--		<p class="alert-box alert-warning mb30 n" th:text="#{common.map.location.help}"></p>-->
 		<div id="gis-sub-container">
 			
 			<div class="crackdown-wrap">
@@ -78,7 +77,7 @@
 				</div>
 			</div>
 
-			<div class="crackdown-wrap">
+			<div class="crackdown-wrap pb80">
 				<div class="formRegistTitle mb30">
 					<h2 th:text="#{tfcenfmng.trafficEnfceDetail.tfcEnfInfoTitle}">Traffic Enforcement Info</h2>
 				</div>
@@ -135,11 +134,7 @@
 
 						<!-- 위반자 서명 -->
 						<th:block th:if="${not #strings.isEmpty(enfDetail.vioInfo.vioSignFilePath)}">
-							<!-- ************** 삭제 금지 **************   2024.03.21 주석 처리 / 이미지 UI 작업 후 해제 필요 -->
 							<img th:src="@{/tfcenfmng/sign/image(vioId=${enfDetail.vioInfo.vioId})}">
-									<!-- 이미지 UI 작업 후 signature_test.png 삭제 필요 -->
-							<!-- ************** 삭제 금지 **************   2024.03.21 주석 처리 / 이미지 UI 작업 후 해제 필요  -->
-<!--							<img src="/images/signature_test.png">-->
 						</th:block>
 
 						<th:block th:unless="${not #strings.isEmpty(enfDetail.vioInfo.vioSignFilePath)}">
@@ -153,12 +148,12 @@
 
 			<div class="">
 				<div class="formRegistTitle">
-					<h2 th:text="#{tfcenfmng.trafficEnfceDetail.uploadedFilesTitle}">첨부파일 업로드</h2>
+					<h2 th:text="#{tfcenfmng.trafficEnfceDetail.uploadedFilesTitle}">업로드 파일</h2>
 				</div>
 
 				<div class="formRegistList">
 					<th:block th:if="${not #lists.isEmpty(enfDetail.fileList)}">
-						<label th:text="#{tfcenfmng.trafficEnfceDetail.img}">사진/동영상</label>
+						<label th:text="#{tfcenfmng.trafficEnfceDetail.img}">사진</label>
 							
 						<div class="detailDownConList" th:each="fileItm : ${enfDetail.fileList}">
 							<div class="detailDownCon">
@@ -169,7 +164,7 @@
 									128123-12312323.jpg
 								</div>
 							</div>
-							<button type="button" onclick="downloadImg('test')" class="downBtn">Save</button>
+							<a th:href="@{/common/file/enf/download(fileId = ${fileItm.vioFileNo})}" class="downBtn">Save</a>
 						</div>
 							
 					</th:block>
@@ -179,7 +174,6 @@
 					</th:block>
 
 				</div>
-				<!-- ************** 삭제 금지 **************   2024.03.21 주석 처리 / 이미지 UI 작업 후 해제 필요  -->
 				
 			</div>
 		</div>

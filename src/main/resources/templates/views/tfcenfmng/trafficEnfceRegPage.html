@@ -17,45 +17,58 @@
                         <h2 th:text="#{tfcenfmng.trafficEnfceRegPage.registerViolatorInfo}">위반자 정보 등록</h2>
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="vhRegNo" th:text="#{tfcenfmng.trafficEnfceRegPage.plateNumber}">Plate Number</label>
-                        <input type="text" id="vhRegNo" name="vhRegNo" required autofocus title="Input vehicle number." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.plateNumber}">
+                        <label  for="vhRegNo" th:text="#{tfcenfmng.trafficEnfceRegPage.plateNumber}">Plate Number</label>
+                        <input type="text" id="vhRegNo" name="vhRegNo" required autofocus title="Input vehicle number." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.plateNumber}" th:value="${apiDriverInfo?.vhRegNo}">
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="vhTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}">Vehicle Type</label>
-                        <input type="text" id="vhTy" name="vhTy" required  title="Input vehicle type." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}" class="">
+                        <label  for="vhTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}">Vehicle Type</label>
+                 	    <select id="vhTy" name="vhTy" title="Select vehicle type.">
+                            <option th:text="#{tfcenfmng.trafficEnfceRegPage.contentVehicleType}" value="">Driver License Id</option>
+                            <option th:each="item : ${vehicleTypeCdList}" th:value="${item.cdId}" th:text="${item.cdNm}"></option>
+                        </select>
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="dvrLcenId"
-                               th:text="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}">Driver license
-                            ID</label>
-                        <input type="text" id="dvrLcenId" name="dvrLcenId" required
-                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}" title="Input driver license number." class="">
+                        <label  for="dvrLcenId"
+                               th:text="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}">Driver License Id</label>
+                 	    <select id="dvrLcenId" name="dvrLcenId" title="Select driver license number.">
+                            <option th:text="#{tfcenfmng.trafficEnfceRegPage.contentDriverLicenseId}" value="">Driver License Id</option>
+                            <option th:each="item : ${dvrLcenTyList}" th:value="${item.cdId}" th:text="${item.cdNm}"></option>
+                        </select>
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="dvrLcenTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}">License Type</label>
-                        <input type="text" id="dvrLcenTy" name="dvrLcenTy" required  title="Input driver license type." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}" class="">
+                        <label for="dvrLcenTy" th:text="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}">License Type</label>
+                        <input type="text" id="dvrLcenTy" name="dvrLcenTy" required  title="Input driver license type." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentLicenseType}" >
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="vioNm" th:text="#{tfcenfmng.trafficEnfceRegPage.contentName}">Name</label>
-                        <input type="text" id="vioNm" name="vioNm"
-                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentName}" required title="Input violator name." class="">
+                        <label  for="docType"
+                               th:text="#{tfcenfmng.trafficEnfceRegPage.contentDocumentType}">Document Type</label>
+                        <input type="text" id="docType" name="docType" required th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentDocumentType}" title="Input Document Type."th:value="${apiDriverInfo?.tipodedocumento}" >
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="vioBrth" th:text="#{tfcacdntmng.trafficAcdntRegPage.contentBirthDay}">Birthday</label>
-                        <input type="text" id="vioBrth" name="vioBrth" placeholder="Birthday" title="Input violator birth date." class="">
+                        <label for="docNid" th:text="#{tfcenfmng.trafficEnfceRegPage.contentDocumentNid}">Document Number</label>
+                        <input type="text" id="docNid" name="docNid" required title="Input driver license type." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentDocumentNid}" th:value="${apiDriverInfo?.numerododocumento}">
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="vioPno"
-                               th:text="#{tfcenfmng.trafficEnfceRegPage.contentPhone}">Phone</label>
-                        <input type="text" id="vioPno" name="vioPno"
-                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPhone}" required title="Input violator phone number."  class="">
+                        <label for="vioAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentVioAddress}">vio Address</label>
+                        <input type="text" id="vioAddr" name="vioAddr" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentVioAddress}" required title="Input violator address." th:value="${apiDriverInfo?.vioAddr}">
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="vioEmail"
-                               th:text="#{tfcenfmng.trafficEnfceRegPage.contentEmail}">Email</label>
+                        <label for="vioNm" th:text="#{tfcenfmng.trafficEnfceRegPage.contentName}">Name</label>
+                        <input type="text" id="vioNm" name="vioNm" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentName}" required title="Input violator name." th:value="${apiDriverInfo?.nome}">
+                    </div>
+                    <div class="formRegistList">
+                        <label for="vioBrth" th:text="#{tfcenfmng.trafficEnfceRegPage.contentBirthDay}">Birthday</label>
+                        <input type="text" id="vioBrth" inputmode="numeric" name="vioBrth" placeholder="dd.mm.aaaa" title="Input violator birth date." maxlength="10" onkeyup="keyupDateCheck(event, 'ddMMyyyy', '.')" th:value="${apiDriverInfo?.datadenascimento}">
+                    </div>
+                    <div class="formRegistList">
+                        <label for="vioPno" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPhone}">Phone</label>
+                        <input type="text" id="vioPno" name="vioPno" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPhone}" required title="Input violator phone number." th:value="${apiDriverInfo?.contacto}">
+                    </div>
+                    <div class="formRegistList">
+                        <label for="vioEmail" th:text="#{tfcenfmng.trafficEnfceRegPage.contentEmail}">Email</label>
                         <input type="email" id="vioEmail" name="vioEmail"
                                pattern="[a-zA-Z0-9]+[@][a-zA-Z0-9]+[.]+[a-zA-Z]+[.]*[a-zA-Z]*"
-                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentEmail}" class="">
+                               th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentEmail}">
                     </div>
                 </div>
                 <div class="crackdown-wrap">
@@ -63,40 +76,32 @@
                         <h2 th:text="#{tfcenfmng.trafficEnfceInfoRegist.crackdownInfoRegist}">단속 정보 등록</h2>
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="roadAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}">Road Address</label>
-                        <input type="text" id="roadAddr" autocomplete="off" list="loadedRoadAddr" name="roadAddr" required title="Input or select street name." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}" class="">
+                        <label  for="roadAddr" th:text="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}">Road Address</label>
+                        <input type="text" id="roadAddr" autocomplete="off" list="loadedRoadAddr" name="roadAddr" required title="Input or select street name." th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentRoadAddress}" >
                         <datalist id="loadedRoadAddr">
 
                         </datalist>
                     </div>
                     <div class="formRegistList">
-                        <label for="tfcLawId">Illegal Law</label>
+                        <label for="tfcLawId" th:text="#{tfcenfmng.trafficEnfceRegPage.IllegalLaw}">Illegal Law</label>
                         <select id="tfcLawId" name="tfcLawId" title="Select Law." onchange="viewLwFineInfo(this)">
                             <option th:text="#{tfcenfmng.trafficEnfceRegPage.content.lawsSelectBox}" value="">Laws Select</option>
                             <option th:each="trafficLawList : ${trafficLawList}" th:value="${trafficLawList.tfcLawId}" th:text="${trafficLawList.lawNm}"></option>
                         </select>
                     </div>
                     <div class="formRegistList detail-law-div none">
-						<label>Illegal Law Detail</label>
+						<label th:text="#{tfcenfmng.trafficEnfceRegPage.IllegalLawDetail}">Illegal Law Detail</label>
                       	<div id="card-list-wrap">
 							<!--법률 Warp-->							  
 						</div>
-						 <button type="button" class="addSubBtn mt16" onclick="fnAddLawDetail();">추가</button>
+						 <button type="button" class="addSubBtn mt16" onclick="fnAddLawDetail();">adicionar</button>
 					</div>
 					 <div class="formRegistList info-law-div none">
 						 <div class="detail-law-table detail-table-body" id="lawInfoUl">
 						 </div>
 					 </div>
-<!--                  2024.03.13 주석처리  <div class="formRegistList">-->
-<!--                        <label class="" th:text="#{tfcenfmng.trafficEnfceRegPage.contentSpeedInfo}">Speed Info</label>-->
-<!--                        <div class="formRegistSpip">-->
-<!--                            <input type="number" id="spdLmt" name="spdLmt" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentSpeedLimit}" class="" />-->
-<!--                            <input type="number" id="vioSpd" name="vioSpd" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentViolationSpeed}" class="" />-->
-<!--                            <input type="number" readonly id="overSpd" name="overSpd" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentOverSpeed}" class="" />-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="formRegistList">
-                        <label class="" for="totalPrice" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}">Payment Price</label>
+                        <label  for="totalPrice" th:text="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}">Payment Price</label>
                         <input type="number" readonly id="totalPrice" name="totalPrice" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.contentPaymentPrice}">
                     </div>
                     <div class="formRegistList">
@@ -107,49 +112,67 @@
                         </select>
                     </div>
                     <div class="formRegistList">
-                        <label class="" for="tfcEnfDetail" th:text="#{tfcenfmng.trafficEnfceRegPage.placeholder.enfDetails}">Traffic Enforcement Details</label>
-                        <input type="text" id="tfcEnfDetail" name="tfcEnfDetail" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.placeholder.enfDetails}" title="Input Traffic Enforcement Details" class="">
+                        <label  for="tfcEnfDetail" th:text="#{tfcenfmng.trafficEnfceRegPage.placeholder.enfDetails}">Traffic Enforcement Details</label>
+                        <input type="text" id="tfcEnfDetail" name="tfcEnfDetail" th:placeholder="#{tfcenfmng.trafficEnfceRegPage.placeholder.enfDetails}" title="Input Traffic Enforcement Details" >
                     </div>
 					 <div class="formRegistList list-plus">
-<!--                        <label th:text="#{tfcenfmng.trafficEnfceRegPage.violatorSignature}">Violator's signature</label>-->
-                        <label>Violator's signature</label>
-		                <div id="signatureCompleteWrap" class="signnatureBtnCm " style="display:none;">
-							<!--지훈팍 여기 -->
+                        <label th:text="#{tfcenfmng.trafficEnfceRegPage.violatorSignature}">Violator's signature</label>
+		                <div id="signatureCompleteWrap" class="signnatureBtnCm " style="display:none;" th:text="#{tfcenfmng.trafficEnfceRegPage.signComplete}">
 							Signature Complite
 						</div>
 						<div id="signatureBtnWrap" class="signnatureBtnCm">
-<!--			                <button type="button" th:text="#{tfcenfmng.trafficEnfceRegPage.btn.signatureRegist}" onclick="viewSignatureModal()">Signature Registration</button>-->
 			                <div class="signAbout">
-<!--								위 내용을 확인후 아래 서명버튼으로<br>-->
-<!--								위 내용에 대해 문제없음을 서명해주세요.-->
 								<span th:text="#{tfcenfmng.trafficEnfceRegPage.signAboutFirstLine}">위 내용을 다시 한 번 확인해 주세요.</span><br>
 								<span th:text="#{tfcenfmng.trafficEnfceRegPage.signAboutSecondLine}">문제가 없다면, 아래 버튼을 눌러 서명해 주세요.</span>
 							</div>
-			                <button type="button" id="signOnbtn" onclick="viewSignatureModal()">Signature Registration</button>
+			                <button type="button" id="signOnbtn" onclick="viewSignatureModal()" th:text="#{tfcenfmng.trafficEnfceRegPage.btn.signatureRegist}">Signature Registration</button>
 						</div>
 	                    <div id="modal-signature-wrap" class="modal">
 							<div class="modalContainer">
 								<div class="modalHead">
-									<h2 class="modalTitle">Violator's signature</h2>
-									<img src="/images/close.png" id="modal-signature-btn-off" class="modalClose" >
+									<h2 class="modalTitle" th:text="#{tfcenfmng.trafficEnfceRegPage.tfcEnfSignature}"></h2>
+									<img src="/images/close.png" id="modal-signature-btn-off" class="modalClose">
 								</div>
 								 <div class="modalBody modalSignBody">
-<!--									<h2 class="modalTitle" th:text="#{tfcenfmng.trafficEnfceRegPage.violatorSignature}">Violator's signature</h2>-->
-									<div id="signatrueDd" class="modalSignatureWrap">
-										<canvas id="signatureCv" class="signatureCanvas"></canvas>
-   										 <img id="signatureImg" style="display:none"/>
+									<div class="signContents">
+										<div class="signTitle" th:text="#{tfcenfmng.trafficEnfceRegPage.policeSignature}">경찰 서명</div>
+										<div class="signatrueDd modalSignatureWrap">
+											<canvas id="policeSign" class="signatureCanvas"></canvas>
+	   										<img id="signaturePolImg" style="display:none"/>
+										</div>
+										<div class="modalSignInfo">
+   										    <button type="button" id="polClearBtn" class="clearBtn">
+											    <img src="/images/resign.png">
+											    <span th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.clear}"></span>
+											</button>
+										</div>
 									</div>
-									<div class="modalSignInfo">
-<!--   											<button type="button" id="signatureClearBtn" class="subFixBtn" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.clear}">Clear</a>-->
-   										  <button type="button" id="signatureClearBtn"><img src="/images/resign.png"> Clear</a>
+									
+									<div class="signContents">
+										<div class="signTitle" th:text="#{tfcenfmng.trafficEnfceRegPage.violatorSignature}">걸린놈 서명</div>
+										<div class="signatrueDd modalSignatureWrap">
+											<div class="noSignOn"></div>
+											<canvas id="violatorSign" class="signatureCanvas"></canvas>
+	   										<img id="signatureVioImg" style="display:none"/>
+										</div>
+										<div id="signSubCon">
+											<div class="noSign" onclick="noSignCheck()">
+												<input type="checkbox" class="modalCheck" id="noSignBtn" value="Y">
+												<input type="hidden" id="vioSignYn" name="vioSignYn">
+												<label for="noSignBtn" class="baseColor" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.noSign}">No Sign</label>
+											</div>
+											<div class="modalSignInfo">
+	   										    <button type="button" id="vioClearBtn" class="clearBtn">
+												   <img src="/images/resign.png" alt="clear">
+												   <span th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.clear}">Clear</span>
+											    </button>
+											</div>
+										</div>
 									</div>
-								 </div>
- 						 			 <div class="modalBtnWrap">
-<!--										 <button type="button" id="modal-signature-btn-off" class="subFixBtn" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.cancel}">취소</button>-->
-<!--										 <button type="button" id="modal-signature-btn-submit" onclick="submitSignature(this)" class="modalSubmitBtn" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.submit}">제출</button>-->
-<!--										 <button type="button"  class="" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.cancel}">취소</button>-->
+ 						 			 <div class="modalBtnWrap mt10">
 										 <button type="button" id="modal-signature-btn-submit" class="modalSubmitBtn"  onclick="submitSignature(this)"  th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.submit}">제출</button>
 									 </div>
+								 </div>
 	                    	</div>
 	                    </div>
 		            </div>
@@ -174,7 +197,6 @@
                     </div>
                 </div>
                 <div class="btn-wrap is-fixed">
-<!--                     <button type="button" class="mainBtn default-btn disabled-radius" id="fnTrafficEnfceRegBtn" onclick="enforcementRegisterSubmit(this)" th:text="#{tfcenfmng.trafficEnfceRegPage.registerButton}"></button>-->
                      <button type="button" id="modalOn" class="mainFixBtn default-btn disabled-radius" th:text="#{tfcenfmng.trafficEnfceRegPage.registerButton}"></button>
                 </div>
             </form>
@@ -188,7 +210,6 @@
 			</div>
 			 <div class="modalBody">
 				  <div id="modalRegistListDiv"class="modalRegistList">
-					
 					<!--단속정보 등록내요 리스트-->
 				 	<dl class="modalRegistInfo">
 					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.plateNumber}">Plate Number</dt>
@@ -205,6 +226,18 @@
 					<dl class="modalRegistInfo">
 					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.driverLicenseType}">Driver License Type</dt>
 					   <dd id="mdDvrLcenTy">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.docType}">Document Type</dt>
+					   <dd id="mdDocType">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.docNid}">Document Number</dt>
+					   <dd id="mdDocNid">Npm Start</dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.violatorAddr}">Violation Address</dt>
+					   <dd id="mdVioAddr">Npm Start</dd>
 					</dl>
 					<dl class="modalRegistInfo">
 					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.violatorName}">Violation Name</dt>
@@ -261,40 +294,47 @@
 					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.images}">Images</dt>
 					</dl>
 					<dl class="modalRegistInfo">
-					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.signature}">Violator Signature</dt>
-					   <dd> <img id="mdSignaturePreview" src="" alt="Signature Preview"></dd>
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.police.signature}">Police Signature</dt>
+					   <dd> <img id="mdPolSignaturePreview" src="" alt="Police Signature Preview" class="SignImg"></dd>
+					</dl>
+					<dl class="modalRegistInfo">
+					   <dt th:text="#{tfcenfmng.trafficEnfceRegPage.modal.content.violator.signature}">Violator Signature</dt>
+					   <dd id="mdVioSignatureDd">
+						   <img id="mdVioSignaturePreview" src="" alt="Violator Signature Preview" class="SignImg">
+					   </dd>
 					</dl>
 			 	 </div>
 			 </div>
 			 <div class="modalBtnWrap">
 <!--				 <button type="button"  class="subFixBtn" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.cancel}">취소</button>-->
-				 <button type="button" id="infoCheckBtn" class="modalSubmitBtn" onclick="enforcementRegisterSubmit(this)" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.submit}">제출</button>
+				 <button type="button" id="infoCheckBtn" class="modalSubmitBtn radius0" onclick="enforcementRegisterSubmit(this)" th:text="#{tfcenfmng.trafficEnfceRegPage.modal.btn.submit}">제출</button>
 			 </div>
 		</div>
 	</div>
 </div>
 </html>
 <script type="text/javascript" th:inline="javascript">
-	
-	$(document).ready(function(){
-		modalToggle();
-		canvasInit();
-	});
+    const canvasPolice = document.getElementById('policeSign');
+    const canvasPerson = document.getElementById('violatorSign');
 	
     const errMsg = /*[[${resultMsg}]]*/;
-    if(errMsg) {
-        alert(errMsg);
-    }
    	const fileManager = new MozAtesPoliceApp.fileManager();
    
     let isSignatureCompleted = false;
+    let isVioSignatureCompleted = false;
     let signatureModal = document.getElementById('modal-signature-wrap');
-    const canvas = document.querySelector('#signatureCv');
-	const clearButton = document.querySelector('#signatureClearBtn');
+    
+	const violatorClearButton = document.querySelector('#vioClearBtn');
+	const policeClearButton = document.querySelector('#polClearBtn');
 	const offButton = document.querySelector('#modal-signature-btn-off');
-
-	function canvasInit() {
-
+	
+	$(document).ready(function(){
+		modalToggle();
+		canvasInit(canvasPolice,'pol');
+		canvasInit(canvasPerson,'vio');
+	});
+	
+	function canvasInit(canvas,type) {
 	    const ctx = canvas.getContext('2d');
 	    let writingMode = false;
 	    canvas.width= $(window).width();
@@ -305,7 +345,14 @@
 	     
 	        const eventType = event.type;
 	        if (eventType === 'touchstart') {
-				isSignatureCompleted = true;
+				switch(type){
+					case 'pol':
+					isSignatureCompleted = true;
+		            break;
+					case 'vio':
+					isVioSignatureCompleted = true;
+		            break;
+	            }
 	            writingMode = true;
 	            ctx.beginPath();
 	            const [positionX, positionY] = getCursorPosition(event);
@@ -328,15 +375,26 @@
 	
 	    ctx.lineWidth = 3;
 	    ctx.lineJoin = ctx.lineCap = 'round';
+		switch(type){
+			case 'pol':
+		    policeClearButton.addEventListener('click', (event) => {
+		        event.preventDefault();
+		        ctx.clearRect(0, 0, canvas.width, canvas.height);
+		        isSignatureCompleted = false;
+		        updateSubmitButton();
+		    });
+			break;
+			case 'vio':
+		    violatorClearButton.addEventListener('click', (event) => {
+		        event.preventDefault();
+		        ctx.clearRect(0, 0, canvas.width, canvas.height);
+		        isVioSignatureCompleted = false;
+		        updateSubmitButton();
+		    });
+			break;
+		}
 
-	    clearButton.addEventListener('click', (event) => {
-	        event.preventDefault();
-	        ctx.clearRect(0, 0, canvas.width, canvas.height);
-	        isSignatureCompleted = false;
-	        updateSubmitButton();
-	    });
 	}
-	
 	
 	function getCursorPosition(event) {
 	    const rect = event.target.getBoundingClientRect();
@@ -347,8 +405,9 @@
 	
 	function updateSubmitButton() {
 		let submitButton = document.getElementById('modal-signature-btn-submit');
+		let noSignCheckBox = document.getElementById('noSignBtn');
 		
-    if (isSignatureCompleted) {
+    if (isSignatureCompleted && (isVioSignatureCompleted || noSignCheckBox.checked)) {
         submitButton.classList.add('on');
     } else {
         submitButton.classList.remove('on');
@@ -373,17 +432,17 @@
         $("form#trafficEnfceRegForm input:not([type='file'])").each(function(){
             if($(this).attr("name") === "vhRegNo"){
                 $(this).val("Maputo 1234");
-            }else if($(this).attr("name") === "vhTy"){
-                $(this).val("BMW 520d");
-            }else if($(this).attr("name") === "dvrLcenId"){
-                $(this).val("LCE01245678");
+            //}else if($(this).attr("name") === "vhTy"){
+            //    $(this).val("VT000C");
+           // }else if($(this).attr("name") === "dvrLcenId"){
+          //      $(this).val("DLT003");
             }else if($(this).attr("name") === "dvrLcenTy"){
                 $(this).val("1jong botong DriverLc");
             }else if($(this).attr("name") === "vioNm"){
                 $(this).val("IN KI Moon");
 //                $(this).val(generateRandomName());
             }else if($(this).attr("name") === "vioBrth"){
-                $(this).val("15, September 1994");
+                $(this).val("11.09.1998");
             }else if($(this).attr("name") === "vioPno"){
                 $(this).val("+258 04 354 4587");
             }else if($(this).attr("name") === "roadAddr"){
@@ -400,7 +459,6 @@
     }
     
     function enforcementRegisterSubmit(_this) {
-		
 		if(_this.classList != null && !_this.classList.contains('on') && !isSignatureCompleted){
 			return;
 		}
@@ -448,31 +506,44 @@
 	        formData.append("mozTfcEnfFineInfoJSONString", JSON.stringify(mozTfcEnfFineInfoList));
 		}
 		
-		canvas.toBlob((blob) => {
-	        formData.append('signatureFile', blob, 'signature.png');
-	        // 이제 FormData에 추가된 데이터를 서버로 전송할 수 있습니다.
-	        const loading = MozAtesPoliceApp.loading("Saving...").start();
-	        fetch('/tfcenfmng/trafficEnfceRegPageRegister', {
-	            method: "post",
-	            body: formData
-	        }) 
-	        .then(response => response.json())
-	        .then((result) => {
-	            if (result.code === 200) {
-					let tfcEnfId = result.data;
-	                alert("Register complete.");
-					location.href="/main"
-	               //window.location.href = "/tfcenfmng/detail?tfcEnfId="+tfcEnfId;
-	            } else {
-	                alert("Register Failed");
-	            }
-	        }).finally(() => {
-	            loading.end();
-	        });
-	    }, 'image/png');
+		//서명 이미지관련 promise
+		const policeBlobPromise = new Promise((resolve, reject) => {
+		    canvasPolice.toBlob((blob) => {
+		        resolve(blob);
+		    }, 'image/png');
+		});
+		
+		const personBlobPromise = new Promise((resolve, reject) => {
+		    canvasPerson.toBlob((blob) => {
+		        resolve(blob);
+		    }, 'image/png');
+		});
+		
+        Promise.all([policeBlobPromise, personBlobPromise]).then(([policeBlob, personBlob]) => {
+		    formData.append('polSignatureFile', policeBlob, 'pol_signature.png');
+		    formData.append('vioSignatureFile', personBlob, 'vio_signature.png');
+		    console.log(formData);
+		    
+		    const loading = MozAtesPoliceApp.loading("Saving...").start();
+		    
+		    fetch('/tfcenfmng/trafficEnfceRegPageRegister', {
+		        method: "post",
+		        body: formData
+		    }) 
+		    .then(response => response.json())
+		    .then((result) => {
+		        if (result.code === 200) {
+		            let tfcEnfId = result.data;
+		            alert("Register complete.");
+		            location.href="/main"
+		        } else {
+		            alert("Register Failed");
+		        }
+		    }).finally(() => {
+		        loading.end();
+		    });
+		});
     }
-
-
     //$("#vioSpd").on("keyup", function () {
     //    var spdLmt = $("#spdLmt").val();
     //    spdLmt = Number(spdLmt);
@@ -488,7 +559,6 @@
     //    }
     //    $("#overSpd").val(overSpd);
     //})
-
     $("#placePymntId").on("change", function () {
         var oprtr = $("#placePymntId option:selected").data("oprtr");
         $("#pymntOprtr").val(oprtr);
@@ -646,7 +716,6 @@
 		let infoCheckBtn = document.getElementById('infoCheckBtn');
 		
 		modalOn.addEventListener('click', function(){
-
 	        if(!document.trafficEnfceRegForm.checkValidity()) {
 	            document.trafficEnfceRegForm.reportValidity();
 	            return;
@@ -656,6 +725,9 @@
 	        let vhTy = document.getElementById('vhTy').value;
 	        let dvrLcenId = document.getElementById('dvrLcenId').value;
 	        let dvrLcenTy = document.getElementById('dvrLcenTy').value;
+	        let docType = document.getElementById('docType').value;
+	        let docNid = document.getElementById('docNid').value;
+	        let vioAddr = document.getElementById('vioAddr').value;
 	        let vioNm = document.getElementById('vioNm').value;
 	        let vioBrth = document.getElementById('vioBrth').value;
 	        let vioPno = document.getElementById('vioPno').value;
@@ -672,6 +744,9 @@
 	        document.getElementById('mdVhTy').innerHTML = vhTy;
 	        document.getElementById('mdDvrLcenId').innerHTML = dvrLcenId;
 	        document.getElementById('mdDvrLcenTy').innerHTML = dvrLcenTy;
+	        document.getElementById('mdDocType').innerHTML = docType;
+	        document.getElementById('mdDocNid').innerHTML = docType;
+	        document.getElementById('mdVioAddr').innerHTML = vioAddr;
 	        document.getElementById('mdVioNm').innerHTML = vioNm;
 	        document.getElementById('mdVioPno').innerHTML = vioPno;
 	        document.getElementById('mdVioEmail').innerHTML = vioEmail;
@@ -681,7 +756,8 @@
 			let tfcLawFineIdList = document.querySelectorAll(".tfcLawFineId");
 			let tfcEnfPriceList = document.querySelectorAll(".tfcEnfPrice");
 			let tfcLawIdList = document.querySelectorAll(".tfcLawId");
-			let mdSignaturePreview = document.getElementById('mdSignaturePreview');
+			let mdPolSignaturePreview = document.getElementById('mdPolSignaturePreview');
+			let mdVioSignaturePreview = document.getElementById('mdVioSignaturePreview');
 		
 			if(fineUl.length == 0){
 				alert("No fine information found.")
@@ -701,14 +777,13 @@
 								
 				fineDd.innerHTML =
 				  `
-					<p><span id="ModalBill">${tfcLawNmTitle}</span> : ${tfcLawNm}</p>
-					<p><span id="ModalBill">${fineDescTitle}</span> : ${fineDesc}</p>
-					<p><span id="ModalBill">${tfcEnfPriceTitle}</span> : ${tfcEnfPrice}MT</p>
+					<p><span id="ModalBill" class="modalBillInline">${tfcLawNmTitle}</span> :<span class="modalBillInline modalBillConWidth"> ${tfcLawNm}</span></p>
+					<p><span id="ModalBill" class="modalBillInline">${fineDescTitle}</span> :<span class="modalBillInline modalBillConWidth"> ${fineDesc}</span></p>
+					<p><span id="ModalBill" class="modalBillInline">${tfcEnfPriceTitle}</span> :<span class="modalBillInline modalBillConWidth"> ${tfcEnfPrice}MT</span></p>
 				  `;
 				document.querySelector('#illegalLaw').append(fineDd);
 			}
 	        
-	        /*링기링기링기링기링기링기링기링*/
 	        /*document.getElementById('mdSpdLmt').innerHTML = spdLmt;
 	        document.getElementById('mdVioSpd').innerHTML = vioSpd;
 	        document.getElementById('mdOverSpd').innerHTML = overSpd;*/
@@ -720,19 +795,29 @@
 				return;
 			}
 			
-			mdSignaturePreview.src = canvas.toDataURL();
+			mdPolSignaturePreview.src = canvasPolice.toDataURL();
+			
+			const noSignBtn = document.getElementById('noSignBtn');
+			
+			if(!noSignBtn.checked) {
+				document.getElementById('vioSignYn').value = "Y";
+				mdVioSignaturePreview.src = canvasPerson.toDataURL();
+			} else {
+				document.getElementById('vioSignYn').value = "N";
+				document.getElementById("mdVioSignatureDd").classList.add('nosignBg');
+				document.getElementById("mdVioSignatureDd").innerText='Recusa de Assinatura';
+			}
 			
 			let imgFileList = document.querySelectorAll(".imgFile");
 			
 			if(imgFileList != null && imgFileList.length > 0){
-			  for (var i = 0; i < imgFileList.length; i++) {
+			  for (let i = 0; i < imgFileList.length; i++) {
 					let imageWrap = document.createElement('dd');
 					let imgData = imgFileList[i].innerHTML;	
 				
 					imageWrap.classList.add("modalImageWrap");
 					
 					imageWrap.innerHTML = imgData;
-					
 					//여기부분 IMG 크기조절필요(지훈팍)
 					document.querySelector("#modal-img-wrap").append(imageWrap);
 			    }
@@ -782,10 +867,17 @@
 	
 	offButton.addEventListener('click', (event) => {
 	    event.preventDefault();
-	    const ctx = canvas.getContext('2d');
-	    ctx.clearRect(0, 0, canvas.width, canvas.height);
+	    const policeCtx = canvasPolice.getContext('2d');
+	    policeCtx.clearRect(0, 0, canvasPolice.width, canvasPolice.height);
+	    const personCtx = canvasPerson.getContext('2d');
+	    personCtx.clearRect(0, 0, canvasPerson.width, canvasPerson.height);
+	    
 	    signatureModal.style.display = "none";
 	    infoCheckBtn.classList.remove('on');
+	    
+	    isSignatureCompleted=false;
+	    isVioSignatureCompleted=false;
+        updateSubmitButton();
 	});
 	
 	function submitSignature(_this){
@@ -804,4 +896,19 @@
 		
 	}
 	
+	function noSignCheck(){
+		const noSignBtn = document.getElementById('noSignBtn');
+		const noSignOn = document.querySelector('.noSignOn');
+		
+		if(noSignBtn.checked == true) {
+			isVioSignatureCompleted=true;
+			noSignOn.style.display="block";
+		} else {
+			isVioSignatureCompleted=false;
+			noSignOn.style.display="none";
+		}
+		
+		const vioClear = document.getElementById('vioClearBtn');
+		vioClear.click();
+	}
 </script>

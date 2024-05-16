@@ -13,7 +13,7 @@
 }
 #registHisWrap {
 	background: #fff;
-	border-radius: 12px;
+	border-radius: 6px;
 	padding:20px;
 	width:100%;
 }
@@ -22,7 +22,7 @@
 }
 #registTitle {
 	font-size:18px;
-	font-weight: 600;
+	font-weight: 700;
 	margin-bottom: 20px;
 	color:#008a70;
 }
@@ -56,7 +56,7 @@
 	align-items: center;
 	background: #fff;
 	padding: 16px;
-	border-radius: 12px;
+	border-radius: 6px;
 }
 .registAcEnfIcon {
 	display: flex;
@@ -100,13 +100,13 @@
 	gap:8px;
 	padding: 16px;
 	background: #fff;
-	border-radius: 12px;
+	border-radius: 6px;
 }
 .mainNotiList div {
 }
 .mainNotiTitle {
 	max-width: 100%;
-	font-weight: 600;
+	font-weight: 700;
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -126,4 +126,7 @@
 }
 .boxShadow {
 	box-shadow:0px 2px 7px 0px rgb(22 74 149 / 5%);
+}
+#noticeMore span {
+	color: #fff;
 }

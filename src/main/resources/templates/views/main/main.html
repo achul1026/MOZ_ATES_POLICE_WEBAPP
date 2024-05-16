@@ -35,7 +35,7 @@
 				</div>
 			</div>
 			<div id="registAcEnfWrap">
-				<a class="registAcEnfList boxShadow" th:href="@{/search/vehicle}">
+				<a class="registAcEnfList boxShadow" th:href="@{/search/list}">
 					<div class="registAcEnfIcon">
 						<img th:src="@{/images/regist-icon01.png}" class="mainRegisImg">
 						<span th:text="#{main.main.checkDriverVehicle}">Search Driver/Vehicle</span>
@@ -71,8 +71,7 @@
 			<div id="mainNotiTitle">
 				<h2 th:text="#{main.main.notice}">Notice</h2>
 				<a onclick="location.href='/notice/list'" id="noticeMore">
-					More +
-<!--					<img th:src="@{/images/more-btn.png}" >-->
+					<span th:text="#{main.main.notice.more.btn}">More</span> +
 				</a>
 				
 			</div>
@@ -82,7 +81,6 @@
 					<div class="mainNotiDate" th:text="${#dates.format(noticeItm.crDt, 'yyyy-MM-dd')}">2023.12.06</div>
 					<div class="mainNotiTitle" th:text="${noticeItm.boardTitle}">Notice Title</div>
 					<div class="mainNotiView">View <span th:text="${noticeItm.viewCnt}">8</span></div>
-<!--					<div class="mainNotiCategory" th:text="${noticeItm.viewCnt}">8</div>-->
 				</div>
 				<div th:unless="${not #object.isEmpty()}" class="mainNotiList" th:text="#{main.main.notice.message.empty}">
 					등록된 공지사항이 없습니다.
